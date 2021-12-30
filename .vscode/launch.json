@@ -5,11 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Dart: Attach to Process",
-            "type": "dart",
-            "request": "attach"
-        },
-        {
             "name": "Dart & Flutter",
             "request": "launch",
             "type": "dart"
