@@ -1,2 +1,7 @@
 # AIR2101_FOAQ_TEAM_ZERO
-# hello
+# Project name: Museum App
+# Team members:
+#               Tomislav Tomiek
+#               Borna Rosandić
+#               Martin Sakač
+#               Mariia Smirnova
