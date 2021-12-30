@@ -5,4 +5,3 @@
 #               Borna Rosandić
 #               Martin Sakač
 #               Mariia Smirnova
-# neka linija random
