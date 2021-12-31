@@ -54,21 +54,21 @@ class MyHomePage extends StatelessWidget {
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
-                  0.1,
+                  0.07,
               child: SearchBar(),
             ),
             Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
-                  0.08,
+                  0.07,
               child: CategoryNameHomepage(),
             ),
             Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
-                  0.82,
+                  0.86,
               padding: EdgeInsets.only(bottom: 6),
               child: HomepageGallery(),
             ),
