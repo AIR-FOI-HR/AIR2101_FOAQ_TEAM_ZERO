@@ -30,6 +30,7 @@ class SearchBar extends StatelessWidget {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Search',
+                    contentPadding: EdgeInsets.only(bottom: 10)
                   ),
                 ),
               ),
