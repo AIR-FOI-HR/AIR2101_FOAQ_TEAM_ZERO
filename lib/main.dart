@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 
+import './widgets/homepage_gallery.dart';
 import './widgets/app_bar_property.dart';
-import 'widgets/main_manu_drawer.dart';
-import './widgets/admin_museum.dart';
+import './widgets/main_manu_drawer.dart';
 import './widgets/category_name_homepage.dart';
 import './widgets/search_bar.dart';
 
@@ -42,15 +42,36 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appBar = appBarProperty(title: 'Museum App', context: context);
+    final searchBarProperty = SearchBar();
     return Scaffold(
-      appBar: appBarProperty(title: 'Museum App', context: context),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SingleChildScrollView(child: SearchBar()),
-            CategoryNameHomepage(),
-            AdminMuseum(),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.1,
+              child: SearchBar(),
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.08,
+              child: CategoryNameHomepage(),
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.82,
+              padding: EdgeInsets.only(bottom: 6),
+              child: HomepageGallery(),
+            ),
           ],
         ),
       ),
