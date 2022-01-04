@@ -17,7 +17,7 @@ AppBar appBarProperty({String title, BuildContext context}) {
       },
     ),
     leadingWidth: 50,
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).accentColor,
     title: Text(
       title,
       style: Theme.of(context).textTheme.headline6,
