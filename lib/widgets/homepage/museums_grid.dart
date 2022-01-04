@@ -10,15 +10,17 @@ class MuseumsGrid extends StatelessWidget {
     final museumsData =
         Provider.of<Museums>(context).getMuseums; //access to museums data
     return GridView.builder(
-      padding: EdgeInsets.all(10),
+      shrinkWrap: true, //remove this if search is fixed
+      physics: const NeverScrollableScrollPhysics(),//remove this if search is fixed
+      padding: const EdgeInsets.all(10),
       itemCount: museumsData.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: museumsData[i],
         child: MuseumGridItem(),
       ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
-        childAspectRatio: 2 / 1,
+        childAspectRatio: 3 / 2,
         mainAxisSpacing: 10,
       ),
     );
