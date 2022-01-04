@@ -18,9 +18,8 @@ class MuseumsGrid extends StatelessWidget {
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
+        childAspectRatio: 2 / 1,
+        mainAxisSpacing: 10,
       ),
     );
   }
