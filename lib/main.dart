@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  color: Colors.black,
+                  fontSize: 26,
+                  color: Colors.white,
                 ),
                 headline5: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
-                  color: Color.fromRGBO(236, 219, 172, 1),
+                  color: Colors.black,
                 ),
                 button: TextStyle(
                   color: Theme.of(context).accentColor,
