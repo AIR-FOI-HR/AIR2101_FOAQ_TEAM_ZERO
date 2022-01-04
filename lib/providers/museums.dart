@@ -11,7 +11,7 @@ class Museums with ChangeNotifier {
     Museum(
         id: '1',
         name: 'Gladiator Museum',
-        address: 'Piazza Navona, 90, 00186 Roma RM, Italija',
+        address: 'Piazza Navona 90, Roma, Italie',
         description:
             'The exposition represents an itinerary through history going from the VII century B.C. to the IV century A.D. brought to life through the accurate reconstruction of helmets and armour of the Roman legions and gladiators, showing over a millenium of history through the most representative weaponry of Roman army and its enemies. Set on two floors, in the basement there is the chance to see and touch the autentique columns of the ancient Stadium of Domitian and to take photos into the gladiators’ prison.',
         tourDuration: 45,
@@ -19,7 +19,7 @@ class Museums with ChangeNotifier {
     Museum(
         id: '2',
         name: 'Doria Pamhili Gallery',
-        address: 'Via del Corso, 305, 00186 Roma RM, Italija',
+        address: 'Via del Corso 305, Roma, Italie',
         description:
             'The exposition represents an itinerary through history going from the VII century B.C. to the IV century A.D. brought to life through the accurate reconstruction of helmets and armour of the Roman legions and gladiators, showing over a millenium of history through the most representative weaponry of Roman army and its enemies. Set on two floors, in the basement there is the chance to see and touch the autentique columns of the ancient Stadium of Domitian and to take photos into the gladiators’ prison.',
         tourDuration: 50,
@@ -27,7 +27,7 @@ class Museums with ChangeNotifier {
     Museum(
         id: '3',
         name: 'Capitoline Museum',
-        address: 'Piazza del Campidoglio, 1, 00186 Roma RM, Italija',
+        address: 'Piazza del Campidoglio 1, Roma, Italie',
         description:
             'The exposition represents an itinerary through history going from the VII century B.C. to the IV century A.D. brought to life through the accurate reconstruction of helmets and armour of the Roman legions and gladiators, showing over a millenium of history through the most representative weaponry of Roman army and its enemies. Set on two floors, in the basement there is the chance to see and touch the autentique columns of the ancient Stadium of Domitian and to take photos into the gladiators’ prison.',
         tourDuration: 30,
