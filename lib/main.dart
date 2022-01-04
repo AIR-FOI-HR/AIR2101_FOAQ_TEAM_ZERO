@@ -55,20 +55,38 @@ class MyHomePage extends StatelessWidget {
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
                   0.07,
-              child: SearchBar(),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 2,
+                    color: Theme.of(context).primaryColor
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Newest Artwork',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SearchBar(),
+                  ],
+                ),
+              ),
             ),
             Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
-                  0.07,
-              child: CategoryNameHomepage(),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.86,
+                  0.93,
               padding: EdgeInsets.only(bottom: 6),
               child: HomepageGallery(),
             ),
