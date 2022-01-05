@@ -8,7 +8,6 @@ class Artwork with ChangeNotifier{
   final String description;
   final String author;
   final Museum museum;
-  //final Category category;
 
   Artwork({
   @required this.id,
