@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
         title: 'Museum Guide',
         theme: ThemeData(
           primaryColor: Color.fromRGBO(19, 92, 97, 1),
-          accentColor: Color.fromRGBO(236, 219, 172, 1),
+          accentColor: Color.fromRGBO(0, 201, 224,1),
+          primaryColorLight: Color.fromRGBO(93, 158, 163,1),
+          cardColor: Color.fromRGBO(59, 124, 129,1),
+          primaryColorDark: Color.fromRGBO(0, 39, 44,1),
+          highlightColor: Color.fromRGBO(255, 138, 68, 1),
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontWeight: FontWeight.bold,

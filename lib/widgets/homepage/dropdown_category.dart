@@ -28,7 +28,7 @@ class _DropDownCategoryState extends State<DropDownCategory> {
           ),
           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 12),
           child: DropdownButton(
-            dropdownColor: Theme.of(context).accentColor,
+            dropdownColor: Theme.of(context).primaryColorLight,
             onChanged: (value) {
               selectedCategory = value;
               setState(() {});

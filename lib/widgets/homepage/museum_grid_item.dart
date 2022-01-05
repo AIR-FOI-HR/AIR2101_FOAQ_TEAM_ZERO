@@ -37,6 +37,7 @@ class MuseumGridItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.w300
                     )),
               ],
             ),
@@ -53,7 +54,8 @@ class MuseumGridItem extends StatelessWidget {
               '${museum.name}',
               style: TextStyle(
                 fontSize: 18,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).highlightColor,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),

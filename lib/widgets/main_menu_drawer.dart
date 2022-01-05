@@ -44,12 +44,12 @@ class MainMenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).primaryColorDark,
       child: ListView(
         children: [
           Container(
             height: 60,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).primaryColorDark,
             child: DrawerHeader(
               padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
               child: Row(

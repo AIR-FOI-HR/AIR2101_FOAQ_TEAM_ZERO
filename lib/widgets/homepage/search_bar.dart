@@ -17,7 +17,7 @@ class _SearchBarState extends State<SearchBar> {
         height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
-          color: Colors.white,
+          color: Theme.of(context).primaryColorLight,
           boxShadow: kElevationToShadow[6],
         ),
         child: Row(
@@ -29,7 +29,7 @@ class _SearchBarState extends State<SearchBar> {
                       ? TextField(
                           decoration: InputDecoration(
                               hintText: 'Search',
-                              hintStyle: TextStyle(color: Theme.of(context).primaryColor),
+                              hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
                               border: InputBorder.none),
                         )
                       : null),
@@ -47,7 +47,7 @@ class _SearchBarState extends State<SearchBar> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Icon(_folded ? Icons.search : Icons.close, color: Theme.of(context).primaryColor),
+                    child: Icon(_folded ? Icons.search : Icons.close, color: Theme.of(context).primaryColorDark),
                   ),
                   onTap: () {
                     setState(() {
