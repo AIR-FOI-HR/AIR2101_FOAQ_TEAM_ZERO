@@ -16,7 +16,7 @@ class MuseumDetailScreen extends StatelessWidget {
     final museum = Provider.of<Museums>(context)
         .getById(museumId); //get museum by id from Museums provider
     return Scaffold(
-      appBar: appBar(museum.name, context),
+      appBar: appBar(museum.name, context, Theme.of(context).highlightColor),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -30,13 +30,23 @@ class MuseumDetailScreen extends StatelessWidget {
               ),
             ),
             Divider(
-              thickness: 1.5,
+              thickness: 2,
               height: 10,
-              color: Theme.of(context).primaryColorLight,
+              color: Theme.of(context).highlightColor,
+              endIndent: 50,
+              indent: 50,
+            ),
+            //about 'museum' text
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 15, bottom: 5),
+              child: Text('About ${museum.name}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             //description, map and addres
             Padding(
-              padding: const EdgeInsets.only(left:10, right:10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,7 +58,7 @@ class MuseumDetailScreen extends StatelessWidget {
                         //description
                         Container(
                           color:
-                              Theme.of(context).highlightColor.withOpacity(0.4),
+                              Theme.of(context).accentColor,
                           child: Column(
                             children: [
                               Container(
@@ -58,12 +68,13 @@ class MuseumDetailScreen extends StatelessWidget {
                                   'Description: ',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 15),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
                                 ),
                               ),
                               Divider(
                                 height: 5,
-                                color: Theme.of(context).primaryColor,
+                                color: Colors.white,
                                 thickness: 1,
                               ),
                               Padding(
@@ -94,7 +105,7 @@ class MuseumDetailScreen extends StatelessWidget {
                       elevation: 10,
                       //adress
                       child: Container(
-                        color: Theme.of(context).accentColor.withOpacity(0.5),
+                        color: Theme.of(context).highlightColor,
                         child: Column(
                           children: [
                             Container(
@@ -109,7 +120,7 @@ class MuseumDetailScreen extends StatelessWidget {
                             ),
                             Divider(
                               height: 5,
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.white,
                               thickness: 1,
                             ),
                             Padding(
@@ -138,7 +149,24 @@ class MuseumDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+            Divider(
+              thickness: 2,
+              height: 10,
+              color: Theme.of(context).highlightColor,
+              endIndent: 50,
+              indent: 50,
+            ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
+        onPressed: () {},
+        child: IconButton(
+          icon: Icon(
+            Icons.shopping_cart_outlined,
+            color: Colors.black,
+          ),
         ),
       ),
     );

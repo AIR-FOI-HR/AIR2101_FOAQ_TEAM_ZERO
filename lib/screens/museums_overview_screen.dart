@@ -9,7 +9,7 @@ class MuseumsOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('Museum app', context),
+      appBar: appBar('Museum app', context, Theme.of(context).primaryColor),
       body: SingleChildScrollView( //remove this SingleChildScroolView if search is fixed
         child: Column(
           children: [
