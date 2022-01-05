@@ -29,7 +29,6 @@ AppBar appBarProperty({String title, BuildContext context}) {
         iconSize: 40,
         tooltip: 'Go to login screen',
         onPressed: () {
-          // handle the press
         },
       ),
     ],
