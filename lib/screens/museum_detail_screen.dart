@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/app_bar.dart';
+
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
       '/museum-detail'; //namedroute for pushing named from MuseumOverviewScree
@@ -8,7 +10,7 @@ class MuseumDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('helo')),
+      appBar: appBar('Hello', context),
     );
   }
 }
