@@ -62,4 +62,9 @@ class Museums with ChangeNotifier {
   List<Museum> get getMuseums {
     return [..._museums];
   }
+
+  Museum getById(String id){
+    return _museums.firstWhere((museum) => museum.id == id);
+
+  }
 }
