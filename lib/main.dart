@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:museum_app/models/museum.dart';
 import 'package:provider/provider.dart';
 
 import './screens/museums_overview_screen.dart';
+import './screens/museum_detail_screen.dart';
 import './providers/museums.dart';
 
 void main() => runApp(MyApp());
@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
               ),
         ),
         home: MuseumsOverviewScreen(),
+        routes: {
+          MuseumDetailScreen.routeName: (ctx) => MuseumDetailScreen(),
+        },
       ),
     );
   }
