@@ -9,6 +9,7 @@ class MuseumDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final museumId = ModalRoute.of(context).settings.arguments as String; //get id when routed to  museum detail screen
     return Scaffold(
       appBar: appBar('Hello', context),
     );

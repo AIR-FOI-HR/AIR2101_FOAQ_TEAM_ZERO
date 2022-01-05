@@ -18,7 +18,8 @@ class MuseumGridItem extends StatelessWidget {
       child: GridTile(
         child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName);
+              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName, arguments: museum.id);
+              //on tap we navigate to museum detail and pass museum id as argument
             },
             child: Image.asset(museum.imageUrl, fit: BoxFit.cover)),
         footer: GridTileBar(
