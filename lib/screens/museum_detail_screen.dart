@@ -46,7 +46,7 @@ class MuseumDetailScreen extends StatelessWidget {
             ),
             //description, map and addres
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10,bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -155,6 +155,14 @@ class MuseumDetailScreen extends StatelessWidget {
               color: Theme.of(context).highlightColor,
               endIndent: 50,
               indent: 50,
+            ),
+           //'museum' gallery
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 15, bottom: 5),
+              child: Text('${museum.name} gallery',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
