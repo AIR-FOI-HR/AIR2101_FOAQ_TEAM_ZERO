@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:museum_app/models/museum.dart';
 import 'package:provider/provider.dart';
 
-import './screens/museums_overview_screen.dart';
+import './screens/homepage/museums_overview_screen.dart';
 import './providers/museums.dart';
+import './providers/categories.dart';
+import './screens/categories/category_artwork_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,15 +17,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Museums(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Categories(),
+        )
       ],
       child: MaterialApp(
         title: 'Museum Guide',
         theme: ThemeData(
           primaryColor: Color.fromRGBO(19, 92, 97, 1),
-          accentColor: Color.fromRGBO(0, 201, 224,1),
-          primaryColorLight: Color.fromRGBO(93, 158, 163,1),
-          cardColor: Color.fromRGBO(59, 124, 129,1),
-          primaryColorDark: Color.fromRGBO(0, 39, 44,1),
+          accentColor: Color.fromRGBO(0, 201, 224, 1),
+          primaryColorLight: Color.fromRGBO(93, 158, 163, 1),
+          cardColor: Color.fromRGBO(59, 124, 129, 1),
+          primaryColorDark: Color.fromRGBO(0, 39, 44, 1),
           highlightColor: Color.fromRGBO(255, 138, 68, 1),
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -44,20 +48,10 @@ class MyApp extends StatelessWidget {
               ),
         ),
         home: MuseumsOverviewScreen(),
+        routes: {
+          CategoryArtworkScreen.routeName: (ctx) => CategoryArtworkScreen(),
+        },
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
