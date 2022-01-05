@@ -1,17 +1,20 @@
-import 'package:flutter/cupertino.dart';
-
-class Museum {
+import 'package:flutter/foundation.dart';
+class Museum with ChangeNotifier{
   final String id;
   final String name;
+  final String description;
   final String address;
   final double tourDuration;
-  final String urlPath;
+  final String imageUrl;
 
+  //only id and name are required. If sys admin creates new museum he only has to give museum the name.
+  //museum admin can then add other info about the museum
   Museum({
     @required this.id,
     @required this.name,
-    @required this.address,
-    @required this.tourDuration,
-    this.urlPath,
+    this.description,
+    this.address,
+    this.tourDuration,
+    this.imageUrl,
   });
 }
