@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../widgets/app_bar.dart';
 
+import '../providers/museums.dart';
+
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
       '/museum-detail'; //namedroute for pushing named from MuseumOverviewScree
@@ -10,8 +12,9 @@ class MuseumDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final museumId = ModalRoute.of(context).settings.arguments as String; //get id when routed to  museum detail screen
+    final museum = Provider.of<Museums>(context).getById(museumId); //get museum by id from Museums provider
     return Scaffold(
-      appBar: appBar('Hello', context),
+      appBar: appBar(museum.name, context),
     );
   }
 }
