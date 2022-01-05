@@ -3,8 +3,6 @@
 import 'package:flutter/foundation.dart';
 import '../models/museum.dart';
 
-final List<Museum> _museumList = [];
-
 class Museums with ChangeNotifier {
   //mockup data of museums
   List<Museum> _museums = [
@@ -61,5 +59,10 @@ class Museums with ChangeNotifier {
   //getter that returns all museum in the list
   List<Museum> get getMuseums {
     return [..._museums];
+  }
+
+  Museum getById(String id){
+    return _museums.firstWhere((museum) => museum.id == id);
+
   }
 }

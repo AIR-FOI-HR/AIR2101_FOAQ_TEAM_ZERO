@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './screens/homepage/museums_overview_screen.dart';
+import './screens/museum_detail_screen.dart';
 import './providers/museums.dart';
 import './providers/categories.dart';
 import './screens/categories/category_artwork_screen.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         home: MuseumsOverviewScreen(),
         routes: {
           CategoryArtworkScreen.routeName: (ctx) => CategoryArtworkScreen(),
+          MuseumDetailScreen.routeName: (ctx) => MuseumDetailScreen(),
         },
       ),
     );

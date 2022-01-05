@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/museum.dart';
+import '../../screens/museum_detail_screen.dart';
 
 class MuseumGridItem extends StatelessWidget {
   @override
@@ -17,7 +18,8 @@ class MuseumGridItem extends StatelessWidget {
       child: GridTile(
         child: GestureDetector(
             onTap: () {
-              //TO DO WHEN TAPPED ON MUSEUM
+              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName, arguments: museum.id);
+              //on tap we navigate to museum detail and pass museum id as argument
             },
             child: Image.asset(museum.imageUrl, fit: BoxFit.cover)),
         footer: GridTileBar(
