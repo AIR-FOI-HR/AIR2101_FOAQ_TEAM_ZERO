@@ -3,8 +3,6 @@
 import 'package:flutter/foundation.dart';
 import '../models/museum.dart';
 
-final List<Museum> _museumList = [];
-
 class Museums with ChangeNotifier {
   //mockup data of museums
   List<Museum> _museums = [
