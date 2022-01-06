@@ -7,7 +7,7 @@ class Artwork with ChangeNotifier{
   final String imageUrl;
   final String description;
   final String author;
-  final Museum museum;
+  final String museum;
 
   Artwork({
   @required this.id,
