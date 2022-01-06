@@ -57,4 +57,8 @@ class Artworks with ChangeNotifier {
   List<Artwork> get getArtworks {
     return [..._artworks];
   }
+
+  Artwork getByMuseumId(String id){
+    return _artworks.firstWhere((artwork) => artwork.museum == id);
+  }
 }
