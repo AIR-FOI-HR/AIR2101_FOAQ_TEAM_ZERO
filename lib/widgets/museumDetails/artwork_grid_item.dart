@@ -14,27 +14,46 @@ class ArtworkGridItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       child: GridTile(
         child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
-        footer: GridTileBar(
-          backgroundColor: Colors.black54,
-          leading: RichText(
-            text: TextSpan(
-              children: [
-                WidgetSpan(
-                  child: Icon(
-                    Icons.person,
-                    size: 20,
+        footer: Container(
+          padding: EdgeInsets.all(10),
+          color: Colors.black54,
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(
+                  artwork.name,
+                  softWrap: true,
+                  style: TextStyle(
                     color: Theme.of(context).highlightColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
                   ),
                 ),
-                TextSpan(
-                    text: artwork.author,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).highlightColor,
-                      fontWeight: FontWeight.bold
-                    )),
-              ],
-            ),
+                // child: RichText(
+                //   maxLines: 3,
+                //   softWrap: true,
+                //   text: TextSpan(
+                //     children: [
+                //       WidgetSpan(
+                //         child: Icon(
+                //           Icons.person,
+                //           size: 20,
+                //           color: Theme.of(context).highlightColor,
+                //         ),
+                //       ),
+                //       TextSpan(
+                //         text: artwork.name,
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           color: Theme.of(context).highlightColor,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ),
+            ],
           ),
         ),
         // header: GridTileBar(
