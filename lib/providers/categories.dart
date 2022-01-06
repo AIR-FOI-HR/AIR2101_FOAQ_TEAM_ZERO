@@ -54,4 +54,11 @@ class Categories with ChangeNotifier {
   void removeSelectedCategory(String id) {
     _selectedCategories.removeWhere((categ) => categ.id == id);
   }
+
+  void clearSelectedCategoryList() {
+    _selectedCategories = [
+      CategoryArtwork(id: 'c0', name: 'Please select:'),
+    ];
+    notifyListeners();
+  }
 }
