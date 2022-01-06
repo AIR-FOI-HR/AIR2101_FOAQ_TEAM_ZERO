@@ -59,6 +59,6 @@ class Artworks with ChangeNotifier {
   }
 
   List<Artwork> getByMuseumId(String id){
-    return _artworks.where((artwork) => artwork.museum == id);
+    return _artworks.where((artwork) => artwork.museum == id).toList();
   }
 }
