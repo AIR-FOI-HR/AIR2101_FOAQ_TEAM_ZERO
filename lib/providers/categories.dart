@@ -32,7 +32,9 @@ class Categories with ChangeNotifier {
     CategoryArtwork(id: 'c25', name: 'Installation Art'),
     CategoryArtwork(id: 'c26', name: 'Maquette'),
   ];
-  List<CategoryArtwork> _selectedCategories = [];
+  List<CategoryArtwork> _selectedCategories = [
+    CategoryArtwork(id: 'c0', name: 'Please select:')
+  ];
 
   List<CategoryArtwork> get items {
     return [..._items];
