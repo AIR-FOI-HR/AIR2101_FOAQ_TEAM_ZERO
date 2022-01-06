@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/app_bar_property.dart';
-
+//tomekovo
 class CategoryArtworkScreen extends StatelessWidget {
   static const routeName = '/categoryArtwork';
   @override
