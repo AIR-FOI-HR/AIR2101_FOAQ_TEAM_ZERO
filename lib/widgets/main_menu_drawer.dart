@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/categories.dart';
 import '../screens/categories/category_artwork_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
@@ -44,6 +47,7 @@ class MainMenuDrawer extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) {
+    Provider.of<Categories>(context).clearSelectedCategoryList();
     return Drawer(
       backgroundColor: Theme.of(context).primaryColorDark,
       child: ListView(
