@@ -32,8 +32,24 @@ class Categories with ChangeNotifier {
     CategoryArtwork(id: 'c25', name: 'Installation Art'),
     CategoryArtwork(id: 'c26', name: 'Maquette'),
   ];
+  List<CategoryArtwork> _selectedCategories = [];
 
-  List<CategoryArtwork> get item {
+  List<CategoryArtwork> get items {
     return [..._items];
+  }
+
+  List<CategoryArtwork> get itemsSelectetCategory {
+    return [..._selectedCategories];
+  }
+
+  void selectCategory(String id, String name) {
+    _selectedCategories.insert(
+      0,
+      CategoryArtwork(id: id, name: name),
+    );
+  }
+
+  void removeSelectedCategory(String id) {
+    _selectedCategories.removeWhere((categ) => categ.id == id);
   }
 }
