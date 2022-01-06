@@ -161,7 +161,7 @@ class MuseumDetailScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(left: 15, bottom: 5),
-              child: Text('${museum.name} gallery',
+              child: Text('Gallery of ${museum.name}',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
