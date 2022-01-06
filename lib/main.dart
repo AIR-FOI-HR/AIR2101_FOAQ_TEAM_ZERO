@@ -42,6 +42,11 @@ class MyApp extends StatelessWidget {
                   fontSize: 20,
                   color: Colors.black,
                 ),
+                headline4: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
                 button: TextStyle(
                   color: Theme.of(context).accentColor,
                   backgroundColor: Theme.of(context).primaryColor,
