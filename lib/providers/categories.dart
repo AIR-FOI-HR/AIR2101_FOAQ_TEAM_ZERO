@@ -46,7 +46,7 @@ class Categories with ChangeNotifier {
 
   void selectCategory(String id, String name) {
     _selectedCategories.insert(
-      0,
+      _selectedCategories.length,
       CategoryArtwork(id: id, name: name),
     );
   }
