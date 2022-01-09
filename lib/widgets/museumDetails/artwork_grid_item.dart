@@ -31,11 +31,15 @@ class ArtworkGridItem extends StatelessWidget {
                 ),
               ),
               Consumer<Artwork>(
-                builder: (ctx, artwork, child) =>  IconButton(
+                builder: (ctx, artwork, child) => IconButton(
                   onPressed: () {
                     artwork.toggleFavorite();
                   },
-                  icon: Icon(artwork.isFavorite ? Icons.favorite :Icons.favorite_border ,color: Theme.of(context).accentColor,size: 30,),
+                  icon: Icon(
+                    artwork.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: Theme.of(context).accentColor,
+                    size: 30,
+                  ),
                 ),
               )
             ],
@@ -56,50 +60,10 @@ class ArtworkGridItem extends StatelessWidget {
                     fontSize: 15,
                   ),
                 ),
-                // child: RichText(
-                //   maxLines: 3,
-                //   softWrap: true,
-                //   text: TextSpan(
-                //     children: [
-                //       WidgetSpan(
-                //         child: Icon(
-                //           Icons.person,
-                //           size: 20,
-                //           color: Theme.of(context).highlightColor,
-                //         ),
-                //       ),
-                //       TextSpan(
-                //         text: artwork.name,
-                //         style: TextStyle(
-                //           fontSize: 14,
-                //           color: Theme.of(context).highlightColor,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ),
             ],
           ),
         ),
-        // header: GridTileBar(
-        //   trailing: Container(
-        //     padding: EdgeInsets.all(5),
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(5),
-        //       color: Colors.black.withOpacity(0.7),
-        //     ),
-        //     child: Text(
-        //       '${artwork.name}',
-        //       style: TextStyle(
-        //         fontSize: 18,
-        //         color: Theme.of(context).highlightColor,
-        //         fontWeight: FontWeight.bold
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }
