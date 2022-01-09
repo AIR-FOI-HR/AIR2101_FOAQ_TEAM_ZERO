@@ -6,6 +6,8 @@ import '../widgets/museumDetails/artworks_grid.dart';
 
 import '../providers/museums.dart';
 
+import '../screens/buy_ticket_screen.dart';
+
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
       '/museum-detail'; //namedroute for pushing named from MuseumOverviewScree
@@ -171,7 +173,9 @@ class MuseumDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
+        },
         child: IconButton(
           icon: Icon(
             Icons.shopping_cart_outlined,
