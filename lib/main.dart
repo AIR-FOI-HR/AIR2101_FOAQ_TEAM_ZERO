@@ -9,6 +9,7 @@ import './providers/artworks.dart';
 import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
 import './screens/categories/category_artwork_screen.dart';
+import './screens/buy_ticket_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         routes: {
           CategoryArtworkScreen.routeName: (ctx) => CategoryArtworkScreen(),
           MuseumDetailScreen.routeName: (ctx) => MuseumDetailScreen(),
+          BuyTicketScreen.routeName: (ctx) => BuyTicketScreen(),
         },
       ),
     );
