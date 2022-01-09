@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../providers/categories.dart';
 import 'package:provider/provider.dart';
+import '../../screens/categories/category_artwork_editing_screen.dart';
 
 class CategoryArtworkItem extends StatefulWidget {
   final String id;
@@ -13,6 +14,7 @@ class CategoryArtworkItem extends StatefulWidget {
 
 class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
   var _showSelectedCategory = false;
+  final int privileges = 1;
   @override
   Widget build(BuildContext context) {
     final categoryData = Provider.of<Categories>(context);
@@ -30,14 +32,21 @@ class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
           style: Theme.of(context).textTheme.headline4,
         ),
         onPressed: () {
-          setState(() {
-            if (_showSelectedCategory) {
-              categoryData.removeSelectedCategory(widget.id);
-            } else {
-              categoryData.selectCategory(widget.id, widget.name);
-            }
-            _showSelectedCategory = !_showSelectedCategory;
-          });
+          if (privileges == 0) {
+            setState(() {
+              if (_showSelectedCategory) {
+                categoryData.removeSelectedCategory(widget.id);
+              } else {
+                categoryData.selectCategory(widget.id, widget.name);
+              }
+              _showSelectedCategory = !_showSelectedCategory;
+            });
+          } else if (privileges == 1) {
+            Navigator.of(context).pushNamed(
+              CategoryArtworkEditingScreen.routeName,
+              arguments: widget.id,
+            );
+          }
         },
       ),
     );
