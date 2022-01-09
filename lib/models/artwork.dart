@@ -21,6 +21,9 @@ class Artwork with ChangeNotifier{
   //@required this.category
   });
  
-///After creating category model include category as property of artwork
+void toggleFavorite(){
+  isFavorite = !isFavorite;
+  notifyListeners();
+}
 
 }
