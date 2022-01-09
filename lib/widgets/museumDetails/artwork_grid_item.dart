@@ -14,6 +14,25 @@ class ArtworkGridItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       child: GridTile(
         child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
+        header: Container( //maybe have another screen where we display artwork info
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(
+                  artwork.author,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: Theme.of(context).highlightColor,
+                    backgroundColor: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         footer: Container(
           padding: EdgeInsets.all(10),
           color: Colors.black54,

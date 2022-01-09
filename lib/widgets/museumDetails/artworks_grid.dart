@@ -33,6 +33,6 @@ class ArtworksGrid extends StatelessWidget {
               crossAxisSpacing: 10,
             ),
           )
-        : Image.asset('assets/images/NoArtworks.png', fit: BoxFit.cover);
+        : Image.asset('assets/images/NoArtworks.png',fit: BoxFit.fill,); 
   }
 }
