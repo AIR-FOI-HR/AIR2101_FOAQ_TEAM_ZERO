@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import '../models/category_artwork.dart';
+import 'package:flutter/foundation.dart';
 
 class Categories with ChangeNotifier {
   List<CategoryArtwork> _items = [
@@ -32,6 +33,7 @@ class Categories with ChangeNotifier {
     CategoryArtwork(id: 'c25', name: 'Installation Art'),
     CategoryArtwork(id: 'c26', name: 'Maquette'),
   ];
+
   List<CategoryArtwork> _selectedCategories = [
     CategoryArtwork(id: 'c0', name: 'Please select:')
   ];
@@ -60,5 +62,23 @@ class Categories with ChangeNotifier {
       CategoryArtwork(id: 'c0', name: 'Please select:'),
     ];
     notifyListeners();
+  }
+
+  void deleteCategoryById(String id) {
+    _items.removeWhere((cateData) => cateData.id == id);
+  }
+
+  void addCategory(String id, String name) {
+    var newId = (_items.length + 1).toString();
+    if (id != null) {
+      deleteCategoryById(id);
+      newId = id;
+    }
+    _items.insert(0, CategoryArtwork(id: newId, name: name));
+  }
+
+  CategoryArtwork findById(String id) {
+    if (id == null) return null;
+    return _items.firstWhere((catData) => catData.id == id, orElse: () => null);
   }
 }
