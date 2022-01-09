@@ -7,6 +7,7 @@ import './screens/museum_detail_screen.dart';
 import './providers/museums.dart';
 import './providers/categories.dart';
 import './screens/categories/category_artwork_screen.dart';
+import './screens/categories/category_artwork_editing_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 26,
+                  fontSize: 24,
                   color: Colors.white,
                 ),
                 headline5: TextStyle(
@@ -47,9 +48,15 @@ class MyApp extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.black,
                 ),
+                headline3: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
                 button: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  backgroundColor: Theme.of(context).primaryColor,
+                  color: Colors.black,
+                  fontSize: 16,
+                  backgroundColor: Color.fromRGBO(255, 138, 68, 1),
                 ),
               ),
         ),
@@ -57,6 +64,8 @@ class MyApp extends StatelessWidget {
         routes: {
           CategoryArtworkScreen.routeName: (ctx) => CategoryArtworkScreen(),
           MuseumDetailScreen.routeName: (ctx) => MuseumDetailScreen(),
+          CategoryArtworkEditingScreen.routeName: (ctx) =>
+              CategoryArtworkEditingScreen(),
         },
       ),
     );
