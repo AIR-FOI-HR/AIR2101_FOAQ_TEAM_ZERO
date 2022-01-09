@@ -4,22 +4,9 @@ import 'package:provider/provider.dart';
 import '../../widgets/app_bar.dart';
 import '../../providers/categories.dart';
 import './category_artwork_screen.dart';
+import '../../widgets/categories/editing/crud_elevated_button.dart';
 
 class CategoryArtworkEditingScreen extends StatelessWidget {
-  Widget elevatedButton(
-      BuildContext context, String title, Function onPressConfig) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).highlightColor,
-      ),
-      onPressed: onPressConfig,
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headline3,
-      ),
-    );
-  }
-
   static const routeName = '/categoryArtworkEditing';
 
   TextEditingController categoryNameControler = TextEditingController();
@@ -76,17 +63,16 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              elevatedButton(context, 'Cancel', () {
+              CrudElevatedButton('Cancel', () {
                 Navigator.of(context).pop();
               }),
               if (categoryItemId != null)
-                elevatedButton(context, 'Delete', () {
+                CrudElevatedButton('Delete', () {
                   categoryItems.deleteCategoryById(categoryItemId);
                   Navigator.of(context)
                       .pushReplacementNamed(CategoryArtworkScreen.routeName);
                 }),
-              elevatedButton(context, categoryItemId == null ? 'Add' : 'Save',
-                  () {
+              CrudElevatedButton(categoryItemId == null ? 'Add' : 'Save', () {
                 categoryItems.addCategory(
                     categoryItemId, categoryNameControler.text);
                 Navigator.of(context)
