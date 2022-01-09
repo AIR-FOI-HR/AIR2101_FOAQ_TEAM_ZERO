@@ -52,7 +52,7 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
                   child: Text(
                     categoryItemData == null
                         ? 'Add a category name:'
-                        : 'category modification: ${categoryItemData.name}',
+                        : 'Selected category: ${categoryItemData.name}',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
