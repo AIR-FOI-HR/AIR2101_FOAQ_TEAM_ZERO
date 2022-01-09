@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
-import '../../widgets/categories/category_artwork_grid.dart';
-import '../../widgets/categories/save_button.dart';
-import '../../widgets/categories/add_new_category_button.dart';
+import '../../widgets/categories/showing/category_artwork_grid.dart';
+import '../../widgets/categories/showing/save_button.dart';
+import '../../widgets/categories/editing/add_new_category_button.dart';
 
 class CategoryArtworkScreen extends StatelessWidget {
   static const routeName = '/categoryArtwork';
