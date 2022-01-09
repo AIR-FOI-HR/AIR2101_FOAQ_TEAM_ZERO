@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/categories.dart';
+import '../../../providers/categories.dart';
 import './category_artwork_item.dart';
 
 class CategoryArtworkGrid extends StatelessWidget {

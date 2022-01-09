@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../providers/categories.dart';
+import '../../../providers/categories.dart';
 import 'package:provider/provider.dart';
-import '../../screens/categories/category_artwork_editing_screen.dart';
+import '../../../screens/categories/category_artwork_editing_screen.dart';
 
 class CategoryArtworkItem extends StatefulWidget {
   final String id;

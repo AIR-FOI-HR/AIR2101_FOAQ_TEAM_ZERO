@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../screens/categories/category_artwork_editing_screen.dart';
+import '../../../screens/categories/category_artwork_editing_screen.dart';
 
 class AddNewCategoryButton extends StatelessWidget {
   @override
