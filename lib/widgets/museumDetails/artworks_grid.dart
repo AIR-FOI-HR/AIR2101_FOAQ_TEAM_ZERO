@@ -33,6 +33,6 @@ class ArtworksGrid extends StatelessWidget {
               crossAxisSpacing: 10,
             ),
           )
-        : Text('${museumId} has no artworks!'); //TO DO 
+        : Image.asset('assets/images/NoArtworks.png', fit: BoxFit.cover);
   }
 }
