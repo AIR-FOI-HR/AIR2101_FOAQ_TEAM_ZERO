@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../providers/categories.dart';
+import 'package:provider/provider.dart';
 
 class DropDownCategory extends StatefulWidget {
   @override
@@ -6,18 +8,12 @@ class DropDownCategory extends StatefulWidget {
 }
 
 class _DropDownCategoryState extends State<DropDownCategory> {
-  final mockCategories = [
-    'Everything',
-    'Art',
-    'Old guns',
-    'Swords',
-    'History',
-    'Gladiators and'
-  ];
-  String selectedCategory = 'Everything';
-
+  var selectedCategory = 'c0';
   @override
   Widget build(BuildContext context) {
+    final selectedCategoryList =
+        Provider.of<Categories>(context).itemsSelectetCategory;
+    print(selectedCategoryList);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 0, 0),
       child: DropdownButtonHideUnderline(
@@ -29,16 +25,17 @@ class _DropDownCategoryState extends State<DropDownCategory> {
           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 12),
           child: DropdownButton(
             dropdownColor: Theme.of(context).primaryColorLight,
-            onChanged: (value) {
-              selectedCategory = value;
-              setState(() {});
-            },
             value: selectedCategory,
-            items: mockCategories.map((items) {
+            onChanged: (value) {
+              setState(() {
+                selectedCategory = value;
+              });
+            },
+            items: selectedCategoryList.map((items) {
               return DropdownMenuItem(
-                value: items,
+                value: items.id,
                 child: Text(
-                  items,
+                  items.name,
                   style: TextStyle(color: Colors.black),
                 ),
               );
@@ -53,7 +50,7 @@ class _DropDownCategoryState extends State<DropDownCategory> {
         value: item,
         child: Text(
           item,
-          style: TextStyle(fontSize: 14,color: Colors.white),
+          style: TextStyle(fontSize: 14, color: Colors.white),
         ),
       );
 }

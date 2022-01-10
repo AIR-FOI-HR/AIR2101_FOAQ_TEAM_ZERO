@@ -13,7 +13,7 @@ class _SearchBarState extends State<SearchBar> {
       padding: const EdgeInsets.fromLTRB(0, 5, 16, 0),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 400),
-        width: _folded ? 56 : 200,
+        width: _folded ? 56 : 170,
         height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
@@ -29,7 +29,8 @@ class _SearchBarState extends State<SearchBar> {
                       ? TextField(
                           decoration: InputDecoration(
                               hintText: 'Search',
-                              hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorDark),
                               border: InputBorder.none),
                         )
                       : null),
@@ -47,7 +48,8 @@ class _SearchBarState extends State<SearchBar> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Icon(_folded ? Icons.search : Icons.close, color: Theme.of(context).primaryColorDark),
+                    child: Icon(_folded ? Icons.search : Icons.close,
+                        color: Theme.of(context).primaryColorDark),
                   ),
                   onTap: () {
                     setState(() {

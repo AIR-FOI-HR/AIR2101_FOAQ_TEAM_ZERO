@@ -1,9 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/categories.dart';
+import '../screens/categories/category_artwork_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
-  Widget createDrawerTile(BuildContext ctx, String name, IconData icon) {
+  Widget createDrawerTile(BuildContext ctx, String name, IconData icon,
+      Function drawerTileFunction) {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 5, 30, 5),
       height: 40,
@@ -28,10 +33,8 @@ class MainMenuDrawer extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
+        onTap: drawerTileFunction,
+        //() {          Navigator.of(ctx).pushReplacementNamed(routeName);        },
       ),
     );
   }
@@ -43,6 +46,7 @@ class MainMenuDrawer extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) {
+    final categoryData = Provider.of<Categories>(context);
     return Drawer(
       backgroundColor: Theme.of(context).primaryColorDark,
       child: ListView(
@@ -58,7 +62,9 @@ class MainMenuDrawer extends StatelessWidget {
                   Expanded(
                     child: TextButton.icon(
                       style: ButtonStyle(alignment: Alignment.centerLeft),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/');
+                      },
                       icon: Icon(
                         Icons.home_outlined,
                         size: 30,
@@ -88,12 +94,19 @@ class MainMenuDrawer extends StatelessWidget {
             thickness: 3,
             endIndent: 50,
           ),
-          createDrawerTile(context, 'Categories', Icons.account_tree_outlined),
+          createDrawerTile(context, 'Categories', Icons.account_tree_outlined,
+              () {
+            categoryData.clearSelectedCategoryList();
+            Navigator.of(context)
+                .pushReplacementNamed(CategoryArtworkScreen.routeName);
+          }),
+
+//              CategoryArtworkScreen.routeName),
           createDivider,
-          createDrawerTile(context, 'Map', Icons.map_outlined),
+          createDrawerTile(context, 'Map', Icons.map_outlined, () {}),
           createDivider,
           createDrawerTile(
-              context, 'About us', Icons.quick_contacts_mail_outlined),
+              context, 'About us', Icons.quick_contacts_mail_outlined, () {}),
         ],
       ),
     );

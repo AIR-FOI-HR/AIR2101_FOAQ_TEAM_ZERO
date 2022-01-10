@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import '../models/category_artwork.dart';
+import 'package:flutter/foundation.dart';
 
 class Categories with ChangeNotifier {
   List<CategoryArtwork> _items = [
@@ -33,7 +34,51 @@ class Categories with ChangeNotifier {
     CategoryArtwork(id: 'c26', name: 'Maquette'),
   ];
 
-  List<CategoryArtwork> get item {
+  List<CategoryArtwork> _selectedCategories = [
+    CategoryArtwork(id: 'c0', name: 'Please select:')
+  ];
+
+  List<CategoryArtwork> get items {
     return [..._items];
+  }
+
+  List<CategoryArtwork> get itemsSelectetCategory {
+    return [..._selectedCategories];
+  }
+
+  void selectCategory(String id, String name) {
+    _selectedCategories.insert(
+      _selectedCategories.length,
+      CategoryArtwork(id: id, name: name),
+    );
+  }
+
+  void removeSelectedCategory(String id) {
+    _selectedCategories.removeWhere((categ) => categ.id == id);
+  }
+
+  void clearSelectedCategoryList() {
+    _selectedCategories = [
+      CategoryArtwork(id: 'c0', name: 'Please select:'),
+    ];
+    notifyListeners();
+  }
+
+  void deleteCategoryById(String id) {
+    _items.removeWhere((cateData) => cateData.id == id);
+  }
+
+  void addCategory(String id, String name) {
+    var newId = (_items.length + 1).toString();
+    if (id != null) {
+      deleteCategoryById(id);
+      newId = id;
+    }
+    _items.insert(0, CategoryArtwork(id: newId, name: name));
+  }
+
+  CategoryArtwork findById(String id) {
+    if (id == null) return null;
+    return _items.firstWhere((catData) => catData.id == id, orElse: () => null);
   }
 }
