@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
           cardColor: Color.fromRGBO(59, 124, 129, 1),
           primaryColorDark: Color.fromRGBO(0, 39, 44, 1),
           highlightColor: Color.fromRGBO(255, 138, 68, 1),
+          shadowColor: Color.fromRGBO(212, 204, 168, 1),
+          buttonColor: Color.fromRGBO(207, 146, 42, 1),
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -59,6 +61,16 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   color: Colors.black,
+                ),
+                headline2: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 28,
+                  color: Color.fromRGBO(212, 204, 168, 1),
+                ),
+                headline1: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 20,
+                  color: Color.fromRGBO(212, 204, 168, 1),
                 ),
                 button: TextStyle(
                   color: Colors.black,
