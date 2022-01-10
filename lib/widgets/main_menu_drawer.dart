@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/artworks/manage_artworks_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/categories.dart';
@@ -94,14 +95,26 @@ class MainMenuDrawer extends StatelessWidget {
             thickness: 3,
             endIndent: 50,
           ),
-          createDrawerTile(context, 'Categories', Icons.account_tree_outlined,
-              () {
-            categoryData.clearSelectedCategoryList();
-            Navigator.of(context)
-                .pushReplacementNamed(CategoryArtworkScreen.routeName);
-          }),
-
-//              CategoryArtworkScreen.routeName),
+          createDrawerTile(
+            context,
+            'Categories',
+            Icons.account_tree_outlined,
+            () {
+              categoryData.clearSelectedCategoryList();
+              Navigator.of(context)
+                  .pushReplacementNamed(CategoryArtworkScreen.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Artworks',
+            Icons.settings_system_daydream,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageArtworksScreen.routeName);
+            },
+          ),
           createDivider,
           createDrawerTile(context, 'Map', Icons.map_outlined, () {}),
           createDivider,
