@@ -5,6 +5,7 @@ import '../../widgets/categories/showing/category_artwork_grid.dart';
 import '../../widgets/categories/showing/save_button.dart';
 import '../../widgets/categories/editing/add_new_category_button.dart';
 
+//tomekovo
 class CategoryArtworkScreen extends StatelessWidget {
   static const routeName = '/categoryArtwork';
 

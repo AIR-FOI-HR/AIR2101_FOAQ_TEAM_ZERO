@@ -2,12 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './screens/homepage/museums_overview_screen.dart';
-import './screens/museum_detail_screen.dart';
 import './providers/museums.dart';
 import './providers/categories.dart';
+import './providers/artworks.dart';
+
+import './screens/homepage/museums_overview_screen.dart';
+import './screens/museum_detail_screen.dart';
 import './screens/categories/category_artwork_screen.dart';
 import './screens/categories/category_artwork_editing_screen.dart';
+import './screens/buy_ticket_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => Categories(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Artworks(),
         )
       ],
       child: MaterialApp(
@@ -66,6 +72,7 @@ class MyApp extends StatelessWidget {
           MuseumDetailScreen.routeName: (ctx) => MuseumDetailScreen(),
           CategoryArtworkEditingScreen.routeName: (ctx) =>
               CategoryArtworkEditingScreen(),
+          BuyTicketScreen.routeName: (ctx) => BuyTicketScreen(),
         },
       ),
     );

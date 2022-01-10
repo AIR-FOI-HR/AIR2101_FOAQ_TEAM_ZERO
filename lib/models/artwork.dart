@@ -7,7 +7,8 @@ class Artwork with ChangeNotifier{
   final String imageUrl;
   final String description;
   final String author;
-  final Museum museum;
+  final String museum;
+  bool isFavorite;
 
   Artwork({
   @required this.id,
@@ -16,9 +17,13 @@ class Artwork with ChangeNotifier{
   this.description,
   this.author,
   @required this.museum,
+  this.isFavorite = false
   //@required this.category
   });
  
-//After creating category model include category as property of artwork
+void toggleFavorite(){
+  isFavorite = !isFavorite;
+  notifyListeners();
+}
 
 }

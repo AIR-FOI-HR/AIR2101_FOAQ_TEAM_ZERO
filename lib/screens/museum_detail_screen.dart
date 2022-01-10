@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/app_bar.dart';
+import '../widgets/museumDetails/artworks_grid.dart';
 
 import '../providers/museums.dart';
+
+import '../screens/buy_ticket_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
       '/museum-detail'; //namedroute for pushing named from MuseumOverviewScree
+
+void _launchURL(String url) async{
+  if(url == null){
+    return;
+  }
+  if(!await launch(url)) throw 'Could not open $url';
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +145,20 @@ class MuseumDetailScreen extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Container(
-                                height: 200,
-                                child: Image.network(
-                                  'https://i.stack.imgur.com/uBnTY.png',
-                                  fit: BoxFit.cover,
+                              child: GestureDetector(
+                                onTap: (){
+                                  print(museum.location);
+                                  _launchURL(museum.location);
+                                },
+                                child: Material(
+                                  elevation: 20,
+                                  child: Container(
+                                    height: 200,
+                                    child: Image.network(
+                                      'https://i.stack.imgur.com/uBnTY.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -160,16 +181,19 @@ class MuseumDetailScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(left: 15, bottom: 5),
-              child: Text('${museum.name} gallery',
+              child: Text('Gallery of ${museum.name}',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
+            ArtworksGrid(museumId),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
+        },
         child: IconButton(
           icon: Icon(
             Icons.shopping_cart_outlined,
