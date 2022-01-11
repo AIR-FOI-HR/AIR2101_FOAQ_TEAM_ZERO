@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/museums.dart';
 
 class SearchBar extends StatefulWidget {
+  //final String text;
+  final ValueChanged<String> onChanged;
+
+  const SearchBar(this.onChanged);
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
   bool _folded = true;
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,11 +37,13 @@ class _SearchBarState extends State<SearchBar> {
                   padding: EdgeInsets.only(left: 16),
                   child: !_folded
                       ? TextField(
+                          controller: controller,
                           decoration: InputDecoration(
                               hintText: 'Search',
                               hintStyle: TextStyle(
                                   color: Theme.of(context).primaryColorDark),
                               border: InputBorder.none),
+                              onChanged: widget.onChanged,
                         )
                       : null),
             ),
@@ -54,6 +66,8 @@ class _SearchBarState extends State<SearchBar> {
                   onTap: () {
                     setState(() {
                       _folded = !_folded;
+                      widget.onChanged('');
+                      controller.text = '';
                     });
                   },
                 ),

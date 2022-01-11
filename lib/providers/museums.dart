@@ -68,6 +68,13 @@ class Museums with ChangeNotifier {
     return [..._museums];
   }
 
+  List<Museum> searchMuseums(String query){
+      return _museums.where((museum) {
+      final titleLower = museum.name.toLowerCase();
+      final searchLower = query.toLowerCase();
+      return titleLower.contains(searchLower);
+    }).toList();
+  }
   Museum getById(String id){
     return _museums.firstWhere((museum) => museum.id == id);
 
