@@ -8,20 +8,21 @@ import '../../models/artwork.dart';
 class ArtworkGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
+    final color = Theme.of(context);
+
     final artwork = Provider.of<Artwork>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: GridTile(
         child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
-        header: buildHeader(context, artwork),
-        footer: buildFooter(context, artwork),
+        header: buildHeader(context, artwork, color),
+        footer: buildFooter(context, artwork, color),
       ),
     );
   }
 
-  Widget buildHeader(BuildContext context, Artwork artwork) {
+  Widget buildHeader(BuildContext context, Artwork artwork, ThemeData color) {
     return Container(
       //maybe have another screen where we display artwork info
       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -32,7 +33,7 @@ class ArtworkGridItem extends StatelessWidget {
             artwork.author,
             softWrap: true,
             style: TextStyle(
-              color: Theme.of(context).highlightColor,
+              color: color.highlightColor,
               backgroundColor: Colors.black87,
               fontWeight: FontWeight.bold,
               fontSize: 13,
@@ -45,7 +46,7 @@ class ArtworkGridItem extends StatelessWidget {
               },
               icon: Icon(
                 artwork.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: Theme.of(context).accentColor,
+                color: color.accentColor,
                 size: 30,
               ),
             ),
@@ -55,7 +56,7 @@ class ArtworkGridItem extends StatelessWidget {
     );
   }
 
-  Widget buildFooter(BuildContext context, Artwork artwork) {
+  Widget buildFooter(BuildContext context, Artwork artwork, ThemeData color) {
     return Container(
       padding: EdgeInsets.all(10),
       color: Colors.black54,
@@ -66,7 +67,7 @@ class ArtworkGridItem extends StatelessWidget {
               artwork.name,
               softWrap: true,
               style: TextStyle(
-                color: Theme.of(context).highlightColor,
+                color: color.highlightColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
