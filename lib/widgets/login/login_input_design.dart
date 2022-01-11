@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
+import '../../screens/login/registration_screen.dart';
+
 import './user_button.dart';
 import './box_decoration_property.dart';
 import './check_box.dart';
+import './user_login_title.dart';
 
 class LoginInputDesign extends StatefulWidget {
   @override
@@ -31,17 +34,7 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
         builder: (ctx, constraints) {
           return Column(
             children: [
-              Container(
-                width: double.infinity,
-                height: constraints.maxHeight * 0.15,
-                decoration: boxDecoration(context, color.primaryColor),
-                child: Center(
-                  child: Text(
-                    'Login',
-                    style: color.textTheme.headline2,
-                  ),
-                ),
-              ),
+              UserLoginTitle('Login', constraints),
               SizedBox(
                 height: constraints.maxHeight * 0.03,
               ),
@@ -52,7 +45,8 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                     Container(
                       height: constraints.maxHeight * 0.08,
                       padding: EdgeInsets.only(left: 20),
-                      decoration: boxDecoration(context, Colors.white),
+                      decoration: boxDecoration(context,
+                          usernameBool ? Colors.red[100] : Colors.white),
                       child: TextField(
                         controller: usernameControler,
                         decoration: const InputDecoration(
@@ -67,7 +61,8 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                     Container(
                       height: constraints.maxHeight * 0.08,
                       padding: EdgeInsets.only(left: 20),
-                      decoration: boxDecoration(context, Colors.white),
+                      decoration: boxDecoration(context,
+                          passwordBool ? Colors.red[100] : Colors.white),
                       child: TextField(
                         obscureText: true,
                         enableSuggestions: false,
@@ -107,19 +102,30 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                               ),
                             ),
                             onPressed: () {
-                              bool checkedUser = userProvider.checkUserData(
-                                  usernameControler.text,
-                                  passwordControler.text);
-                              if (userProvider
-                                      .findByUsername(usernameControler.text) ==
-                                  null)
-                                setState(() {
-                                  usernameBool = !usernameBool;
-                                });
-                              checkedUser
-                                  ? Navigator.of(context)
-                                      .pushReplacementNamed('/')
-                                  : null;
+                              userProvider.findByUsername(
+                                          usernameControler.text) ==
+                                      null
+                                  ? {
+                                      usernameBool = true,
+                                    }
+                                  : {
+                                      usernameBool = false,
+                                    };
+                              userProvider.checkUserData(
+                                usernameControler.text,
+                                passwordControler.text,
+                              )
+                                  ? {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/'),
+                                      passwordBool = false,
+                                    }
+                                  : passwordBool = true;
+
+                              setState(() {
+                                usernameBool;
+                                passwordBool;
+                              });
                             },
                             child: FittedBox(
                               child: Text(
@@ -138,7 +144,10 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                         children: [
                           UserButton('I forgot my password', () {}),
                           SizedBox(height: constraints.maxHeight * 0.01),
-                          UserButton('I don\'t have account', () {}),
+                          UserButton('I don\'t have account', () {
+                            Navigator.of(context)
+                                .pushNamed(RegistrationScreen.routeName);
+                          }),
                         ],
                       ),
                     )
