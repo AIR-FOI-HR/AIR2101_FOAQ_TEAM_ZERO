@@ -38,7 +38,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DropDownCategory(),
-                SearchBar(query, searchMuseum),
+                SearchBar(searchMuseum),
               ],
             ),
             MuseumsGrid(museums), //wrap with flexible if search is fixed

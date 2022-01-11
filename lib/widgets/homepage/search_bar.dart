@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '../../providers/museums.dart';
 
 class SearchBar extends StatefulWidget {
-  final String text;
+  //final String text;
   final ValueChanged<String> onChanged;
 
-  const SearchBar(this.text, this.onChanged);
+  const SearchBar(this.onChanged);
 
   @override
   _SearchBarState createState() => _SearchBarState();
