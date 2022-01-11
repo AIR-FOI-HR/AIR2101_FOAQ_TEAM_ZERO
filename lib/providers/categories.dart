@@ -35,7 +35,7 @@ class Categories with ChangeNotifier {
   ];
 
   List<CategoryArtwork> _selectedCategories = [
-    CategoryArtwork(id: 'c0', name: 'Please select:')
+    CategoryArtwork(id: 'c0', name: 'All Museums')
   ];
 
   List<CategoryArtwork> get items {
@@ -59,7 +59,7 @@ class Categories with ChangeNotifier {
 
   void clearSelectedCategoryList() {
     _selectedCategories = [
-      CategoryArtwork(id: 'c0', name: 'Please select:'),
+      CategoryArtwork(id: 'c0', name: 'All Museums'),
     ];
     notifyListeners();
   }
