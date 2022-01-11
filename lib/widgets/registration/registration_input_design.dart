@@ -110,6 +110,9 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
                         constraints,
                         passwordBool,
                         TextField(
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
                           controller: passwordOneControler,
                           decoration: const InputDecoration(
                             hintText: 'Password',
@@ -124,6 +127,9 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
                         constraints,
                         passwordBool,
                         TextField(
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
                           controller: passwordTwoControler,
                           decoration: const InputDecoration(
                             hintText: 'Password',
