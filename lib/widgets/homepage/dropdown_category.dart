@@ -3,6 +3,11 @@ import '../../providers/categories.dart';
 import 'package:provider/provider.dart';
 
 class DropDownCategory extends StatefulWidget {
+
+  final ValueChanged<String> changedCategory;
+
+  const DropDownCategory(this.changedCategory);
+
   @override
   _DropDownCategoryState createState() => _DropDownCategoryState();
 }
@@ -15,7 +20,6 @@ class _DropDownCategoryState extends State<DropDownCategory> {
   Widget build(BuildContext context) {
     final selectedCategoryList =
         Provider.of<Categories>(context).itemsSelectetCategory;
-    print(selectedCategoryList);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 0, 0),
       child: DropdownButtonHideUnderline(
@@ -29,6 +33,7 @@ class _DropDownCategoryState extends State<DropDownCategory> {
             dropdownColor: Theme.of(context).primaryColorLight,
             value: selectedCategory,
             onChanged: (value) {
+              widget.changedCategory(value);
               setState(() {
                 selectedCategory = value;
               });
