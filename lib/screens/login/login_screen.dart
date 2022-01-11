@@ -13,32 +13,33 @@ class LoginScreen extends StatelessWidget {
         appBar('Login', context, Theme.of(context).primaryColor);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-        appBar: appBarProperty,
-        drawer: MainMenuDrawer(),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(left: 30, right: 30, bottom: 50),
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    height: (mediaQuery.size.height -
-                            appBarProperty.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.2,
-                    child: DisplayLogo()),
-                Container(
+      appBar: appBarProperty,
+      drawer: MainMenuDrawer(),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 30, right: 30, bottom: 50),
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
                   height: (mediaQuery.size.height -
                           appBarProperty.preferredSize.height -
                           mediaQuery.padding.top) *
-                      0.7,
-                  child: LoginInputDesign(),
-                ),
-              ],
-            ),
+                      0.2,
+                  child: DisplayLogo()),
+              Container(
+                height: (mediaQuery.size.height -
+                        appBarProperty.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    0.7,
+                child: LoginInputDesign(),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
