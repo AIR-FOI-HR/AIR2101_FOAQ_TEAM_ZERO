@@ -8,43 +8,6 @@ import '../providers/categories.dart';
 import '../screens/categories/category_artwork_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
-  Widget createDrawerTile(BuildContext ctx, String name, IconData icon,
-      Function drawerTileFunction) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(15, 5, 30, 5),
-      height: 40,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: ListTile(
-        title: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(icon),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  name,
-                  style: Theme.of(ctx).textTheme.headline5,
-                ),
-              ),
-            ],
-          ),
-        ),
-        onTap: drawerTileFunction,
-        //() {          Navigator.of(ctx).pushReplacementNamed(routeName);        },
-      ),
-    );
-  }
-
-  Widget createDivider = Divider(
-    color: Colors.black,
-    height: 10,
-    thickness: 1,
-  );
   @override
   Widget build(BuildContext context) {
     final categoryData = Provider.of<Categories>(context);
@@ -116,7 +79,12 @@ class MainMenuDrawer extends StatelessWidget {
             },
           ),
           createDivider,
-          createDrawerTile(context, 'Map', Icons.map_outlined, () {}),
+          createDrawerTile(
+            context,
+            'Map',
+            Icons.map_outlined,
+            () {},
+          ),
           createDivider,
           createDrawerTile(
               context, 'About us', Icons.quick_contacts_mail_outlined, () {}),
@@ -124,4 +92,42 @@ class MainMenuDrawer extends StatelessWidget {
       ),
     );
   }
+
+  Widget createDrawerTile(BuildContext ctx, String name, IconData icon,
+      Function drawerTileFunction) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(15, 5, 30, 5),
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: ListTile(
+        title: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(icon),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  name,
+                  style: Theme.of(ctx).textTheme.headline5,
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: drawerTileFunction,
+        //() {          Navigator.of(ctx).pushReplacementNamed(routeName);        },
+      ),
+    );
+  }
+
+  Widget createDivider = Divider(
+    color: Colors.black,
+    height: 10,
+    thickness: 1,
+  );
 }
