@@ -14,6 +14,7 @@ import './screens/categories/category_artwork_editing_screen.dart';
 import './screens/buy_ticket_screen.dart';
 import './screens/login/login_screen.dart';
 import './screens/artworks/manage_artworks_screen.dart';
+import './screens/login/registration_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
           BuyTicketScreen.routeName: (ctx) => BuyTicketScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           ManageArtworksScreen.routeName: (ctx) => ManageArtworksScreen(),
+          RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
         },
       ),
     );
