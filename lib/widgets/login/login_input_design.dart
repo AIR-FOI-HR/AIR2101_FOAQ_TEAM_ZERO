@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/users.dart';
 import './user_button.dart';
 import './box_decoration_property.dart';
-import './design_text_field.dart';
+import './check_box.dart';
 
 class LoginInputDesign extends StatefulWidget {
   @override
@@ -11,11 +13,16 @@ class LoginInputDesign extends StatefulWidget {
 
 class _LoginInputDesignState extends State<LoginInputDesign> {
   TextEditingController usernameControler = TextEditingController();
+  TextEditingController passwordControler = TextEditingController();
+
   bool isChecked = false;
+  bool usernameBool = false;
+  bool passwordBool = false;
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context);
+    final userProvider = Provider.of<Users>(context);
 
     return Container(
       width: double.infinity,
@@ -42,27 +49,36 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                 margin: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    DesignTextField(
-                        TextField(
-                          controller: usernameControler,
-                          decoration: const InputDecoration(
-                            hintText: 'Username',
-                            border: InputBorder.none,
-                          ),
+                    Container(
+                      height: constraints.maxHeight * 0.08,
+                      padding: EdgeInsets.only(left: 20),
+                      decoration: boxDecoration(context, Colors.white),
+                      child: TextField(
+                        controller: usernameControler,
+                        decoration: const InputDecoration(
+                          hintText: 'Username',
+                          border: InputBorder.none,
                         ),
-                        constraints),
+                      ),
+                    ),
                     SizedBox(
                       height: constraints.maxHeight * 0.05,
                     ),
-                    DesignTextField(
-                        TextField(
-                          controller: usernameControler,
-                          decoration: const InputDecoration(
-                            hintText: 'Password',
-                            border: InputBorder.none,
-                          ),
+                    Container(
+                      height: constraints.maxHeight * 0.08,
+                      padding: EdgeInsets.only(left: 20),
+                      decoration: boxDecoration(context, Colors.white),
+                      child: TextField(
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        controller: passwordControler,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          border: InputBorder.none,
                         ),
-                        constraints),
+                      ),
+                    ),
                     SizedBox(
                       height: constraints.maxHeight * 0.08,
                     ),
@@ -71,18 +87,7 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Transform.scale(
-                            scale: 1.5,
-                            child: Checkbox(
-                                fillColor: MaterialStateProperty.all(
-                                    color.primaryColor),
-                                value: isChecked,
-                                onChanged: (_) {
-                                  setState(() {
-                                    isChecked = !isChecked;
-                                  });
-                                }),
-                          ),
+                          child: CheckBox(),
                         ),
                         const Expanded(
                           flex: 3,
@@ -101,7 +106,21 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              bool checkedUser = userProvider.checkUserData(
+                                  usernameControler.text,
+                                  passwordControler.text);
+                              if (userProvider
+                                      .findByUsername(usernameControler.text) ==
+                                  null)
+                                setState(() {
+                                  usernameBool = !usernameBool;
+                                });
+                              checkedUser
+                                  ? Navigator.of(context)
+                                      .pushReplacementNamed('/')
+                                  : null;
+                            },
                             child: FittedBox(
                               child: Text(
                                 'Login',
