@@ -58,17 +58,6 @@ class ManageArtworksScreen extends StatelessWidget {
             ],
           ),
         ),
-         //ListView.builder(
-        //   itemCount: artworks.length,
-        //   itemBuilder: (_, i) =>Column(children: [
-        //     ManageArtworkItem(
-        //       artworks[i].id,
-        //       artworks[i].name,
-        //       artworks[i].imageUrl
-        //     ),
-        //     Divider(thickness: 1, color: color.highlightColor,)
-        //   ],),
-        // ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: color.highlightColor,
           child: IconButton(
