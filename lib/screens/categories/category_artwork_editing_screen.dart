@@ -55,7 +55,7 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
                     border: UnderlineInputBorder(),
                     labelText: 'Enter the name',
                   ),
-                  autofocus: true,
+                  //autofocus: true,
                 ),
               ],
             ),
