@@ -9,6 +9,8 @@ import '../../models/artwork.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/artworks/manage_artwork_item.dart';
+
+import './edit_add_artworks_screen.dart';
 class ManageArtworksScreen extends StatelessWidget {
   static const routeName = '/artworks';
 
@@ -71,7 +73,7 @@ class ManageArtworksScreen extends StatelessWidget {
           backgroundColor: color.highlightColor,
           child: IconButton(
             onPressed: () {
-              //TO DO - reroute to add/edit artwork
+              Navigator.of(context).pushNamed(EditAddArtworksScreen.routeName);
             },
             icon: Icon(
               Icons.add,
