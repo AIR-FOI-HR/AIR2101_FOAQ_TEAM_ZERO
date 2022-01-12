@@ -27,7 +27,6 @@ class ManageArtworkItem extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
                 onPressed: () {
-                  //to do on delete
                 }),
           ],
         ),
