@@ -14,7 +14,7 @@ class CategoryArtworkItem extends StatefulWidget {
 
 class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
   var _showSelectedCategory = false;
-  final int privileges = 1;
+  final int privileges = 0;
   @override
   Widget build(BuildContext context) {
     final categoryData = Provider.of<Categories>(context);
