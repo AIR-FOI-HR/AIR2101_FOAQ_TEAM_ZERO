@@ -13,15 +13,20 @@ class MuseumsOverviewScreen extends StatefulWidget {
   State<MuseumsOverviewScreen> createState() => _MuseumsOverviewScreenState();
 }
 
+//when this widget builds we get all museums in one list. This list is used for filterign by category
+//If we choose category then we can only search for that category
 class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
-  List<Museum> museums;
-  List<Museum> allMuseums;
+  //List<Museum> museumSearch; //this list is used for searching result
+  List<Museum> museumsForWidget; //this list is used when passing data to MuseumsGrid widget
+  List<Museum> mainMuseumList; //this list is used for getting all museums and filtering,
+                              //also it is used when searching
   String query = '';
+  String category ='c0';
 
   @override
   void didChangeDependencies() {
-    allMuseums = Provider.of<Museums>(context, listen: false).getMuseums;
-    museums = allMuseums;
+    mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
+    museumsForWidget = mainMuseumList;
     super.didChangeDependencies();
   }
 
@@ -37,11 +42,11 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropDownCategory(),
+                DropDownCategory(searchMuseumByCategory),
                 SearchBar(searchMuseum),
               ],
             ),
-            MuseumsGrid(museums), //wrap with flexible if search is fixed
+            MuseumsGrid(museumsForWidget), //wrap with flexible if search is fixed
           ],
         ),
       ),
@@ -49,10 +54,22 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     );
   }
 
+  void searchMuseumByCategory(String categoryId){
+    setState(() {
+      this.category = categoryId;
+      this.mainMuseumList = Provider.of<Museums>(context, listen:false).filterMusemsByCategory(categoryId);
+      museumsForWidget = mainMuseumList;
+    });
+  }
+
   void searchMuseum(String query) {
     setState(() {
       this.query = query;
-      this.museums = Provider.of<Museums>(context, listen:false).searchMuseums(query);
+      this.museumsForWidget = mainMuseumList.where((museum) {
+      final titleLower = museum.name.toLowerCase();
+      final searchLower = query.toLowerCase();
+      return titleLower.contains(searchLower);
+    }).toList();
     });
   }
 }

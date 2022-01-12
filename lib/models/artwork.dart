@@ -8,6 +8,7 @@ class Artwork with ChangeNotifier{
   final String description;
   final String author;
   final String museum;
+  final String category;
   bool isFavorite;
 
   Artwork({
@@ -17,8 +18,8 @@ class Artwork with ChangeNotifier{
   this.description,
   this.author,
   @required this.museum,
+  @required this.category,
   this.isFavorite = false
-  //@required this.category
   });
  
 void toggleFavorite(){

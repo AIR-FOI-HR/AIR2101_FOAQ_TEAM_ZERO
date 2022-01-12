@@ -21,7 +21,8 @@ class Artworks with ChangeNotifier {
         author: 'DOMENICO BECCAFUMI',
         imageUrl:
             'https://www.doriapamphilj.it/wp-content/uploads/2019/01/ADP-Fc-672-Ph-Alessandro-Vasari.jpg',
-        museum: '2'),
+        museum: '2',
+        category: 'c11'),
     Artwork(
         id: '2',
         name: 'Landscape with Ford',
@@ -29,7 +30,8 @@ class Artworks with ChangeNotifier {
         author: 'DOMENICHINO',
         imageUrl:
             'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-domenichino-paesaggio-con-guado-big.jpg',
-        museum: '2'),
+        museum: '2',
+        category: 'c11'),
     Artwork(
         id: '3',
         name: 'Dido',
@@ -37,7 +39,8 @@ class Artworks with ChangeNotifier {
         author: 'DOSSO DOSSI',
         imageUrl:
             'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-didone-big.jpg',
-        museum: '2'),
+        museum: '2',
+        category: 'c11'),
     Artwork(
         id: '4',
         name: 'The Birth of the Virgin',
@@ -45,7 +48,8 @@ class Artworks with ChangeNotifier {
         author: 'GIOVANNI DI PAOLO DI GRAZIA',
         imageUrl:
             'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-nascita-della-vergine-big.jpg',
-        museum: '2'),
+        museum: '2',
+        category: 'c11'),
     Artwork(
       id: '5',
       name: 'Self-portrait',
@@ -55,6 +59,7 @@ class Artworks with ChangeNotifier {
       imageUrl:
           'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-lotto-lorenzo-autoritratto-big2.jpg',
       museum: '2',
+      category: 'c11'
     ),
     Artwork(
       id: '6',
@@ -65,6 +70,7 @@ class Artworks with ChangeNotifier {
       imageUrl:
           'https://pinacotecabrera.org/wp-content/uploads/2014/10/Mantegna-Cristo-Morto-600x498.jpg',
       museum: '5',
+      category: 'c11'
     ),
     Artwork(
       id: '7',
@@ -75,6 +81,7 @@ class Artworks with ChangeNotifier {
       imageUrl:
           'https://pinacotecabrera.org/wp-content/uploads/2014/09/Gio-GeBellini-Predica-san-marco-piazza-egitto-600x273.jpg',
       museum: '5',
+      category: 'c11'
     ),
     Artwork(
       id: '8',
@@ -85,6 +92,7 @@ class Artworks with ChangeNotifier {
       imageUrl:
           'https://pinacotecabrera.org/wp-content/uploads/2014/09/82_Raffaello_Spozalizio_-418x600.jpg',
       museum: '5',
+      category: 'c11'
     ),
     Artwork(
       id: '9',
@@ -93,6 +101,7 @@ class Artworks with ChangeNotifier {
       author: 'Unknown',
       imageUrl: 'https://www.historymuseum.ca/wp-content/uploads/2021/03/ahmose-nefertari-museo-egizio.jpg',
       museum: '6',
+      category: 'c6'
     ),
     Artwork(
       id: '10',
@@ -101,6 +110,7 @@ class Artworks with ChangeNotifier {
       author: 'Unknown',
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Museo_Egizio_di_Torino-631_o.jpg/1280px-Museo_Egizio_di_Torino-631_o.jpg',
       museum: '6',
+      category: 'c6'
     ),
     Artwork(
       id: '11',
@@ -109,6 +119,7 @@ class Artworks with ChangeNotifier {
       author: 'Unknown',
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Female_topless_egyption_dancer_on_ancient_ostrakon.jpg/1024px-Female_topless_egyption_dancer_on_ancient_ostrakon.jpg',
       museum: '6',
+      category: 'c6'
     ),
   ];
 
@@ -118,5 +129,9 @@ class Artworks with ChangeNotifier {
 
   List<Artwork> getByMuseumId(String id) {
     return _artworks.where((artwork) => artwork.museum == id).toList();
+  }
+
+  List<Artwork> getByCategory(String categoryId){
+    return _artworks.where((artwork) => artwork.category == categoryId).toList();
   }
 }
