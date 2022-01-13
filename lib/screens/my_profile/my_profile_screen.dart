@@ -10,17 +10,31 @@ class MyProfileScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
         appBar('My profile', context, Theme.of(context).primaryColor);
+    final divider = Divider(
+      thickness: 2,
+      color: Theme.of(context).primaryColor,
+    );
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
       body: Column(
         children: [
           Container(
-              height: (mediaQuery.size.height -
-                      appBarProperty.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.4,
-              child: UserPicture()),
+            height: (mediaQuery.size.height -
+                    appBarProperty.preferredSize.height -
+                    mediaQuery.padding.top) *
+                0.4,
+            child: UserPicture(),
+          ),
+          divider,
+          Container(
+            height: (mediaQuery.size.height -
+                    appBarProperty.preferredSize.height -
+                    mediaQuery.padding.top -
+                    30) *
+                0.6,
+            child: Text('da'),
+          ),
         ],
       ),
     );
