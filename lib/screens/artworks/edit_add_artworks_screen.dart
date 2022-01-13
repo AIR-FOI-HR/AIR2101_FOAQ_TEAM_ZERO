@@ -65,6 +65,23 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     super.didChangeDependencies();
   }
 
+  void _saveArtwork() {
+    final formIsValid = _formKey.currentState.validate();
+    
+    if (!formIsValid) {
+      return;
+    }
+    _formKey.currentState.save();
+    print('Artwork id: ');
+    if (_artwork.id != null) {
+      print('Museum'+_artwork.museum);
+    } else {
+      print(_artwork.category);
+      //to do add
+    }
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData color = Theme.of(context);
@@ -96,16 +113,47 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
               TextFormField(
                 initialValue: _initValues['name'],
                 decoration: inputDecoration('Name', Icons.text_fields, color),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'This field cannot be empty!';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _artwork = Artwork(
+                    id: _artwork.id,
+                    name: value,
+                    museum: _artwork.museum,
+                    category: _artwork.category,
+                    author: _artwork.author,
+                    description: _artwork.description,
+                    imageUrl: _artwork.imageUrl,
+                  );
+                },
               ),
               SizedBox(height: 12),
               DropDownField(
-                value: _initValues['museum'] != '' ? museumsMap[_initValues['museum']].toString() : null,
+                value: _initValues['museum'] != ''
+                    ? museumsMap[_initValues['museum']].toString()
+                    : null,
                 textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 icon: Icon(Icons.museum, color: color.primaryColor),
                 enabled: true,
                 required: true,
                 labelText: 'Museum',
+                setter: (value) {
+                  _artwork = Artwork(
+                    id: _artwork.id,
+                    name: _artwork.name,
+                    museum: museumsMap.keys
+                        .firstWhere((key) => museumsMap[key] == value),
+                    category: _artwork.category,
+                    author: _artwork.author,
+                    description: _artwork.description,
+                    imageUrl: _artwork.imageUrl,
+                  );
+                },
                 items: museumsMap.values.toList(),
                 onValueChanged: (value) {
                   setState(() {
@@ -118,7 +166,9 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
               SizedBox(height: 12),
               DropDownField(
                 //controller: selectedCategory,
-                value: _initValues['category'] != '' ? categoryMap[_initValues['category']].toString() : null,
+                value: _initValues['category'] != ''
+                    ? categoryMap[_initValues['category']].toString()
+                    : null,
                 textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 icon: Icon(Icons.category, color: color.primaryColor),
@@ -126,6 +176,18 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                 required: true,
                 enabled: true,
                 items: categoryMap.values.toList(),
+                setter: (value) {
+                  _artwork = Artwork(
+                    id: _artwork.id,
+                    name: _artwork.name,
+                    museum: _artwork.museum,
+                    category: categoryMap.keys
+                        .firstWhere((key) => categoryMap[key] == value),
+                    author: _artwork.author,
+                    description: _artwork.description,
+                    imageUrl: _artwork.imageUrl,
+                  );
+                },
                 onValueChanged: (value) {
                   setState(() {
                     category = categoryMap.keys
@@ -138,6 +200,17 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
               TextFormField(
                 initialValue: _initValues['author'],
                 decoration: inputDecoration('Author', Icons.person, color),
+                onSaved: (value) {
+                  _artwork = Artwork(
+                    id: _artwork.id,
+                    name: _artwork.name,
+                    museum: _artwork.museum,
+                    category: _artwork.category,
+                    author: value,
+                    description: _artwork.description,
+                    imageUrl: _artwork.imageUrl,
+                  );
+                },
               ),
               SizedBox(height: 12),
               TextFormField(
@@ -146,6 +219,17 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                     inputDecoration('Description', Icons.description, color),
                 maxLines: 4,
                 keyboardType: TextInputType.multiline,
+                onSaved: (value) {
+                  _artwork = Artwork(
+                    id: _artwork.id,
+                    name: _artwork.name,
+                    museum: _artwork.museum,
+                    category: _artwork.category,
+                    author: _artwork.author,
+                    description: value,
+                    imageUrl: _artwork.imageUrl,
+                  );
+                },
               ),
               SizedBox(height: 12),
               Row(
@@ -177,6 +261,17 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                     decoration:
                         inputDecoration('Image URL', Icons.image, color),
                     keyboardType: TextInputType.url,
+                    onSaved: (value) {
+                      _artwork = Artwork(
+                        id: _artwork.id,
+                        name: _artwork.name,
+                        museum: _artwork.museum,
+                        category: _artwork.category,
+                        author: _artwork.author,
+                        description: _artwork.description,
+                        imageUrl: value,
+                      );
+                    },
                   ))
                 ],
               ),
@@ -188,7 +283,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
           ? null
           : FloatingActionButton(
               backgroundColor: color.highlightColor,
-              onPressed: () {},
+              onPressed: _saveArtwork,
               child: IconButton(
                 icon: Icon(
                   Icons.check,
