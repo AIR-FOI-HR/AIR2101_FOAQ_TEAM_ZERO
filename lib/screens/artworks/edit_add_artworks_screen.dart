@@ -17,7 +17,8 @@ class EditAddArtworksScreen extends StatefulWidget {
 }
 
 class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
-  bool _isInit = true;
+  var _isInit = true;
+  var _isLoading = false;
 
   var _initValues = {
     'name': '',
@@ -101,177 +102,129 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
         context,
         color.primaryColor,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              SizedBox(height: 12),
-              TextFormField(
-                initialValue: _initValues['name'],
-                decoration: inputDecoration('Name', Icons.text_fields, color),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'This field cannot be empty!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _artwork = Artwork(
-                    id: _artwork.id,
-                    name: value,
-                    museum: _artwork.museum,
-                    category: _artwork.category,
-                    author: _artwork.author,
-                    description: _artwork.description,
-                    imageUrl: _artwork.imageUrl,
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              DropDownField(
-                value: _initValues['museum'] != ''
-                    ? museumsMap[_initValues['museum']].toString()
-                    : null,
-                textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                icon: Icon(Icons.museum, color: color.primaryColor),
-                enabled: true,
-                required: true,
-                labelText: 'Museum',
-                setter: (value) {
-                  _artwork = Artwork(
-                    id: _artwork.id,
-                    name: _artwork.name,
-                    museum: museumsMap.keys
-                        .firstWhere((key) => museumsMap[key] == value),
-                    category: _artwork.category,
-                    author: _artwork.author,
-                    description: _artwork.description,
-                    imageUrl: _artwork.imageUrl,
-                  );
-                },
-                items: museumsMap.values.toList(),
-                onValueChanged: (value) {
-                  setState(() {
-                    museum = museumsMap.keys
-                        .firstWhere((key) => museumsMap[key] == value);
-                    print(museum);
-                  });
-                },
-              ),
-              SizedBox(height: 12),
-              DropDownField(
-                value: _initValues['category'] != ''
-                    ? categoryMap[_initValues['category']].toString()
-                    : null,
-                textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                icon: Icon(Icons.category, color: color.primaryColor),
-                labelText: 'Category',
-                required: true,
-                enabled: true,
-                items: categoryMap.values.toList(),
-                setter: (value) {
-                  _artwork = Artwork(
-                    id: _artwork.id,
-                    name: _artwork.name,
-                    museum: _artwork.museum,
-                    category: categoryMap.keys
-                        .firstWhere((key) => categoryMap[key] == value),
-                    author: _artwork.author,
-                    description: _artwork.description,
-                    imageUrl: _artwork.imageUrl,
-                  );
-                },
-                onValueChanged: (value) {
-                  setState(() {
-                    category = categoryMap.keys
-                        .firstWhere((key) => categoryMap[key] == value);
-                    print(category);
-                  });
-                },
-              ),
-              SizedBox(height: 12),
-              TextFormField(
-                initialValue: _initValues['author'],
-                decoration: inputDecoration('Author', Icons.person, color),
-                onSaved: (value) {
-                  _artwork = Artwork(
-                    id: _artwork.id,
-                    name: _artwork.name,
-                    museum: _artwork.museum,
-                    category: _artwork.category,
-                    author: value,
-                    description: _artwork.description,
-                    imageUrl: _artwork.imageUrl,
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              TextFormField(
-                initialValue: _initValues['description'],
-                decoration:
-                    inputDecoration('Description', Icons.description, color),
-                maxLines: 4,
-                keyboardType: TextInputType.multiline,
-                onSaved: (value) {
-                  _artwork = Artwork(
-                    id: _artwork.id,
-                    name: _artwork.name,
-                    museum: _artwork.museum,
-                    category: _artwork.category,
-                    author: _artwork.author,
-                    description: value,
-                    imageUrl: _artwork.imageUrl,
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    margin: EdgeInsets.only(
-                      top: 8,
-                      right: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: color.highlightColor,
-                      ),
-                    ),
-                    child: FittedBox(
-                      child: _imageUrlController.text.isEmpty
-                          ? Image.asset('assets/images/NoArtworks.png')
-                          : Image.network(_imageUrlController.text),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      //initialValue: _initValues['imageUrl'],
-                      controller: _imageUrlController,
-                      focusNode: _imageUrlFocusNode,
-                      onEditingComplete: () {
-                        setState(() {});
-                      },
-                      //this controller helps us refresh image
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: EdgeInsets.all(20),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    SizedBox(height: 12),
+                    TextFormField(
+                      initialValue: _initValues['name'],
                       decoration:
-                          inputDecoration('Image URL', Icons.image, color),
+                          inputDecoration('Name', Icons.text_fields, color),
                       validator: (value) {
-                        if (!value.startsWith('http') &&
-                            !value.startsWith('https') && value != '') {
-                          return 'Please enter a valid URL';
+                        if (value.isEmpty) {
+                          return 'This field cannot be empty!';
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
+                      onSaved: (value) {
+                        _artwork = Artwork(
+                          id: _artwork.id,
+                          name: value,
+                          museum: _artwork.museum,
+                          category: _artwork.category,
+                          author: _artwork.author,
+                          description: _artwork.description,
+                          imageUrl: _artwork.imageUrl,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 12),
+                    DropDownField(
+                      value: _initValues['museum'] != ''
+                          ? museumsMap[_initValues['museum']].toString()
+                          : null,
+                      textStyle:
+                          TextStyle(fontSize: 16, color: color.primaryColor),
+                      labelStyle:
+                          TextStyle(fontSize: 16, color: color.primaryColor),
+                      icon: Icon(Icons.museum, color: color.primaryColor),
+                      enabled: true,
+                      required: true,
+                      labelText: 'Museum',
+                      setter: (value) {
+                        _artwork = Artwork(
+                          id: _artwork.id,
+                          name: _artwork.name,
+                          museum: museumsMap.keys
+                              .firstWhere((key) => museumsMap[key] == value),
+                          category: _artwork.category,
+                          author: _artwork.author,
+                          description: _artwork.description,
+                          imageUrl: _artwork.imageUrl,
+                        );
+                      },
+                      items: museumsMap.values.toList(),
+                      onValueChanged: (value) {
+                        setState(() {
+                          museum = museumsMap.keys
+                              .firstWhere((key) => museumsMap[key] == value);
+                          print(museum);
+                        });
+                      },
+                    ),
+                    SizedBox(height: 12),
+                    DropDownField(
+                      value: _initValues['category'] != ''
+                          ? categoryMap[_initValues['category']].toString()
+                          : null,
+                      textStyle:
+                          TextStyle(fontSize: 16, color: color.primaryColor),
+                      labelStyle:
+                          TextStyle(fontSize: 16, color: color.primaryColor),
+                      icon: Icon(Icons.category, color: color.primaryColor),
+                      labelText: 'Category',
+                      required: true,
+                      enabled: true,
+                      items: categoryMap.values.toList(),
+                      setter: (value) {
+                        _artwork = Artwork(
+                          id: _artwork.id,
+                          name: _artwork.name,
+                          museum: _artwork.museum,
+                          category: categoryMap.keys
+                              .firstWhere((key) => categoryMap[key] == value),
+                          author: _artwork.author,
+                          description: _artwork.description,
+                          imageUrl: _artwork.imageUrl,
+                        );
+                      },
+                      onValueChanged: (value) {
+                        setState(() {
+                          category = categoryMap.keys
+                              .firstWhere((key) => categoryMap[key] == value);
+                          print(category);
+                        });
+                      },
+                    ),
+                    SizedBox(height: 12),
+                    TextFormField(
+                      initialValue: _initValues['author'],
+                      decoration:
+                          inputDecoration('Author', Icons.person, color),
+                      onSaved: (value) {
+                        _artwork = Artwork(
+                          id: _artwork.id,
+                          name: _artwork.name,
+                          museum: _artwork.museum,
+                          category: _artwork.category,
+                          author: value,
+                          description: _artwork.description,
+                          imageUrl: _artwork.imageUrl,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 12),
+                    TextFormField(
+                      initialValue: _initValues['description'],
+                      decoration: inputDecoration(
+                          'Description', Icons.description, color),
+                      maxLines: 4,
+                      keyboardType: TextInputType.multiline,
                       onSaved: (value) {
                         _artwork = Artwork(
                           id: _artwork.id,
@@ -279,18 +232,75 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                           museum: _artwork.museum,
                           category: _artwork.category,
                           author: _artwork.author,
-                          description: _artwork.description,
-                          imageUrl: value,
+                          description: value,
+                          imageUrl: _artwork.imageUrl,
                         );
                       },
                     ),
-                  )
-                ],
+                    SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          margin: EdgeInsets.only(
+                            top: 8,
+                            right: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: color.highlightColor,
+                            ),
+                          ),
+                          child: FittedBox(
+                            child: _imageUrlController.text.isEmpty
+                                ? Image.asset('assets/images/NoArtworks.png')
+                                : Image.network(_imageUrlController.text),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            //initialValue: _initValues['imageUrl'],
+                            controller: _imageUrlController,
+                            focusNode: _imageUrlFocusNode,
+                            onEditingComplete: () {
+                              setState(() {});
+                            },
+                            //this controller helps us refresh image
+                            decoration: inputDecoration(
+                                'Image URL', Icons.image, color),
+                            validator: (value) {
+                              if (!value.startsWith('http') &&
+                                  !value.startsWith('https') &&
+                                  value != '') {
+                                return 'Please enter a valid URL';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.url,
+                            textInputAction: TextInputAction.done,
+                            onSaved: (value) {
+                              _artwork = Artwork(
+                                id: _artwork.id,
+                                name: _artwork.name,
+                                museum: _artwork.museum,
+                                category: _artwork.category,
+                                author: _artwork.author,
+                                description: _artwork.description,
+                                imageUrl: value,
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
       floatingActionButton: keyboardIsOpened
           ? null
           : FloatingActionButton(
@@ -333,19 +343,51 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     );
   }
 
-  void _saveArtwork() {
+  Future<void> _saveArtwork() async {
     final formIsValid = _formKey.currentState.validate();
     if (!formIsValid) {
       return;
     }
     _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
     print('Artwork id: ');
     if (_artwork.id != null) {
-      print('Museum' + _artwork.museum);
+      await Provider.of<Artworks>(context, listen: false)
+          .updateArtwork(_artwork.id, _artwork);
     } else {
       print(_artwork.imageUrl);
-      //to do add
+      try {
+        await Provider.of<Artworks>(context, listen: false)
+            .addArtwork(_artwork);
+      } catch (error) {
+        await showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(
+              'An error occurred!',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Text('Oops, something went wrong..'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text(
+                  'Okay',
+                  style: TextStyle(backgroundColor: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
     }
+    setState(() {
+      _isLoading = false;
+    });
     Navigator.of(context).pop();
   }
 

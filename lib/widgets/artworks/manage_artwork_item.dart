@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../screens/artworks/edit_add_artworks_screen.dart';
+import '../../providers/artworks.dart';
 
 class ManageArtworkItem extends StatelessWidget {
   final String id;
@@ -27,6 +29,7 @@ class ManageArtworkItem extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
                 onPressed: () {
+                  Provider.of<Artworks>(context, listen: false).deleteArtwork(id);
                 }),
           ],
         ),

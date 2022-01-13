@@ -27,7 +27,7 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
     setState(() {
       _isLoading = true;
     });
-    Provider.of<Artworks>(context).fetchAndSetArtwotks().catchError((error) {
+    Provider.of<Artworks>(context).fetchAndSetArtworks().catchError((error) {
         return showDialog<Null>(
           context: context,
           builder: (ctx) => AlertDialog(
