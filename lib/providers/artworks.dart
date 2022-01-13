@@ -14,7 +14,7 @@ class Artworks with ChangeNotifier {
     return [..._artworks];
   }
 
-  Future<void> fetchAndSetArtwotks() async {
+  Future<void> fetchAndSetArtworks() async {
     try {
       final response = await http.get(urlArtworks);
       final extracedData = json.decode(response.body) as Map<String, dynamic>;
@@ -109,6 +109,7 @@ class Artworks with ChangeNotifier {
       final url = Uri.parse(
           'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks/$id.json');
       http.delete(url);
+      _artworks.removeWhere((artwork)=>artwork.id == id);
       notifyListeners();
   }
 }
