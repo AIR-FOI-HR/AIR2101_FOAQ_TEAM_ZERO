@@ -36,12 +36,25 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
       author: '',
       description: '');
   final _formKey = GlobalKey<FormState>();
+  final _imageUrlController = TextEditingController();
+  final _imageUrlFocusNode = FocusNode();
 
-  final selectedMuseum = TextEditingController();
   String museum = "";
-
-  final selectedCategory = TextEditingController();
   String category = "";
+
+  @override
+  void initState() {
+    _imageUrlFocusNode.addListener(_updateImageUrl);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _imageUrlController.dispose();
+    _imageUrlFocusNode.dispose();
+    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -55,31 +68,15 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
           'museum': _artwork.museum,
           'category': _artwork.category,
           'description': _artwork.description,
-          'imageUrl': _artwork.imageUrl,
+          'imageUrl': '',
           'author': _artwork.author
         };
+        _imageUrlController.text = _artwork.imageUrl;
         print('Museum id ' + _artwork.museum);
       }
     }
     _isInit = false;
     super.didChangeDependencies();
-  }
-
-  void _saveArtwork() {
-    final formIsValid = _formKey.currentState.validate();
-    
-    if (!formIsValid) {
-      return;
-    }
-    _formKey.currentState.save();
-    print('Artwork id: ');
-    if (_artwork.id != null) {
-      print('Museum'+_artwork.museum);
-    } else {
-      print(_artwork.category);
-      //to do add
-    }
-    Navigator.of(context).pop();
   }
 
   @override
@@ -165,7 +162,6 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
               ),
               SizedBox(height: 12),
               DropDownField(
-                //controller: selectedCategory,
                 value: _initValues['category'] != ''
                     ? categoryMap[_initValues['category']].toString()
                     : null,
@@ -249,30 +245,37 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                       ),
                     ),
                     child: FittedBox(
-                      child: _initValues['imageUrl'] == ''
+                      child: _imageUrlController.text.isEmpty
                           ? Image.asset('assets/images/NoArtworks.png')
-                          : Image.network(_initValues['imageUrl']),
+                          : Image.network(_imageUrlController.text),
                       fit: BoxFit.contain,
                     ),
                   ),
                   Expanded(
-                      child: TextFormField(
-                    initialValue: _initValues['imageUrl'],
-                    decoration:
-                        inputDecoration('Image URL', Icons.image, color),
-                    keyboardType: TextInputType.url,
-                    onSaved: (value) {
-                      _artwork = Artwork(
-                        id: _artwork.id,
-                        name: _artwork.name,
-                        museum: _artwork.museum,
-                        category: _artwork.category,
-                        author: _artwork.author,
-                        description: _artwork.description,
-                        imageUrl: value,
-                      );
-                    },
-                  ))
+                    child: TextFormField(
+                      //initialValue: _initValues['imageUrl'],
+                      controller: _imageUrlController,
+                      focusNode: _imageUrlFocusNode,
+                      onEditingComplete: () {
+                        setState(() {});
+                      }, //this controller helps us refresh image
+                      decoration:
+                          inputDecoration('Image URL', Icons.image, color),
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      onSaved: (value) {
+                        _artwork = Artwork(
+                          id: _artwork.id,
+                          name: _artwork.name,
+                          museum: _artwork.museum,
+                          category: _artwork.category,
+                          author: _artwork.author,
+                          description: _artwork.description,
+                          imageUrl: value,
+                        );
+                      },
+                    ),
+                  )
                 ],
               ),
             ],
@@ -319,5 +322,30 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
         borderRadius: BorderRadius.circular(25.0),
       ),
     );
+  }
+
+  void _saveArtwork() {
+    final formIsValid = _formKey.currentState.validate();
+    if (!formIsValid) {
+      return;
+    }
+    _formKey.currentState.save();
+    print('Artwork id: ');
+    if (_artwork.id != null) {
+      print('Museum' + _artwork.museum);
+    } else {
+      print(_artwork.category);
+      //to do add
+    }
+    Navigator.of(context).pop();
+  }
+
+  void _updateImageUrl() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {
+        _imageUrlFocusNode.removeListener(_updateImageUrl);
+        FocusScope.of(context).requestFocus(FocusNode());
+      });
+    }
   }
 }
