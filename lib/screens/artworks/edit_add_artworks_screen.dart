@@ -18,6 +18,15 @@ class EditAddArtworksScreen extends StatefulWidget {
 
 class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
   bool _isInit = true;
+
+  var _initValues = {
+    'name': '',
+    'museum': '',
+    'category': '',
+    'description': '',
+    'imageUrl': '',
+    'author': ''
+  };
   var _artwork = Artwork(
       id: null,
       category: '',
@@ -33,6 +42,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
 
   final selectedCategory = TextEditingController();
   String category = "";
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -40,6 +50,15 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
       print(artworkId);
       if (artworkId != null) {
         _artwork = Provider.of<Artworks>(context).getById(artworkId);
+        _initValues = {
+          'name': _artwork.name,
+          'museum': _artwork.museum,
+          'category': _artwork.category,
+          'description': _artwork.description,
+          'imageUrl': _artwork.imageUrl,
+          'author': _artwork.author
+        };
+        print('Museum id ' + _artwork.museum);
       }
     }
     _isInit = false;
@@ -49,6 +68,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData color = Theme.of(context);
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
     Map<String, String> museumsMap = {};
     Provider.of<Museums>(context)
@@ -72,16 +92,19 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 12),
               TextFormField(
+                initialValue: _initValues['name'],
                 decoration: inputDecoration('Name', Icons.text_fields, color),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 12),
               DropDownField(
-                controller: selectedMuseum,
+                value: _initValues['museum'] != '' ? museumsMap[_initValues['museum']].toString() : null,
                 textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 icon: Icon(Icons.museum, color: color.primaryColor),
                 enabled: true,
+                required: true,
                 labelText: 'Museum',
                 items: museumsMap.values.toList(),
                 onValueChanged: (value) {
@@ -92,15 +115,15 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                   });
                 },
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 12),
               DropDownField(
-                controller: selectedCategory,
+                //controller: selectedCategory,
+                value: _initValues['category'] != '' ? categoryMap[_initValues['category']].toString() : null,
                 textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
                 icon: Icon(Icons.category, color: color.primaryColor),
                 labelText: 'Category',
+                required: true,
                 enabled: true,
                 items: categoryMap.values.toList(),
                 onValueChanged: (value) {
@@ -111,20 +134,20 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                   });
                 },
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 12),
               TextFormField(
+                initialValue: _initValues['author'],
                 decoration: inputDecoration('Author', Icons.person, color),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 12),
               TextFormField(
+                initialValue: _initValues['description'],
                 decoration:
                     inputDecoration('Description', Icons.description, color),
                 maxLines: 4,
                 keyboardType: TextInputType.multiline,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 12),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -142,36 +165,38 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                       ),
                     ),
                     child: FittedBox(
-                      child: Image.asset('assets/images/NoArtworks.png'),
+                      child: _initValues['imageUrl'] == ''
+                          ? Image.asset('assets/images/NoArtworks.png')
+                          : Image.network(_initValues['imageUrl']),
                       fit: BoxFit.contain,
                     ),
                   ),
                   Expanded(
                       child: TextFormField(
+                    initialValue: _initValues['imageUrl'],
                     decoration:
                         inputDecoration('Image URL', Icons.image, color),
                     keyboardType: TextInputType.url,
                   ))
                 ],
               ),
-            
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: color.highlightColor,
-        onPressed: () {
-          
-        },
-        child: IconButton(
-          icon: Icon(
-            Icons.check,
-            color: color.primaryColor,
-            size: 35,
-          ),
-        ),
-      ),
+      floatingActionButton: keyboardIsOpened
+          ? null
+          : FloatingActionButton(
+              backgroundColor: color.highlightColor,
+              onPressed: () {},
+              child: IconButton(
+                icon: Icon(
+                  Icons.check,
+                  color: color.primaryColor,
+                  size: 35,
+                ),
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -201,19 +226,3 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     );
   }
 }
-
-
-
-/*new InputDecoration(
-                      border: new OutlineInputBorder(
-                          borderSide: new BorderSide(color: Colors.teal)),
-                      hintText: 'Tell us about yourself',
-                      helperText: 'Keep it short, this is just a demo.',
-                      labelText: 'Life story',
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        color: Colors.green,
-                      ),
-                      prefixText: ' ',
-                      suffixText: 'USD',
-                      suffixStyle: const TextStyle(color: Colors.green)), */
