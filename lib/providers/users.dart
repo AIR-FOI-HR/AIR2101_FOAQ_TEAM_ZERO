@@ -10,16 +10,17 @@ import '../models/user.dart';
 class Users with ChangeNotifier {
   List<User> _users = [
     User(
-      id: 'u1',
-      name: 'Tomislav',
-      surname: 'Tomiek',
-      username: 'ttomiek',
-      email: 'ttomiek@foi.hr',
-      password:
-          'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
-      salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
-      userRole: '1',
-    ),
+        id: 'u1',
+        name: 'Tomislav',
+        surname: 'Tomiek',
+        username: 'ttomiek',
+        email: 'ttomiek@foi.hr',
+        password:
+            'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
+        salt:
+            'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
+        userRole: '1',
+        phoneNumber: '0951234567'),
     User(
       id: 'u2',
       name: 'Martin',
