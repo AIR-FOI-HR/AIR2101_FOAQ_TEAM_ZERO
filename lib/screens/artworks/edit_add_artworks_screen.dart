@@ -256,7 +256,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                           ),
                           child: FittedBox(
                             child: _imageUrlController.text.isEmpty
-                                ? Image.asset('assets/images/NoArtworks.png')
+                                ? Image.network('https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg')
                                 : Image.network(_imageUrlController.text),
                             fit: BoxFit.contain,
                           ),
