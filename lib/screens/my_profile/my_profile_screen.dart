@@ -3,6 +3,8 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/my_profile/user_picture.dart';
 
+import '../../widgets/my_profile/user_data_display.dart';
+
 class MyProfileScreen extends StatelessWidget {
   static const routeName = '/myProfile';
   @override
@@ -32,8 +34,8 @@ class MyProfileScreen extends StatelessWidget {
                     appBarProperty.preferredSize.height -
                     mediaQuery.padding.top -
                     30) *
-                0.6,
-            child: Text('da'),
+                0.45,
+            child: UserDataDisplay(),
           ),
         ],
       ),
