@@ -14,7 +14,10 @@ class UserPicture extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(100),
+          bottomLeft: Radius.circular(100),
+        ),
         color: Theme.of(context).primaryColor,
       ),
       width: double.infinity,
