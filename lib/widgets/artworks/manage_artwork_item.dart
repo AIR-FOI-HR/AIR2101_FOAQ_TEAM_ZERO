@@ -22,7 +22,7 @@ class ManageArtworkItem extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(EditAddArtworksScreen.routeName);
+                  Navigator.of(context).pushNamed(EditAddArtworksScreen.routeName, arguments: id);
                 }),
             IconButton(
                 icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
