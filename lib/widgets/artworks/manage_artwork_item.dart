@@ -15,7 +15,8 @@ class ManageArtworkItem extends StatelessWidget {
     return ListTile(
       title: Text(title),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: NetworkImage(imageUrl != '' ? imageUrl : 'https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png'),
+        radius: 35,
       ),
       trailing: Container(
         width: 100,
