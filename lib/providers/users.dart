@@ -19,8 +19,6 @@ class Users with ChangeNotifier {
           'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
       salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
       userRole: '1',
-      userImage:
-          'https://www.google.com/search?q=peapule+images&tbm=isch&ved=2ahUKEwj3oo-4yq71AhUVD-wKHVVqCHwQ2-cCegQIABAA&oq=peapule+images&gs_lcp=CgNpbWcQAzoGCAAQBxAeOgYIABAIEB46BAgAEBM6CAgAEAcQHhATUN0VWOEoYJkraABwAHgAgAFoiAHOBpIBAzcuMpgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=RgfgYffnH5WesAfV1KHgBw&bih=977&biw=1858&rlz=1C1KNTJ_enHR974HR974#imgrc=PVUpsL6JA8iopM',
     ),
     User(
       id: 'u2',
@@ -32,6 +30,7 @@ class Users with ChangeNotifier {
           'cb8e21e75482d6cc5d70478d36fdce4f5dd9cb530d638304b39a778e785250f9',
       salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
       userRole: '1',
+      userImage: 'https://i.imgur.com/BoN9kdC.png',
     )
   ];
 
