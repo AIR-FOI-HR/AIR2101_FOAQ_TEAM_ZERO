@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../providers/categories.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/categories/category_artwork_screen.dart';
-import '../screens/my_profile/my_profile_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -91,10 +90,7 @@ class MainMenuDrawer extends StatelessWidget {
             context,
             'My Profile',
             Icons.supervised_user_circle,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(MyProfileScreen.routeName);
-            },
+            () {},
           ),
           createDivider,
           createDrawerTile(
