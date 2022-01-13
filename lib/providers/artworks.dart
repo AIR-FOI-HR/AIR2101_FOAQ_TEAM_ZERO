@@ -12,7 +12,7 @@ class Artworks with ChangeNotifier {
 
   List<Artwork> _artworks = [];
   
-  List<Artwork> get getArtworks {
+  List<Artwork> get getArtworks{
     return [..._artworks];
   }
 
@@ -21,8 +21,13 @@ class Artworks with ChangeNotifier {
       final response = await http.get(urlArtworks);
       final extracedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Artwork> loadedArtworks = [];
-
+      print('Baza: '+ extracedData.length.toString());
+      print('Lokalno: '+ _artworks.length.toString());
+      if(extracedData.length == _artworks.length){
+        return;
+      }
       extracedData.forEach((id, artwork) { 
+        print('Dohvacam artwork');
         loadedArtworks.add(Artwork(
           id: id,
           category: artwork['category'],
