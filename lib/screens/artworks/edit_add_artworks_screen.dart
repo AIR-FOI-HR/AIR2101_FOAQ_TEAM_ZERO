@@ -51,8 +51,9 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
   @override
   void dispose() {
     _imageUrlController.dispose();
-    _imageUrlFocusNode.dispose();
     _imageUrlFocusNode.removeListener(_updateImageUrl);
+    _imageUrlFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -258,9 +259,17 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                       focusNode: _imageUrlFocusNode,
                       onEditingComplete: () {
                         setState(() {});
-                      }, //this controller helps us refresh image
+                      },
+                      //this controller helps us refresh image
                       decoration:
                           inputDecoration('Image URL', Icons.image, color),
+                      validator: (value) {
+                        if (!value.startsWith('http') &&
+                            !value.startsWith('https') && value != '') {
+                          return 'Please enter a valid URL';
+                        }
+                        return null;
+                      },
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       onSaved: (value) {
@@ -334,7 +343,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     if (_artwork.id != null) {
       print('Museum' + _artwork.museum);
     } else {
-      print(_artwork.category);
+      print(_artwork.imageUrl);
       //to do add
     }
     Navigator.of(context).pop();
