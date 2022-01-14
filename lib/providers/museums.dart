@@ -96,7 +96,11 @@ class Museums with ChangeNotifier {
     if (categoryId == 'c0') {
       return _museums;
     }
-    artworks.fetchAndSetArtworks();
+    try {
+      artworks.fetchAndSetArtworks();
+    } catch (error) {
+      throw (error);
+    }
     List<Artwork> categoryArtworks = artworks.getByCategory(categoryId);
     //print('Broj artworka: '+ categoryArtworks.length.toString());
     List<Museum> museumsFilter = [];
