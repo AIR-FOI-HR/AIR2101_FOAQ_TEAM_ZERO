@@ -19,11 +19,6 @@ class Artworks with ChangeNotifier {
       final response = await http.get(urlArtworks);
       final extracedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Artwork> loadedArtworks = [];
-      print('Baza: ' + extracedData.length.toString());
-      print('Lokalno: ' + _artworks.length.toString());
-      if (extracedData.length == _artworks.length) {
-        return;
-      }
       extracedData.forEach((id, artwork) {
         print('Dohvacam artwork');
         loadedArtworks.add(Artwork(
@@ -61,6 +56,11 @@ class Artworks with ChangeNotifier {
   }
 
   List<Artwork> getByCategory(String categoryId) {
+    try {
+      fetchAndSetArtworks();
+    } catch (error) {
+      throw (error);
+    }
     return _artworks
         .where((artwork) => artwork.category == categoryId)
         .toList();

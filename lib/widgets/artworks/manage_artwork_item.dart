@@ -8,14 +8,16 @@ class ManageArtworkItem extends StatelessWidget {
   final String title;
   final String imageUrl;
 
-  ManageArtworkItem(this.id, this.title,this.imageUrl);
+  ManageArtworkItem(this.id, this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl != '' ? imageUrl : 'https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png'),
+        backgroundImage: NetworkImage(imageUrl != ''
+            ? imageUrl
+            : 'https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png'),
         radius: 35,
       ),
       trailing: Container(
@@ -25,12 +27,21 @@ class ManageArtworkItem extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(EditAddArtworksScreen.routeName, arguments: id);
+                  Navigator.of(context).pushNamed(
+                      EditAddArtworksScreen.routeName,
+                      arguments: id);
                 }),
             IconButton(
                 icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
                 onPressed: () {
-                  Provider.of<Artworks>(context, listen: false).deleteArtwork(id);
+                  Provider.of<Artworks>(context, listen: false)
+                      .deleteArtwork(id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Deleted Artwork: '+title),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
                 }),
           ],
         ),
