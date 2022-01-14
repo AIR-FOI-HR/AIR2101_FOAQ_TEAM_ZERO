@@ -36,15 +36,18 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
             children: [
               UserLoginTitle('Login', constraints),
               SizedBox(
-                height: constraints.maxHeight * 0.03,
+                height: constraints.maxHeight * 0.05,
               ),
               Container(
-                margin: EdgeInsets.all(20),
+                margin: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                ),
                 child: Column(
                   children: [
                     Container(
                       height: constraints.maxHeight * 0.08,
-                      padding: EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20),
                       decoration: boxDecoration(context,
                           usernameBool ? Colors.red[100] : Colors.white),
                       child: TextField(
@@ -60,7 +63,7 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                     ),
                     Container(
                       height: constraints.maxHeight * 0.08,
-                      padding: EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20),
                       decoration: boxDecoration(context,
                           passwordBool ? Colors.red[100] : Colors.white),
                       child: TextField(
@@ -137,9 +140,9 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                         ),
                       ],
                     ),
-                    SizedBox(height: constraints.maxHeight * 0.12),
+                    SizedBox(height: constraints.maxHeight * 0.046),
                     Container(
-                      margin: EdgeInsets.only(left: 20, right: 20),
+                      margin: const EdgeInsets.only(left: 20, right: 20),
                       child: Column(
                         children: [
                           UserButton('I forgot my password', () {}),
