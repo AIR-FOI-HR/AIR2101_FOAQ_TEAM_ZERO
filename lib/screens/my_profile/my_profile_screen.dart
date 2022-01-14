@@ -19,25 +19,27 @@ class MyProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
-      body: Column(
-        children: [
-          Container(
-            height: (mediaQuery.size.height -
-                    appBarProperty.preferredSize.height -
-                    mediaQuery.padding.top) *
-                0.4,
-            child: UserPicture(),
-          ),
-          divider,
-          Container(
-            height: (mediaQuery.size.height -
-                    appBarProperty.preferredSize.height -
-                    mediaQuery.padding.top -
-                    30) *
-                0.45,
-            child: UserDataDisplay(),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: (mediaQuery.size.height -
+                      appBarProperty.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.4,
+              child: UserPicture(),
+            ),
+            divider,
+            Container(
+              height: (mediaQuery.size.height -
+                      appBarProperty.preferredSize.height -
+                      mediaQuery.padding.top -
+                      30) *
+                  0.45,
+              child: UserDataDisplay(),
+            ),
+          ],
+        ),
       ),
     );
   }
