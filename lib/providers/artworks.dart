@@ -43,10 +43,20 @@ class Artworks with ChangeNotifier {
   }
 
   List<Artwork> getByMuseumId(String id) {
+    try {
+      fetchAndSetArtworks();
+    } catch (error) {
+      throw (error);
+    }
     return _artworks.where((artwork) => artwork.museum == id).toList();
   }
 
   Artwork getById(String id) {
+    try {
+      fetchAndSetArtworks();
+    } catch (error) {
+      throw (error);
+    }
     return _artworks.firstWhere((artwork) => artwork.id == id);
   }
 
@@ -82,34 +92,39 @@ class Artworks with ChangeNotifier {
       _artworks.add(newArtwork);
       notifyListeners();
     } catch (error) {
-      print(error);
+      throw (error);
     }
   }
 
   Future<void> updateArtwork(String id, Artwork newArtwork) async {
     final artworkIndex = _artworks.indexWhere((artwork) => artwork.id == id);
     if (artworkIndex >= 0) {
-      final url = Uri.parse(
-          'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks/$id.json');
-      await http.patch(url, body: json.encode({
-        'author': newArtwork.author,
-        'category' : newArtwork.category,
-        'description': newArtwork.description,
-        'imageUrl':newArtwork.imageUrl,
-        'museum':newArtwork.museum,
-        'name':newArtwork.name
-      }));
-      _artworks[artworkIndex] = newArtwork;
-      notifyListeners();
-    }else{}
+      try {
+        final url = Uri.parse(
+            'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks/$id.json');
+        await http.patch(url,
+            body: json.encode({
+              'author': newArtwork.author,
+              'category': newArtwork.category,
+              'description': newArtwork.description,
+              'imageUrl': newArtwork.imageUrl,
+              'museum': newArtwork.museum,
+              'name': newArtwork.name
+            }));
+        _artworks[artworkIndex] = newArtwork;
+        notifyListeners();
+      } catch (error) {
+        throw error;
+      }
+    } else {}
   }
 
   Future<void> deleteArtwork(String id) {
     //to do -> optimistic deletion and error handling
-      final url = Uri.parse(
-          'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks/$id.json');
-      http.delete(url);
-      _artworks.removeWhere((artwork)=>artwork.id == id);
-      notifyListeners();
+    final url = Uri.parse(
+        'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks/$id.json');
+    http.delete(url);
+    _artworks.removeWhere((artwork) => artwork.id == id);
+    notifyListeners();
   }
 }
