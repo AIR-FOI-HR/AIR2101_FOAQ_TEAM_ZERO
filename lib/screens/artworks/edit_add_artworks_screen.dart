@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 
+import '../../widgets/error_dialog.dart';
 import '../../widgets/app_bar.dart';
 import '../../models/artwork.dart';
 import '../../providers/artworks.dart';
@@ -256,7 +257,8 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
                           ),
                           child: FittedBox(
                             child: _imageUrlController.text.isEmpty
-                                ? Image.network('https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg')
+                                ? Image.network(
+                                    'https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg')
                                 : Image.network(_imageUrlController.text),
                             fit: BoxFit.contain,
                           ),
@@ -352,37 +354,21 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     setState(() {
       _isLoading = true;
     });
-    print('Artwork id: ');
     if (_artwork.id != null) {
-      await Provider.of<Artworks>(context, listen: false)
-          .updateArtwork(_artwork.id, _artwork);
-    } else {
-      print(_artwork.imageUrl);
       try {
+        await Provider.of<Artworks>(context, listen: false)
+            .updateArtwork(_artwork.id, _artwork);
+      } catch (error) {
+        print(error);
+        await showErrorDialog(context);
+      }
+    } else {
+      try {
+        print(_artwork.imageUrl);
         await Provider.of<Artworks>(context, listen: false)
             .addArtwork(_artwork);
       } catch (error) {
-        await showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text(
-              'An error occurred!',
-              style: TextStyle(color: Colors.black),
-            ),
-            content: Text('Oops, something went wrong..'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text(
-                  'Okay',
-                  style: TextStyle(backgroundColor: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        );
+        await showErrorDialog(context);
       }
     }
     setState(() {

@@ -9,6 +9,7 @@ import '../../models/artwork.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/artworks/manage_artwork_item.dart';
+import '../../widgets/error_dialog.dart';
 
 import './edit_add_artworks_screen.dart';
 
@@ -28,19 +29,7 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
       _isLoading = true;
     });
     Provider.of<Artworks>(context).fetchAndSetArtworks().catchError((error) {
-        return showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error occurred!',style: TextStyle(color: Colors.black),),
-            content: Text('Oops, something went wrong..'),
-
-            actions: [
-              TextButton(onPressed: (){
-                Navigator.of(ctx).pop();
-              }, child: Text('Okay',style: TextStyle(backgroundColor: Colors.white),),),
-            ],
-          ),
-        );
+        showErrorDialog(context);
       }).then((_) {
       setState(() {
         _isLoading = false;
