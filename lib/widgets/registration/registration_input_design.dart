@@ -47,9 +47,15 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
               children: [
                 UserLoginTitle('Registration', constraints),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                  ),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: constraints.maxHeight * 0.04,
+                      ),
                       textField(
                         constraints,
                         usernameBool,
