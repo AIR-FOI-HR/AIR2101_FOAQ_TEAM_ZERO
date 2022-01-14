@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/users.dart';
 
 class UserPicture extends StatelessWidget {
-  final String user = 'ttomiek';
+  final String user = 'msakac';
 
   @override
   Widget build(BuildContext context) {
