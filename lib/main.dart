@@ -16,6 +16,7 @@ import './screens/login/login_screen.dart';
 import './screens/artworks/manage_artworks_screen.dart';
 import './screens/login/registration_screen.dart';
 import './screens/my_profile/my_profile_screen.dart';
+import './screens/my_profile/my_profile_editing_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -97,6 +98,7 @@ class MyApp extends StatelessWidget {
           ManageArtworksScreen.routeName: (ctx) => ManageArtworksScreen(),
           RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
           MyProfileScreen.routeName: (ctx) => MyProfileScreen(),
+          MyProfileEditingScreen.routeName: (ctx) => MyProfileEditingScreen(),
         },
       ),
     );
