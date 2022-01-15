@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../screens/my_profile/my_profile_editing_screen.dart';
+
 class SettingsButton extends StatelessWidget {
   BoxConstraints constraints;
   SettingsButton(this.constraints, {Key key}) : super(key: key);
@@ -16,7 +18,9 @@ class SettingsButton extends StatelessWidget {
       child: Center(
         child: SizedBox.expand(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(MyProfileEditingScreen.routeName);
+            },
             style: ElevatedButton.styleFrom(
               primary: color.highlightColor,
               shape: const RoundedRectangleBorder(
