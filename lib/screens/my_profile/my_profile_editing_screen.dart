@@ -163,6 +163,32 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                   return null;
                 },
               ),
+              TextFormField(
+                initialValue: _initValues['surname'],
+                decoration: const InputDecoration(labelText: 'Surname:'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_usernameFocusNode);
+                },
+                onSaved: (value) {
+                  _editedUser = User(
+                    id: _editedUser.id,
+                    name: _editedUser.name,
+                    surname: value,
+                    username: _editedUser.username,
+                    email: _editedUser.email,
+                    password: _editedUser.password,
+                    salt: _editedUser.salt,
+                    userRole: _editedUser.userRole,
+                  );
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a surname';
+                  }
+                  return null;
+                },
+              ),
             ],
           ),
         ),
