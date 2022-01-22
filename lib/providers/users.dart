@@ -136,4 +136,13 @@ class Users with ChangeNotifier {
       ),
     );
   }
+
+  void updateUser(String id, User userData) {
+    final userIndex =
+        _users.indexWhere((userDataElement) => userDataElement.id == id);
+    if (userIndex >= 0) {
+      _users[userIndex] = userData;
+      notifyListeners();
+    }
+  }
 }
