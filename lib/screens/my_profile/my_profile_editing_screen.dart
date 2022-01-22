@@ -123,7 +123,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
         backgroundColor: color.primaryColor,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: _saveForm,
             icon: const Icon(
               Icons.save_rounded,
               size: 32,
@@ -167,6 +167,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 initialValue: _initValues['surname'],
                 decoration: const InputDecoration(labelText: 'Surname:'),
                 textInputAction: TextInputAction.next,
+                focusNode: _surnameFocusNode,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_usernameFocusNode);
                 },
@@ -185,6 +186,33 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please provide a surname';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                initialValue: _initValues['username'],
+                decoration: const InputDecoration(labelText: 'Username:'),
+                textInputAction: TextInputAction.next,
+                focusNode: _usernameFocusNode,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_emailFocusNode);
+                },
+                onSaved: (value) {
+                  _editedUser = User(
+                    id: _editedUser.id,
+                    name: _editedUser.name,
+                    surname: _editedUser.surname,
+                    username: value,
+                    email: _editedUser.email,
+                    password: _editedUser.password,
+                    salt: _editedUser.salt,
+                    userRole: _editedUser.userRole,
+                  );
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a username';
                   }
                   return null;
                 },
