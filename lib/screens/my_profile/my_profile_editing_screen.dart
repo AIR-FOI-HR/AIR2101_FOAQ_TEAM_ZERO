@@ -288,6 +288,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 decoration: const InputDecoration(labelText: 'New password:'),
                 textInputAction: TextInputAction.next,
                 focusNode: _passwordFocusNode,
+                obscureText: true,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_imageUrlFocusNode);
                 },
@@ -321,6 +322,82 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     );
                   }
                 },
+                validator: (value) {
+                  if (value.isNotEmpty) {
+                    if (value.length <= 5) {
+                      return 'Please enter a password length greater than 5 characters';
+                    }
+                  }
+                  return null;
+                },
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.only(
+                      top: 8,
+                      right: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: _imageUrlController.text.isEmpty
+                        ? const Text('Enter a URL')
+                        : FittedBox(
+                            child: Image.network(_imageUrlController.text),
+                            fit: BoxFit.contain,
+                          ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Image URL'),
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      controller: _imageUrlController,
+                      focusNode: _imageUrlFocusNode,
+                      onFieldSubmitted: (_) {
+                        _saveForm();
+                      },
+                      validator: (value) {
+                        if (value.isNotEmpty) {
+                          if (value.isEmpty) {
+                            return 'Please enter an image URL';
+                          }
+                          if (!value.startsWith('http') &&
+                              !value.startsWith('https')) {
+                            return 'Please enter a valid URL';
+                          }
+                          if (!value.endsWith('.png') &&
+                              !value.endsWith('.jpg') &&
+                              !value.endsWith('.jpeg')) {
+                            return 'Please enter a valid image URL';
+                          }
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _editedUser = User(
+                          id: _editedUser.id,
+                          name: _editedUser.name,
+                          surname: _editedUser.surname,
+                          username: _editedUser.username,
+                          email: _editedUser.email,
+                          phoneNumber: _editedUser.phoneNumber,
+                          password: _editedUser.password,
+                          userRole: _editedUser.userRole,
+                          salt: _editedUser.salt,
+                          userImage: value.isEmpty ? null : value,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
