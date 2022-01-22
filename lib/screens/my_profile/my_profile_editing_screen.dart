@@ -152,6 +152,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: _editedUser.username,
                     email: _editedUser.email,
                     password: _editedUser.password,
+                    userRole: _editedUser.userRole,
+                    salt: _editedUser.salt,
+                    userImage: _editedUser.userImage,
                   );
                 },
                 validator: (value) {
@@ -177,6 +180,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: _editedUser.username,
                     email: _editedUser.email,
                     password: _editedUser.password,
+                    userRole: _editedUser.userRole,
+                    salt: _editedUser.salt,
+                    userImage: _editedUser.userImage,
                   );
                 },
                 validator: (value) {
@@ -202,6 +208,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: value,
                     email: _editedUser.email,
                     password: _editedUser.password,
+                    userRole: _editedUser.userRole,
+                    salt: _editedUser.salt,
+                    userImage: _editedUser.userImage,
                   );
                 },
                 validator: (value) {
@@ -227,6 +236,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: _editedUser.username,
                     email: value,
                     password: _editedUser.password,
+                    userRole: _editedUser.userRole,
+                    salt: _editedUser.salt,
+                    userImage: _editedUser.userImage,
                   );
                 },
                 validator: (value) {
@@ -256,7 +268,58 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     email: _editedUser.email,
                     phoneNumber: value,
                     password: _editedUser.password,
+                    userRole: _editedUser.userRole,
+                    salt: _editedUser.salt,
+                    userImage: _editedUser.userImage,
                   );
+                },
+                validator: (value) {
+                  if (value.isNotEmpty) {
+                    String pattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
+                    RegExp regExp = RegExp(pattern);
+                    if (!regExp.hasMatch(value)) {
+                      return 'Please provide a valid phone number';
+                    }
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'New password:'),
+                textInputAction: TextInputAction.next,
+                focusNode: _passwordFocusNode,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_imageUrlFocusNode);
+                },
+                onSaved: (value) {
+                  if (value.isEmpty) {
+                    _editedUser = User(
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      phoneNumber: _editedUser.phoneNumber,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                    );
+                  } else {
+                    _editedUser = User(
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      phoneNumber: _editedUser.phoneNumber,
+                      password:
+                          userDataProvider.useHash(value + _editedUser.salt),
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                    );
+                  }
                 },
               ),
             ],
