@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../providers/categories.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/categories/category_artwork_screen.dart';
+import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -91,6 +92,16 @@ class MainMenuDrawer extends StatelessWidget {
             'My Profile',
             Icons.supervised_user_circle,
             () {},
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Museum configuration',
+            Icons.edit_outlined,
+            () {
+              Navigator.of(context).pushReplacementNamed(
+                  SingleMuseumConfigurationScreen.routeName);
+            },
           ),
           createDivider,
           createDrawerTile(
