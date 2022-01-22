@@ -152,8 +152,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: _editedUser.username,
                     email: _editedUser.email,
                     password: _editedUser.password,
-                    salt: _editedUser.salt,
-                    userRole: _editedUser.userRole,
                   );
                 },
                 validator: (value) {
@@ -179,8 +177,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: _editedUser.username,
                     email: _editedUser.email,
                     password: _editedUser.password,
-                    salt: _editedUser.salt,
-                    userRole: _editedUser.userRole,
                   );
                 },
                 validator: (value) {
@@ -206,8 +202,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     username: value,
                     email: _editedUser.email,
                     password: _editedUser.password,
-                    salt: _editedUser.salt,
-                    userRole: _editedUser.userRole,
                   );
                 },
                 validator: (value) {
@@ -215,6 +209,54 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     return 'Please provide a username';
                   }
                   return null;
+                },
+              ),
+              TextFormField(
+                initialValue: _initValues['email'],
+                decoration: const InputDecoration(labelText: 'E-mail:'),
+                textInputAction: TextInputAction.next,
+                focusNode: _emailFocusNode,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_phoneFocusNode);
+                },
+                onSaved: (value) {
+                  _editedUser = User(
+                    id: _editedUser.id,
+                    name: _editedUser.name,
+                    surname: _editedUser.surname,
+                    username: _editedUser.username,
+                    email: value,
+                    password: _editedUser.password,
+                  );
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a email';
+                  }
+                  if (userDataProvider.isValidEmail(value)) {
+                    return 'Please provide a valid email';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                initialValue: _initValues['phone'],
+                decoration: const InputDecoration(labelText: 'Phone:'),
+                textInputAction: TextInputAction.next,
+                focusNode: _phoneFocusNode,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                },
+                onSaved: (value) {
+                  _editedUser = User(
+                    id: _editedUser.id,
+                    name: _editedUser.name,
+                    surname: _editedUser.surname,
+                    username: _editedUser.username,
+                    email: _editedUser.email,
+                    phoneNumber: value,
+                    password: _editedUser.password,
+                  );
                 },
               ),
             ],
