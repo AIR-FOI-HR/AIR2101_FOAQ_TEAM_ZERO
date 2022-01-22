@@ -7,6 +7,7 @@ import '../../screens/my_profile/my_profile_editing_screen.dart';
 class SettingsButton extends StatelessWidget {
   BoxConstraints constraints;
   SettingsButton(this.constraints, {Key key}) : super(key: key);
+  final username = 'msakac';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,8 @@ class SettingsButton extends StatelessWidget {
         child: SizedBox.expand(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(MyProfileEditingScreen.routeName);
+              Navigator.of(context).pushNamed(MyProfileEditingScreen.routeName,
+                  arguments: username);
             },
             style: ElevatedButton.styleFrom(
               primary: color.highlightColor,
