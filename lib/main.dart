@@ -15,6 +15,7 @@ import './screens/buy_ticket_screen.dart';
 import './screens/login/login_screen.dart';
 import './screens/artworks/manage_artworks_screen.dart';
 import './screens/login/registration_screen.dart';
+import './screens/single_musem_configuration/single_museum_configuration_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
                 ),
                 headline5: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Colors.black,
                 ),
                 headline4: TextStyle(
@@ -95,6 +96,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (ctx) => LoginScreen(),
           ManageArtworksScreen.routeName: (ctx) => ManageArtworksScreen(),
           RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
+          SingleMuseumConfigurationScreen.routeName: (ctx) =>
+              SingleMuseumConfigurationScreen(),
         },
       ),
     );
