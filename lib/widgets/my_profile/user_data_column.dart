@@ -18,11 +18,14 @@ class UserDataColumn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MyProfileAtributs('Full name:', '${userData.name} ${userData.surname}'),
+        MyProfileAtributs('Name:', userData.name),
         divider,
-        MyProfileAtributs('Email', userData.email),
+        MyProfileAtributs('Surname:', userData.surname),
         divider,
-        MyProfileAtributs('Phone:', userData.phoneNumber ?? 'not added'),
+        MyProfileAtributs('Email:', userData.email),
+        divider,
+        MyProfileAtributs('Phone:',
+            userData.phoneNumber.isEmpty ? 'not added' : userData.phoneNumber),
       ],
     );
   }

@@ -35,7 +35,7 @@ class MyProfileScreen extends StatelessWidget {
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top -
                       30) *
-                  0.45,
+                  0.55,
               child: UserDataDisplay(),
             ),
           ],

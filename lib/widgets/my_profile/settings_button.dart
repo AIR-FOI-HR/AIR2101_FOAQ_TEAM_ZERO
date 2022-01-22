@@ -15,7 +15,7 @@ class SettingsButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 80, right: 80),
       width: double.infinity,
-      height: constraints.maxHeight * 0.22,
+      height: constraints.maxHeight * 0.15,
       child: Center(
         child: SizedBox.expand(
           child: ElevatedButton(

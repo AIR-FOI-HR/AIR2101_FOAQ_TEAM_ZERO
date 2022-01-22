@@ -32,6 +32,7 @@ class Users with ChangeNotifier {
       salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
       userRole: '1',
       userImage: 'https://i.imgur.com/BoN9kdC.png',
+      phoneNumber: '',
     )
   ];
 
