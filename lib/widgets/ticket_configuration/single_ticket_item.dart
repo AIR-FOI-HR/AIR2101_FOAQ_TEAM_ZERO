@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/ticket.dart';
+import '../../screens/single_musem_configuration/ticket_crud_screen.dart';
 
 class SingleTicketItem extends StatelessWidget {
   final Ticket ticketData;
@@ -35,7 +36,10 @@ class SingleTicketItem extends StatelessWidget {
                 child: IconButton(
                   highlightColor: color.primaryColorLight,
                   padding: const EdgeInsets.all(0),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(TicketCrudScreen.routeName,
+                        arguments: ticketData.id);
+                  },
                   icon: const Icon(Icons.settings),
                 ),
               ),
