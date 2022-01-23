@@ -145,7 +145,11 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
                     Navigator.of(context).pop();
                   }),
                   if (_editedTicket.id != null)
-                    ElevatedButtonSetings('Delete', () {}),
+                    ElevatedButtonSetings('Delete', () {
+                      Provider.of<Tickets>(context, listen: false)
+                          .deleteTicketById(_editedTicket.id);
+                      Navigator.of(context).pop();
+                    }),
                   ElevatedButtonSetings('Save', _saveForm),
                 ],
               )
