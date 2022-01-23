@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/tickets.dart';
+import '../../screens/single_musem_configuration/ticket_crud_screen.dart';
 import './single_ticket_item.dart';
 
 class TicketConfiguration extends StatelessWidget {
@@ -11,7 +12,8 @@ class TicketConfiguration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ticketListData = Provider.of<Tickets>(context).getTickets(muesumId);
+    final ticketListData =
+        Provider.of<Tickets>(context, listen: false).getTickets(muesumId);
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final color = Theme.of(ctx);
@@ -52,7 +54,9 @@ class TicketConfiguration extends StatelessWidget {
                   icon: const Icon(
                     Icons.add,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(TicketCrudScreen.routeName);
+                  },
                 ),
               ),
             )
