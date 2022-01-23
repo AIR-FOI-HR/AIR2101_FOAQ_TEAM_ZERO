@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/users.dart';
 import '../../models/ticket.dart';
 import '../../providers/tickets.dart';
 import '../../widgets/ticket_configuration/elevated_button_settings.dart';
@@ -13,6 +14,7 @@ class TicketCrudScreen extends StatefulWidget {
 }
 
 class _TicketCrudScreenState extends State<TicketCrudScreen> {
+  final String loggedUserUsername = 'ttomiek';
   final _priceFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -20,6 +22,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     id: null,
     name: '',
     cost: '',
+    museumId: '',
   );
 
   @override
@@ -54,6 +57,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
 
   void _saveForm() {
     final isValid = _formKey.currentState.validate();
+    final ticketProv = Provider.of<Tickets>(context, listen: false);
     if (!isValid) {
       return;
     }
@@ -61,13 +65,15 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     if (_editedTicket.id != null) {
       //ticketPro.updateTicket(_editedTicket);
     } else {
-      //ticketPro.addNewTicket(_editedTicket);
+      ticketProv.addNewTicket(_editedTicket);
     }
-    //Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final museumId =
+        Provider.of<Users>(context).findByUsername(loggedUserUsername).museumId;
     final color = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -99,6 +105,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
                     id: _editedTicket.id,
                     name: value,
                     cost: _editedTicket.cost,
+                    museumId: museumId,
                   );
                 },
                 validator: (value) {
@@ -122,6 +129,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
                     id: _editedTicket.id,
                     name: _editedTicket.name,
                     cost: value,
+                    museumId: museumId,
                   );
                 },
                 validator: (value) {
