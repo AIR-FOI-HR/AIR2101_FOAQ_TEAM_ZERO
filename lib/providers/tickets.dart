@@ -43,4 +43,14 @@ class Tickets with ChangeNotifier {
     _tickets.removeWhere((ticketData) => ticketData.id == id);
     notifyListeners();
   }
+
+  void addNewTicket(Ticket ticket) {
+    final newTicket = Ticket(
+        id: (_tickets.length + 1).toString(),
+        name: ticket.name,
+        cost: ticket.cost,
+        museumId: ticket.museumId);
+    _tickets.add(newTicket);
+    notifyListeners();
+  }
 }
