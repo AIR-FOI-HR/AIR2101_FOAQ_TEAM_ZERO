@@ -38,4 +38,9 @@ class Tickets with ChangeNotifier {
   Ticket findById(String id) {
     return _tickets.firstWhere((ticketData) => ticketData.id == id);
   }
+
+  void deleteTicketById(String id) {
+    _tickets.removeWhere((ticketData) => ticketData.id == id);
+    notifyListeners();
+  }
 }
