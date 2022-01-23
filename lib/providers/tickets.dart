@@ -27,7 +27,7 @@ class Tickets with ChangeNotifier {
       id: '4',
       name: 'Family pack',
       cost: 25.00,
-      museumId: '2',
+      museumId: '1',
     ),
   ];
 
