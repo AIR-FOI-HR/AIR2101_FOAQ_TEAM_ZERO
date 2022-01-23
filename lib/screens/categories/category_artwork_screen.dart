@@ -11,7 +11,7 @@ class CategoryArtworkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int privileges = 0;
+    const int privileges = 0;
     final appBarProperty =
         appBar('Categories', context, Theme.of(context).primaryColor);
     final mediaQuery = MediaQuery.of(context);
@@ -21,7 +21,7 @@ class CategoryArtworkScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *

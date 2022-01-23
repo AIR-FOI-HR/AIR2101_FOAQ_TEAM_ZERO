@@ -8,6 +8,7 @@ import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/categories/category_artwork_screen.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/my_profile/my_profile_screen.dart';
+import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -95,6 +96,16 @@ class MainMenuDrawer extends StatelessWidget {
             () {
               Navigator.of(context)
                   .pushReplacementNamed(MyProfileScreen.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Museum configuration',
+            Icons.edit_outlined,
+            () {
+              Navigator.of(context).pushReplacementNamed(
+                  SingleMuseumConfigurationScreen.routeName);
             },
           ),
           createDivider,
