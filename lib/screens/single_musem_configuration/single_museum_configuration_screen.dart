@@ -13,10 +13,10 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loggedUserData =
-        Provider.of<Users>(context).findByUsername(logedUserUsername);
-    final museumData =
-        Provider.of<Museums>(context).getById(loggedUserData.museumId);
+    final loggedUserData = Provider.of<Users>(context, listen: false)
+        .findByUsername(logedUserUsername);
+    final museumData = Provider.of<Museums>(context, listen: false)
+        .getById(loggedUserData.museumId);
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColor,
