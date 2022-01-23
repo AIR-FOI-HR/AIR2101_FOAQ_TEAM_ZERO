@@ -63,7 +63,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     }
     _formKey.currentState.save();
     if (_editedTicket.id != null) {
-      //ticketPro.updateTicket(_editedTicket);
+      ticketProv.updateTicket(_editedTicket);
     } else {
       ticketProv.addNewTicket(_editedTicket);
     }
