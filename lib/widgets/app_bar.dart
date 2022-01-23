@@ -5,7 +5,7 @@ AppBar appBar(String title, BuildContext ctx, Color color) {
   return AppBar(
     title: Text(title),
     backgroundColor: color,
-    actions: title != 'Login'
+    actions: (title != 'Login' && title != 'Registration')
         ? <Widget>[
             IconButton(
               color: Colors.white,

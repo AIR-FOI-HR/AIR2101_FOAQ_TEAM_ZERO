@@ -10,16 +10,17 @@ import '../models/user.dart';
 class Users with ChangeNotifier {
   List<User> _users = [
     User(
-      id: 'u1',
-      name: 'Tomislav',
-      surname: 'Tomiek',
-      username: 'ttomiek',
-      email: 'ttomiek@foi.hr',
-      password:
-          'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
-      salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
-      userRole: '1',
-    ),
+        id: 'u1',
+        name: 'Tomislav',
+        surname: 'Tomiek',
+        username: 'ttomiek',
+        email: 'ttomiek@foi.hr',
+        password:
+            'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
+        salt:
+            'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
+        userRole: '1',
+        phoneNumber: '0951234567'),
     User(
       id: 'u2',
       name: 'Martin',
@@ -30,6 +31,8 @@ class Users with ChangeNotifier {
           'cb8e21e75482d6cc5d70478d36fdce4f5dd9cb530d638304b39a778e785250f9',
       salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
       userRole: '1',
+      userImage: 'https://i.imgur.com/BoN9kdC.png',
+      phoneNumber: '',
     )
   ];
 
@@ -133,5 +136,14 @@ class Users with ChangeNotifier {
         userRole: '0',
       ),
     );
+  }
+
+  void updateUser(String id, User userData) {
+    final userIndex =
+        _users.indexWhere((userDataElement) => userDataElement.id == id);
+    if (userIndex >= 0) {
+      _users[userIndex] = userData;
+      notifyListeners();
+    }
   }
 }
