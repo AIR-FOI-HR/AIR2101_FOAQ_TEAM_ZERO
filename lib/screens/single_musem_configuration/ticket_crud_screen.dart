@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/app_bar.dart';
 import '../../models/ticket.dart';
 import '../../providers/tickets.dart';
+import '../../widgets/ticket_configuration/elevated_button_settings.dart';
 
 class TicketCrudScreen extends StatefulWidget {
   static const routeName = '/EditTicket';
@@ -78,11 +78,15 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
+              Text(
+                'Please enter a ticket:',
+                style: color.textTheme.headline5,
+              ),
               TextFormField(
                 initialValue: _initValues['name'],
                 decoration: const InputDecoration(labelText: 'Ticket name:'),
@@ -133,6 +137,18 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButtonSetings('Cancel', () {
+                    Navigator.of(context).pop();
+                  }),
+                  if (_editedTicket.id != null)
+                    ElevatedButtonSetings('Delete', () {}),
+                  ElevatedButtonSetings('Save', _saveForm),
+                ],
+              )
             ],
           ),
         ),
