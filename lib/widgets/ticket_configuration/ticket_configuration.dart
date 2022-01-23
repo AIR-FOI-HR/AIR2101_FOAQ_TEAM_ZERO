@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/tickets.dart';
+import './single_ticket_item.dart';
 
 class TicketConfiguration extends StatelessWidget {
   final String muesumId;
@@ -33,9 +34,7 @@ class TicketConfiguration extends StatelessWidget {
                   itemBuilder: (_, i) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                          'name: ${ticketListData[i].name} cost: ${ticketListData[i].cost}'),
-                      Divider(),
+                      SingleTicketItem(ticketListData[i]),
                     ],
                   ),
                 ),
