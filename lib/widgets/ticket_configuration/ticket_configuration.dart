@@ -12,8 +12,7 @@ class TicketConfiguration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ticketListData =
-        Provider.of<Tickets>(context, listen: false).getTickets(muesumId);
+    final ticketListData = Provider.of<Tickets>(context).getTickets(muesumId);
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final color = Theme.of(ctx);
