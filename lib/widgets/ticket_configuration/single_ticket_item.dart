@@ -16,15 +16,16 @@ class SingleTicketItem extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 5,
+              flex: 2,
               child: Text(
                 ticketData.name,
                 style: const TextStyle(fontSize: 16),
               ),
             ),
             Expanded(
+              flex: 3,
               child: Text(
-                '${ticketData.cost}€',
+                '${ticketData.cost} €',
                 style: const TextStyle(fontSize: 16),
                 textAlign: TextAlign.right,
               ),

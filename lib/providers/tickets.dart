@@ -8,30 +8,34 @@ class Tickets with ChangeNotifier {
     Ticket(
       id: '1',
       name: 'Adult',
-      cost: 10.00,
+      cost: '10.00',
       museumId: '1',
     ),
     Ticket(
       id: '2',
       name: 'Students',
-      cost: 5.00,
+      cost: '5.00',
       museumId: '1',
     ),
     Ticket(
       id: '3',
       name: 'Family pack',
-      cost: 20.00,
+      cost: '20.00',
       museumId: '1',
     ),
     Ticket(
       id: '4',
       name: 'Family pack',
-      cost: 25.00,
+      cost: '25.00',
       museumId: '1',
     ),
   ];
 
   List<Ticket> getTickets(String id) {
     return _tickets.where((ticketData) => ticketData.museumId == id).toList();
+  }
+
+  Ticket findById(String id) {
+    return _tickets.firstWhere((ticketData) => ticketData.id == id);
   }
 }
