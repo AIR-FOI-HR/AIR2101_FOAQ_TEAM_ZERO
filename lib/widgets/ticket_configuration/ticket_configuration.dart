@@ -11,10 +11,10 @@ class TicketConfiguration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context);
     final ticketListData = Provider.of<Tickets>(context).getTickets(muesumId);
     return LayoutBuilder(
       builder: (ctx, constraints) {
+        final color = Theme.of(ctx);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,6 +40,22 @@ class TicketConfiguration extends StatelessWidget {
                 ),
               ),
             ),
+            Align(
+              alignment: Alignment.center,
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: color.highlightColor,
+                child: IconButton(
+                  color: color.primaryColor,
+                  splashRadius: 30,
+                  iconSize: 35,
+                  icon: const Icon(
+                    Icons.add,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            )
           ],
         );
       },
