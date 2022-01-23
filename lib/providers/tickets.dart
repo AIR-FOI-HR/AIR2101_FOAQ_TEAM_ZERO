@@ -53,4 +53,12 @@ class Tickets with ChangeNotifier {
     _tickets.add(newTicket);
     notifyListeners();
   }
+
+  void updateTicket(Ticket newTicket) {
+    final prodIndex = _tickets.indexWhere((prod) => prod.id == newTicket.id);
+    if (prodIndex >= 0) {
+      _tickets[prodIndex] = newTicket;
+      notifyListeners();
+    }
+  }
 }
