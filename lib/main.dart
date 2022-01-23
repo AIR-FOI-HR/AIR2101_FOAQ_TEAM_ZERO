@@ -6,6 +6,7 @@ import './providers/museums.dart';
 import './providers/categories.dart';
 import './providers/artworks.dart';
 import './providers/users.dart';
+import './providers/tickets.dart';
 
 import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Users(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Tickets(),
+        )
       ],
       child: MaterialApp(
         title: 'Museum Guide',
