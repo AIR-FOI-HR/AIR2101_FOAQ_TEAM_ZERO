@@ -19,6 +19,7 @@ import './screens/login/registration_screen.dart';
 import './screens/my_profile/my_profile_screen.dart';
 import './screens/my_profile/my_profile_editing_screen.dart';
 import './screens/single_musem_configuration/single_museum_configuration_screen.dart';
+import './screens/single_musem_configuration/ticket_crud_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
           MyProfileEditingScreen.routeName: (ctx) => MyProfileEditingScreen(),
           SingleMuseumConfigurationScreen.routeName: (ctx) =>
               SingleMuseumConfigurationScreen(),
+          TicketCrudScreen.routeName: (ctx) => TicketCrudScreen(),
         },
       ),
     );
