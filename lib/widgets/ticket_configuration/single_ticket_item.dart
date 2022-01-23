@@ -33,6 +33,7 @@ class SingleTicketItem extends StatelessWidget {
               child: SizedBox(
                 height: 30,
                 child: IconButton(
+                  highlightColor: color.primaryColorLight,
                   padding: const EdgeInsets.all(0),
                   onPressed: () {},
                   icon: const Icon(Icons.settings),
@@ -41,7 +42,9 @@ class SingleTicketItem extends StatelessWidget {
             )
           ],
         ),
-        const Divider(),
+        const Divider(
+          thickness: 2,
+        ),
       ],
     );
   }
