@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/work_times.dart';
-import '../ticket_configuration/elevated_button_settings.dart';
 import './work_time_row_data.dart';
 
 class MuseumWorkTime extends StatelessWidget {
@@ -29,15 +28,16 @@ class MuseumWorkTime extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  WorkTimeRowData('Day', 'From', 'To'),
+                  WorkTimeRowData('0', 'Day', 'From', 'To', false),
                   SizedBox(
-                    height: constraints.maxHeight * 0.55,
+                    height: constraints.maxHeight * 0.75,
                     child: ListView.builder(
                       itemCount: workTimeProv.length,
                       itemBuilder: (_, i) => Column(
                         children: [
                           const Divider(),
                           WorkTimeRowData(
+                            workTimeProv[i].id,
                             workTimeProv[i].day,
                             workTimeProv[i].timeFrom == null
                                 ? 'Closed'
@@ -45,6 +45,7 @@ class MuseumWorkTime extends StatelessWidget {
                             workTimeProv[i].timeTo == null
                                 ? 'Closed'
                                 : workTimeProv[i].timeTo.format(context),
+                            true,
                           ),
                         ],
                       ),
@@ -53,9 +54,6 @@ class MuseumWorkTime extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-                alignment: Alignment.center,
-                child: ElevatedButtonSetings('Edit work time', () {}))
           ],
         ),
       );
