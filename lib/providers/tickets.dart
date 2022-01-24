@@ -6,26 +6,59 @@ import '../models/ticket.dart';
 class Tickets with ChangeNotifier {
   List<Ticket> _tickets = [
     Ticket(
-      id: 't1',
+      id: '1',
       name: 'Adult',
-      cost: 10.00,
+      cost: '10.00',
       museumId: '1',
     ),
     Ticket(
-      id: 't2',
+      id: '2',
       name: 'Students',
-      cost: 5.00,
+      cost: '5.00',
       museumId: '1',
     ),
     Ticket(
-      id: 't3',
+      id: '3',
       name: 'Family pack',
-      cost: 20.00,
+      cost: '20.00',
+      museumId: '1',
+    ),
+    Ticket(
+      id: '4',
+      name: 'Family pack',
+      cost: '25.00',
       museumId: '1',
     ),
   ];
 
-  List getTickets(String id) {
-    return [..._tickets.where((ticketData) => ticketData.id == id)];
+  List<Ticket> getTickets(String id) {
+    return _tickets.where((ticketData) => ticketData.museumId == id).toList();
+  }
+
+  Ticket findById(String id) {
+    return _tickets.firstWhere((ticketData) => ticketData.id == id);
+  }
+
+  void deleteTicketById(String id) {
+    _tickets.removeWhere((ticketData) => ticketData.id == id);
+    notifyListeners();
+  }
+
+  void addNewTicket(Ticket ticket) {
+    final newTicket = Ticket(
+        id: (_tickets.length + 1).toString(),
+        name: ticket.name,
+        cost: ticket.cost,
+        museumId: ticket.museumId);
+    _tickets.add(newTicket);
+    notifyListeners();
+  }
+
+  void updateTicket(Ticket newTicket) {
+    final prodIndex = _tickets.indexWhere((prod) => prod.id == newTicket.id);
+    if (prodIndex >= 0) {
+      _tickets[prodIndex] = newTicket;
+      notifyListeners();
+    }
   }
 }
