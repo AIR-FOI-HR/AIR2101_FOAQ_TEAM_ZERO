@@ -12,7 +12,7 @@ class MuseumWorkTimeCrudScreen extends StatefulWidget {
 }
 
 class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
-  final _workTimeTo = FocusNode();
+  final _closingTime = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   var _editedWorkTime = WorkTime(
@@ -25,7 +25,7 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
 
   @override
   void dispose() {
-    _workTimeTo.dispose();
+    _closingTime.dispose();
     super.dispose();
   }
 
@@ -84,6 +84,28 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
         hour: int.parse(splittedTime[0]), minute: int.parse(splittedTime[1]));
   }
 
+  String timeValidator(String time) {
+    var splittedTime = time.split(':');
+
+    int minute = -1;
+    int sati = -1;
+
+    if (splittedTime.length == 2) {
+      sati = int.tryParse(splittedTime[0]) ?? -1;
+      minute = int.tryParse(splittedTime[1]) ?? -1;
+    }
+    if (sati == -1 && minute == -1) {
+      return 'Please provide a valid time, like 8:30';
+    }
+    if (sati < 0 || minute < 0) {
+      return 'Please provide time greater than zero';
+    }
+    if (sati > 24 || minute > 59) {
+      return 'Please provide a valid time, like: 0-24:0-59';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context);
@@ -99,7 +121,7 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -112,10 +134,11 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
               const SizedBox(height: 15),
               TextFormField(
                 initialValue: _initValues['timeFrom'],
-                decoration: const InputDecoration(labelText: 'Openig hour:'),
+                decoration: const InputDecoration(
+                    labelText: 'Opening hours (format: 8:00 or nothing):'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_workTimeTo);
+                  FocusScope.of(context).requestFocus(_closingTime);
                 },
                 onSaved: (value) {
                   _editedWorkTime = WorkTime(
@@ -125,6 +148,37 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
                     timeTo: _editedWorkTime.timeTo,
                     museumId: _editedWorkTime.museumId,
                   );
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return null;
+                  }
+                  return timeValidator(value);
+                },
+              ),
+              TextFormField(
+                initialValue: _initValues['timeTo'],
+                decoration: const InputDecoration(
+                    labelText: 'Closing hours (format: 8:00 or nothing):'),
+                textInputAction: TextInputAction.next,
+                focusNode: _closingTime,
+                onFieldSubmitted: (_) {
+                  _saveForm();
+                },
+                onSaved: (value) {
+                  _editedWorkTime = WorkTime(
+                    id: _editedWorkTime.id,
+                    day: _editedWorkTime.day,
+                    timeFrom: _editedWorkTime.timeFrom,
+                    timeTo: value.isEmpty ? null : convertStringToTime(value),
+                    museumId: _editedWorkTime.museumId,
+                  );
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return null;
+                  }
+                  return timeValidator(value);
                 },
               ),
             ],
