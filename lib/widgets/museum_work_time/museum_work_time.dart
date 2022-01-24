@@ -42,6 +42,7 @@ class MuseumWorkTime extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Work time',
