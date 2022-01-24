@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Museum Guide',
         theme: ThemeData(
           primaryColor: Color.fromRGBO(19, 92, 97, 1),
