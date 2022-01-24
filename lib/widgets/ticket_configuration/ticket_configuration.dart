@@ -50,9 +50,10 @@ class TicketConfiguration extends StatelessWidget {
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 25,
-                backgroundColor: color.highlightColor,
+                backgroundColor: color.buttonColor,
                 child: IconButton(
-                  color: color.primaryColor,
+                  color: color.shadowColor,
+                  highlightColor: color.buttonColor,
                   splashRadius: 30,
                   iconSize: 35,
                   icon: const Icon(
