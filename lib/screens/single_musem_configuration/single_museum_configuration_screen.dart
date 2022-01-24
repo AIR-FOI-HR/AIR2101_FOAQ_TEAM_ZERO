@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/work_time.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/museums.dart';
+import '../../providers/users.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
-import '../../providers/museums.dart';
-import '../../providers/users.dart';
 import '../../widgets/ticket_configuration/ticket_configuration.dart';
+import '../../widgets/museum_work_time/museum_work_time.dart';
 
 class SingleMuseumConfigurationScreen extends StatelessWidget {
   static const routeName = '/SingleMuseumConfiguration';
@@ -63,7 +66,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
                   0.4,
-              child: Text('TOO DOO need a work time block'),
+              child: MuseumWorkTime(museumData.id),
             ),
             divider,
             SizedBox(
