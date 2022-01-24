@@ -7,7 +7,6 @@ import './providers/categories.dart';
 import './providers/artworks.dart';
 import './providers/users.dart';
 import './providers/tickets.dart';
-import './providers/work_times.dart';
 
 import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
@@ -43,10 +42,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => Tickets(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => WorkTimes(),
-        ),
+        )
       ],
       child: MaterialApp(
         title: 'Museum Guide',
