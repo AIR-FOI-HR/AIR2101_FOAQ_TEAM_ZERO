@@ -30,15 +30,20 @@ class TicketConfiguration extends StatelessWidget {
               height: constraints.maxHeight * 0.65,
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
-                child: ListView.builder(
-                  itemCount: ticketListData.length,
-                  itemBuilder: (_, i) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SingleTicketItem(ticketListData[i]),
-                    ],
-                  ),
-                ),
+                child: ticketListData.isEmpty
+                    ? Text(
+                        'No museum tickets have been added yet!\n\nPlease add a new ticket, by clicking the button below',
+                        style: color.textTheme.headline4,
+                      )
+                    : ListView.builder(
+                        itemCount: ticketListData.length,
+                        itemBuilder: (_, i) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SingleTicketItem(ticketListData[i]),
+                          ],
+                        ),
+                      ),
               ),
             ),
             Align(
