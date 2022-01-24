@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import './providers/museums.dart';
 import './providers/categories.dart';
@@ -23,7 +24,13 @@ import './screens/single_musem_configuration/single_museum_configuration_screen.
 import './screens/single_musem_configuration/ticket_crud_screen.dart';
 import './screens/single_musem_configuration/museum_work_time_crud_screen.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+ 
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
