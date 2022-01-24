@@ -1,37 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/providers/work_times.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/work_times.dart';
+import '../ticket_configuration/elevated_button_settings.dart';
+import './work_time_row_data.dart';
 
 class MuseumWorkTime extends StatelessWidget {
   final String museumId;
 
   MuseumWorkTime(this.museumId);
-
-  Widget rowData(String day, String timeFrom, String timeTo) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: Text(
-            day,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            timeFrom,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            timeTo,
-            style: const TextStyle(fontSize: 16),
-          ),
-        )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +29,15 @@ class MuseumWorkTime extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  rowData('Day', 'From', 'To'),
+                  WorkTimeRowData('Day', 'From', 'To'),
                   SizedBox(
-                    height: constraints.maxHeight * 0.6,
+                    height: constraints.maxHeight * 0.55,
                     child: ListView.builder(
                       itemCount: workTimeProv.length,
                       itemBuilder: (_, i) => Column(
                         children: [
-                          Divider(),
-                          rowData(
+                          const Divider(),
+                          WorkTimeRowData(
                             workTimeProv[i].day,
                             workTimeProv[i].timeFrom == null
                                 ? 'Closed'
@@ -76,6 +53,9 @@ class MuseumWorkTime extends StatelessWidget {
                 ],
               ),
             ),
+            Align(
+                alignment: Alignment.center,
+                child: ElevatedButtonSetings('Edit work time', () {}))
           ],
         ),
       );
