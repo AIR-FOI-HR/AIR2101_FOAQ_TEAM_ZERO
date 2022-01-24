@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/models/work_time.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/museums.dart';
