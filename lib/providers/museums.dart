@@ -107,4 +107,13 @@ class Museums with ChangeNotifier {
     }
     return museumsFilter.toSet().toList();
   }
+
+  void updateMuseum(Museum editedMuseum) {
+    final museumIndex =
+        _museums.indexWhere((museumData) => museumData.id == editedMuseum.id);
+    if (museumIndex >= 0) {
+      _museums[museumIndex] = editedMuseum;
+      notifyListeners();
+    }
+  }
 }
