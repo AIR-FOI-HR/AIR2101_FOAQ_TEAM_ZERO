@@ -8,6 +8,7 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_configuration/ticket_configuration.dart';
 import '../../widgets/museum_work_time/museum_work_time.dart';
+import '../../widgets/single_musum_inforamtion/single_museum_inforamtion.dart';
 
 class SingleMuseumConfigurationScreen extends StatelessWidget {
   static const routeName = '/SingleMuseumConfiguration';
@@ -72,8 +73,8 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
-              child: Text('TOO DOO need a museum information blok'),
+                  0.5,
+              child: SingleMuseumInformation(museumData.id),
             ),
             divider,
             SizedBox(
