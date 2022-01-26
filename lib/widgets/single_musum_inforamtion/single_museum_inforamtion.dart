@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../models/museum.dart';
 import '../../providers/museums.dart';
 import '../../widgets/ticket_configuration/elevated_button_settings.dart';
+import '../../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 
 class SingleMuseumInformation extends StatefulWidget {
   final museumId;
@@ -75,6 +76,8 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     _formKey.currentState.save();
     Provider.of<Museums>(context, listen: false)
         .updateMuseum(_editedMuseumInformation);
+    Navigator.of(context)
+        .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
   }
 
   @override
@@ -202,7 +205,13 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                           );
                         },
                       ),
-                      ElevatedButtonSetings('Save', _saveForm),
+                      SizedBox(
+                        height: constraints.maxHeight * 0.03,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 90),
+                        child: ElevatedButtonSetings('Save', _saveForm),
+                      ),
                     ],
                   ),
                 ),
