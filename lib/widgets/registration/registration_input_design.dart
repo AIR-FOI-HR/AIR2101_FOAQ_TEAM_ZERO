@@ -8,6 +8,7 @@ import '../../providers/users.dart';
 import '../login/box_decoration_property.dart';
 import '../login/check_box.dart';
 import '../../screens/login/login_screen.dart';
+import '../utils.dart';
 
 class RegistrationInputDesign extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
       setState(() {
         _isLoading = false;
       });
-      print("REG: " + result);
+      showSnackBar(context, result);
     }
   }
 
