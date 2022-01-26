@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/museum.dart';
 import '../../providers/museums.dart';
+import '../../widgets/ticket_configuration/elevated_button_settings.dart';
 
 class SingleMuseumInformation extends StatefulWidget {
   final museumId;
@@ -71,8 +72,9 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     if (!isValid) {
       return;
     }
-    Provider.of<Museums>(context).updateMuseum(_editedMuseumInformation);
-    Navigator.of(context).pop();
+    _formKey.currentState.save();
+    Provider.of<Museums>(context, listen: false)
+        .updateMuseum(_editedMuseumInformation);
   }
 
   @override
@@ -153,6 +155,54 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                           return null;
                         },
                       ),
+                      TextFormField(
+                        initialValue: _initValues['description'],
+                        decoration: const InputDecoration(
+                            labelText: 'Museum description:'),
+                        textInputAction: TextInputAction.next,
+                        focusNode: _museumDescription,
+                        maxLines: 3,
+                        keyboardType: TextInputType.multiline,
+                        onSaved: (value) {
+                          _editedMuseumInformation = Museum(
+                            id: _editedMuseumInformation.id,
+                            name: _editedMuseumInformation.name,
+                            address: _editedMuseumInformation.address,
+                            description: value,
+                            imageUrl: _editedMuseumInformation.imageUrl,
+                            location: _editedMuseumInformation.location,
+                            tourDuration: _editedMuseumInformation.tourDuration,
+                          );
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please provide a Museum description';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _initValues['imageUrl'],
+                        decoration: const InputDecoration(
+                            labelText: 'Museum imageUrl:'),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          _saveForm();
+                        },
+                        keyboardType: TextInputType.multiline,
+                        onSaved: (value) {
+                          _editedMuseumInformation = Museum(
+                            id: _editedMuseumInformation.id,
+                            name: _editedMuseumInformation.name,
+                            address: _editedMuseumInformation.address,
+                            description: _editedMuseumInformation.description,
+                            imageUrl: value,
+                            location: _editedMuseumInformation.location,
+                            tourDuration: _editedMuseumInformation.tourDuration,
+                          );
+                        },
+                      ),
+                      ElevatedButtonSetings('Save', _saveForm),
                     ],
                   ),
                 ),
