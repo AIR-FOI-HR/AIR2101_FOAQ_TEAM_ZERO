@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-class Museum with ChangeNotifier{
+
+class Museum with ChangeNotifier {
   final String id;
   final String name;
   final String description;

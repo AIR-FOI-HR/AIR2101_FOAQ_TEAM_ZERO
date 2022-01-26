@@ -113,6 +113,7 @@ class Museums with ChangeNotifier {
         _museums.indexWhere((museumData) => museumData.id == editedMuseum.id);
     if (museumIndex >= 0) {
       _museums[museumIndex] = editedMuseum;
+
       notifyListeners();
     }
   }

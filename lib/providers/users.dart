@@ -20,7 +20,7 @@ class Users with ChangeNotifier {
       salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
       userRole: '1',
       phoneNumber: '0951234567',
-      museumId: '2',
+      museumId: '1',
     ),
     User(
       id: 'u2',
