@@ -26,4 +26,15 @@ class User {
     @required this.userRole,
     this.museumId,
   });
+
+  Map<String, dynamic> toJson() =>{
+    "id": id,
+    "name": name,
+    "surname": surname,
+    "email": email,
+    "phoneNumber": phoneNumber,
+    "userImage": userImage,
+    "userRole": userRole,
+    "museumId": museumId
+  };
 }
