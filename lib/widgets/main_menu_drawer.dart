@@ -9,11 +9,15 @@ import '../screens/categories/category_artwork_screen.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/my_profile/my_profile_screen.dart';
 import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
+import '../../models/user.dart';
+import '../../providers/users.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryData = Provider.of<Categories>(context);
+    User user = Provider.of<Users>(context).getUser();
+    //print(user.userRole);
     return Drawer(
       backgroundColor: Theme.of(context).primaryColorDark,
       child: ListView(
@@ -74,12 +78,9 @@ class MainMenuDrawer extends StatelessWidget {
           createDivider,
           createDrawerTile(
             context,
-            'Artworks',
-            Icons.settings_system_daydream,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ManageArtworksScreen.routeName);
-            },
+            'About us',
+            Icons.quick_contacts_mail_outlined,
+            () {},
           ),
           createDivider,
           createDrawerTile(
@@ -88,33 +89,43 @@ class MainMenuDrawer extends StatelessWidget {
             Icons.map_outlined,
             () {},
           ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'My Profile',
-            Icons.supervised_user_circle,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(MyProfileScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Museum configuration',
-            Icons.edit_outlined,
-            () {
-              Navigator.of(context).pushReplacementNamed(
-                  SingleMuseumConfigurationScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'About us',
-            Icons.quick_contacts_mail_outlined,
-            () {},
-          ),
+          if (user != null)
+            if (int.parse(user.userRole) > 0) ...[
+              //Obicni korisnik
+              createDivider,
+              createDrawerTile(
+                context,
+                'My Profile',
+                Icons.supervised_user_circle,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(MyProfileScreen.routeName);
+                },
+              ),
+              if (int.parse(user.userRole) > 2) ...[
+                //Admin
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Artworks',
+                  Icons.settings_system_daydream,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ManageArtworksScreen.routeName);
+                  },
+                ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum configuration',
+                  Icons.edit_outlined,
+                  () {
+                    Navigator.of(context).pushReplacementNamed(
+                        SingleMuseumConfigurationScreen.routeName);
+                  },
+                ),
+              ]
+            ]
         ],
       ),
     );
@@ -147,7 +158,6 @@ class MainMenuDrawer extends StatelessWidget {
           ),
         ),
         onTap: drawerTileFunction,
-        //() {          Navigator.of(ctx).pushReplacementNamed(routeName);        },
       ),
     );
   }
