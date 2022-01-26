@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String id;
@@ -26,6 +27,21 @@ class User {
     @required this.userRole,
     this.museumId,
   });
+
+  static User fromSnap(DocumentSnapshot snap){
+    var snapshot = snap.data() as Map<String, dynamic>;
+    return User(
+      id: snapshot["id"],
+      name: snapshot["name"],
+      surname: snapshot["surname"],
+      email: snapshot["email"],
+      phoneNumber: snapshot["phoneNumber"],
+      userImage: snapshot["userImage"],
+      userRole: snapshot["userRole"],
+      museumId: snapshot["museumId"]
+      
+    );
+  }
 
   Map<String, dynamic> toJson() =>{
     "id": id,
