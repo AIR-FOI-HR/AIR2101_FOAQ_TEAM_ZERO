@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:museum_app/firebase_resources/auth_methods.dart';
 
 import '../models/user.dart';
 
@@ -36,6 +37,25 @@ class Users with ChangeNotifier {
       phoneNumber: '',
     )
   ];
+  
+  
+  User _user;
+
+  final AuthMethods _authMethods = AuthMethods();
+
+  User getUser(){
+    if(_user == null){
+      return null;
+    }else{
+      return _user;
+    }
+  } 
+
+  Future<void> refreshUser() async {
+    User user = await _authMethods.getUserDetails();
+    _user = user;
+    notifyListeners();
+  }
 
   List<User> get getUsers {
     return [..._users];
