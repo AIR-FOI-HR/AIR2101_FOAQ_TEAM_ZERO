@@ -101,7 +101,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                 key: _formKey,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  height: constraints.maxHeight * 0.9,
+                  height: constraints.maxHeight * 0.75,
                   child: ListView(
                     children: [
                       TextFormField(
@@ -205,17 +205,16 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                           );
                         },
                       ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.03,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 90),
-                        child: ElevatedButtonSetings('Save', _saveForm),
-                      ),
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: constraints.maxHeight * 0.03,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButtonSetings('Save', _saveForm)),
             ],
           ),
         );
