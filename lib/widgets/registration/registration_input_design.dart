@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_resources/auth_methods.dart';
 import 'package:museum_app/widgets/login/user_login_title.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,21 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
   bool nameBool = false;
   bool surnameBool = false;
   bool passwordBool = false;
+
+  void registerUser() async {
+    String result = await AuthMethods().registerUser(
+      username: usernameControler.text,
+      email: emailControler.text,
+      name: nameControler.text,
+      surname: surnameControler.text,
+      password: passwordOneControler.text,
+    );
+    if (result == "Success") {
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    }else{
+      print("REG: " +result);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,16 +206,7 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
                                     !nameBool &&
                                     !surnameBool &&
                                     !passwordBool) {
-                                  userProvider.addNewUser(
-                                    usernameControler.text,
-                                    emailControler.text,
-                                    nameControler.text,
-                                    surnameControler.text,
-                                    passwordOneControler.text,
-                                  );
-
-                                  Navigator.of(context).pushReplacementNamed(
-                                      LoginScreen.routeName);
+                                  registerUser();
                                 }
                               },
                               child: FittedBox(
