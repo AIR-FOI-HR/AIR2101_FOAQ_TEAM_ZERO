@@ -31,8 +31,12 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
   bool nameBool = false;
   bool surnameBool = false;
   bool passwordBool = false;
+  bool _isLoading = false;
 
   void registerUser() async {
+    setState(() {
+      _isLoading = true;
+    });
     String result = await AuthMethods().registerUser(
       username: usernameControler.text,
       email: emailControler.text,
@@ -41,9 +45,15 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
       password: passwordOneControler.text,
     );
     if (result == "Success") {
+      setState(() {
+        _isLoading = false;
+      });
       Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-    }else{
-      print("REG: " +result);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      print("REG: " + result);
     }
   }
 
@@ -210,10 +220,18 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
                                 }
                               },
                               child: FittedBox(
-                                child: Text(
-                                  'Register',
-                                  style: color.textTheme.headline1,
-                                ),
+                                child: _isLoading
+                                    ? SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: CircularProgressIndicator(
+                                            strokeWidth: 3,
+                                            color: color.primaryColor),
+                                      )
+                                    : Text(
+                                        'Register',
+                                        style: color.textTheme.headline1,
+                                      ),
                               ),
                             ),
                           ),
