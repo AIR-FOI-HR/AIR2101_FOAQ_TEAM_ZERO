@@ -81,4 +81,30 @@ class AuthMethods {
     }
     return result;
   }
+
+Future<bool> isLoggedIn() async{
+  User currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      return false;
+    } else {
+      return true;
+    }
+}
+
+
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      return null;
+    } else {
+      DocumentSnapshot documentSnapshot =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+      return model.User.fromSnap(documentSnapshot);
+    }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+    getUserDetails();
+  }
 }
