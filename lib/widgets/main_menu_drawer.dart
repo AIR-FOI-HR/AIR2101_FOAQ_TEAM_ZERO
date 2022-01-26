@@ -9,6 +9,7 @@ import '../screens/categories/category_artwork_screen.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/my_profile/my_profile_screen.dart';
 import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
+import '../screens/ticket_purchase/ticket_purchase_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -106,6 +107,16 @@ class MainMenuDrawer extends StatelessWidget {
             () {
               Navigator.of(context).pushReplacementNamed(
                   SingleMuseumConfigurationScreen.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Ticket',
+            Icons.panorama_horizontal,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(TicketPurchaseScreen.routeName);
             },
           ),
           createDivider,
