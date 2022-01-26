@@ -16,7 +16,7 @@ class AuthMethods {
     @required String surname,
     @required String password,
   }) async {
-    String result = "Error while registering user";
+    String result = "Ugh Ough, something went wront!";
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -47,8 +47,36 @@ class AuthMethods {
         case "weak-password":
           result = "Password should be at least 6 characters";
           break;
+      }
+    }
+    return result;
+  }
+
+  Future<String> loginUser({
+    @required String email,
+    @required String password,
+  }) async {
+    String result = "Ugh Ough, something went wront!";
+    try {
+      await _auth.signInWithEmailAndPassword(
+          email: email.replaceAll(' ', ''), password: password);
+
+      result = "Success";
+    } catch (error) {
+      print(error
+          .code); //invalid-email, null kad nemam nicega, wrong password, user-not-found
+      switch (error.code) {
+        case "invalid-email":
+          result = "Oops! E-mail is not valid or is not registered";
+          break;
+        case "wrong-password":
+          result = "Oops! Wrong password";
+          break;
+        case "user-not-found":
+          result = "Oops! E-mail is not valid or is not registered";
+          break;
         default:
-          result= "Ugh Ough, something went wront!";
+          result = "Oops! You need to enter Email and Password";
       }
     }
     return result;
