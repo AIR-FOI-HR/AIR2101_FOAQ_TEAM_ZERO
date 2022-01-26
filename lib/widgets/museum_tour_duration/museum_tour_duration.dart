@@ -42,7 +42,9 @@ class _MuseumTourDurationState extends State<MuseumTourDuration> {
         _editedMuseumInformation =
             Provider.of<Museums>(context, listen: false).getById(museumId);
         _initValues = {
-          'tourDuration': _editedMuseumInformation.tourDuration.toInt(),
+          'tourDuration': _editedMuseumInformation.tourDuration == null
+              ? 0
+              : _editedMuseumInformation.tourDuration.toInt(),
         };
       }
     }
