@@ -210,7 +210,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                 ),
               ),
               SizedBox(
-                height: constraints.maxHeight * 0.03,
+                height: constraints.maxHeight * 0.02,
               ),
               Align(
                   alignment: Alignment.center,

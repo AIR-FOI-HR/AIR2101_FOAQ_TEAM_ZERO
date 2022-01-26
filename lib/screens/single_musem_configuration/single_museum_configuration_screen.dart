@@ -74,7 +74,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.52,
+                  0.58,
               child: SingleMuseumInformation(museumData.id),
             ),
             divider,
