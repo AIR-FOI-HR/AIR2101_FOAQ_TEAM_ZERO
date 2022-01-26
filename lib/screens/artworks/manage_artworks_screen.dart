@@ -6,16 +6,19 @@ import '../../providers/artworks.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/artworks/manage_artwork_item.dart';
+import '../../models/user.dart';
+import '../../providers/users.dart';
 class ManageArtworksScreen extends StatelessWidget {
   static const routeName = '/artworks';
-
+  User appUser;
   @override
   Widget build(BuildContext context) {
     ThemeData color = Theme.of(context);
     final artworks = Provider.of<Artworks>(context).getArtworks;
+    appUser = Provider.of<Users>(context).getUser();
 
     return Scaffold(
-        appBar: appBar('Artworks', context, Theme.of(context).primaryColor),
+        appBar: appBar('Artworks', context, Theme.of(context).primaryColor, appUser),
         body: ListView.builder(
           itemCount: artworks.length,
           itemBuilder: (_, i) =>Column(children: [

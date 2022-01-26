@@ -4,6 +4,10 @@ import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/categories/showing/category_artwork_grid.dart';
 import '../../widgets/categories/showing/save_button.dart';
 import '../../widgets/categories/editing/add_new_category_button.dart';
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
+
 
 //tomekovo
 class CategoryArtworkScreen extends StatelessWidget {
@@ -11,9 +15,10 @@ class CategoryArtworkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
     const int privileges = 0;
     final appBarProperty =
-        appBar('Categories', context, Theme.of(context).primaryColor);
+        appBar('Categories', context, Theme.of(context).primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: appBarProperty,

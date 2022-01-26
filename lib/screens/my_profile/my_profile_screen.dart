@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/my_profile/user_picture.dart';
-
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/my_profile/user_data_display.dart';
 
 class MyProfileScreen extends StatelessWidget {
   static const routeName = '/myProfile';
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
-        appBar('My profile', context, Theme.of(context).primaryColor);
+        appBar('My profile', context, Theme.of(context).primaryColor,appUser);
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColor,

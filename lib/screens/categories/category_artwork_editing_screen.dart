@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/app_bar.dart';
@@ -13,9 +15,10 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
     final categoryItemId = ModalRoute.of(context).settings.arguments as String;
     final appBarProperty =
-        appBar('Categories', context, Theme.of(context).primaryColor);
+        appBar('Categories', context, Theme.of(context).primaryColor, appUser);
     final categoryItems = Provider.of<Categories>(context);
     final categoryItemData = categoryItems.findById(categoryItemId);
     final mediaQuery = MediaQuery.of(context);

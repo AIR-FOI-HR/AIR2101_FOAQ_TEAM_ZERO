@@ -6,8 +6,9 @@ import '../../widgets/homepage/dropdown_category.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/app_bar.dart';
 import '../../models/museum.dart';
+import '../../models/user.dart';
 import '../../providers/museums.dart';
-
+import '../../providers/users.dart';
 class MuseumsOverviewScreen extends StatefulWidget {
   @override
   State<MuseumsOverviewScreen> createState() => _MuseumsOverviewScreenState();
@@ -18,7 +19,8 @@ class MuseumsOverviewScreen extends StatefulWidget {
 class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   //List<Museum> museumSearch; //this list is used for searching result
   List<Museum> museumsForWidget; //this list is used when passing data to MuseumsGrid widget
-  List<Museum> mainMuseumList; //this list is used for getting all museums and filtering,
+  List<Museum> mainMuseumList;
+  User appUser; //this list is used for getting all museums and filtering,
                               //also it is used when searching
   String query = '';
   String category ='c0';
@@ -26,6 +28,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   @override
   void didChangeDependencies() {
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
+    appUser = Provider.of<Users>(context).getUser();
     museumsForWidget = mainMuseumList;
     super.didChangeDependencies();
   }
@@ -34,7 +37,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   Widget build(BuildContext context) {
     print('rebildam skrin');
     return Scaffold(
-      appBar: appBar('Museum app', context, Theme.of(context).primaryColor),
+      appBar: appBar('Museum app', context, Theme.of(context).primaryColor,appUser),
       body: SingleChildScrollView(
         //remove this SingleChildScroolView if search is fixed
         child: Column(

@@ -25,6 +25,17 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
   bool passwordBool = false;
   bool _isLoading = false;
 
+  void refreshUser() async{
+  Users _userProvider = Provider.of<Users>(context, listen: false);
+    await _userProvider.refreshUser();
+  } 
+
+  @override
+  void initState() {
+    refreshUser();
+    super.initState();
+  }
+
   void loginUser() async {
     setState(() {
       _isLoading = true;
@@ -32,6 +43,8 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
     String result = await AuthMethods().loginUser(
         email: emailController.text, password: passwordControler.text);
     if (result == "Success") {
+      Users _userProvider = Provider.of<Users>(context, listen: false);
+      await _userProvider.refreshUser();
       Navigator.of(context).pushReplacementNamed('/');
       setState(() {
         _isLoading = true;

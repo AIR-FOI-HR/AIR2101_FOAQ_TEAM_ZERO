@@ -8,7 +8,9 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_configuration/ticket_configuration.dart';
 import '../../widgets/museum_work_time/museum_work_time.dart';
-
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
 class SingleMuseumConfigurationScreen extends StatelessWidget {
   static const routeName = '/SingleMuseumConfiguration';
   final logedUserUsername = 'ttomiek';
@@ -23,10 +25,11 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
       thickness: 2,
       color: Theme.of(context).primaryColor,
     );
+    User appUser = Provider.of<Users>(context).getUser();
     final color = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
-        appBar('Museum configuration', context, color.primaryColor);
+        appBar('Museum configuration', context, color.primaryColor,appUser);
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
