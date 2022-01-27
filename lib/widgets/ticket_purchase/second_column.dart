@@ -14,8 +14,10 @@ class SecondColumn extends StatelessWidget {
         FittedBox(
           fit: BoxFit.cover,
           child: Text(
-            'Capacity 50',
-            style: color.textTheme.headline5,
+            'Capacity ' +
+                (museumData.capacity == null
+                    ? '0'
+                    : museumData.capacity.toString()),
           ),
         ),
         const SizedBox(height: 5),
