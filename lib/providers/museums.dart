@@ -77,6 +77,7 @@ class Museums with ChangeNotifier {
   ];
 
   List<Museum> get getMuseums {
+    print(_museums.length);
     return [..._museums];
   }
 

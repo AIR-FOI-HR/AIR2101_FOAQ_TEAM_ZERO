@@ -27,7 +27,6 @@ class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
       await Provider.of<Categories>(context, listen: false).fetchCategories();
     }
 
-    const int privileges = 0;
     final appBarProperty =
         appBar('Categories', context, Theme.of(context).primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);

@@ -6,17 +6,18 @@ import '../../../screens/categories/category_artwork_editing_screen.dart';
 class CategoryArtworkItem extends StatefulWidget {
   final String id;
   final String name;
+  final int userRole;
 
-  CategoryArtworkItem(this.id, this.name);
+  CategoryArtworkItem(this.id, this.name, this.userRole);
   @override
   State<CategoryArtworkItem> createState() => _CategoryArtworkItemState();
 }
 
 class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
   var _showSelectedCategory = false;
-  final int privileges = 0;
   @override
   Widget build(BuildContext context) {
+
     final categoryData = Provider.of<Categories>(context);
     return Container(
       decoration: BoxDecoration(
@@ -32,7 +33,7 @@ class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
           style: Theme.of(context).textTheme.headline4,
         ),
         onPressed: () {
-          if (privileges == 0) {
+          if (widget.userRole > 3) {
             setState(() {
               if (_showSelectedCategory) {
                 categoryData.removeSelectedCategory(widget.id);
@@ -41,7 +42,7 @@ class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
               }
               _showSelectedCategory = !_showSelectedCategory;
             });
-          } else if (privileges == 1) {
+          } else{
             Navigator.of(context).pushNamed(
               CategoryArtworkEditingScreen.routeName,
               arguments: widget.id,
