@@ -7,13 +7,10 @@ class MuseumImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Image.asset(
-        imageUrl,
-        height: 150,
-        fit: BoxFit.fill,
-      ),
+    return Image.asset(
+      imageUrl,
+      height: 150,
+      fit: BoxFit.fill,
     );
   }
 }
