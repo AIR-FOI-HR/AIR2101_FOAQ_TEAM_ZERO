@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/providers/work_times.dart';
 import 'package:provider/provider.dart';
 
 import '../homepage/search_bar.dart';
@@ -6,6 +7,7 @@ import '../../models/museum.dart';
 import '../../providers/museums.dart';
 import '../../widgets/homepage/dropdown_category.dart';
 import './buy_ticket_single_museum.dart';
+import '../../providers/museums.dart';
 
 class BuyTicket extends StatefulWidget {
   @override
@@ -65,7 +67,7 @@ class _BuyTicketState extends State<BuyTicket> {
                 SizedBox(height: constraints.maxHeight * 0.03),
                 museumsForWidget.isEmpty
                     ? Padding(
-                        padding: EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 20),
                         child: Image.asset(
                           'assets/images/NoArtworks.png',
                           fit: BoxFit.fill,
@@ -77,7 +79,9 @@ class _BuyTicketState extends State<BuyTicket> {
                           itemBuilder: (_, i) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              BuyTicketSingleMuseum(museumsForWidget[i]),
+                              if (Provider.of<WorkTimes>(context)
+                                  .ifTheWorkTimeExist(museumsForWidget[i].id))
+                                BuyTicketSingleMuseum(museumsForWidget[i], i),
                             ],
                           ),
                         ),
