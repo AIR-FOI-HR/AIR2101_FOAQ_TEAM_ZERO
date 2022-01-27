@@ -10,18 +10,21 @@ import './category_artwork_item.dart';
 class CategoryArtworkGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categoryData = Provider.of<Categories>(context); 
+    final categoryData = Provider.of<Categories>(context);
 
     User appUser = Provider.of<Users>(context, listen: false).getUser();
     int userRole = appUser == null ? 0 : int.parse(appUser.userRole);
-
+    final categories = categoryData.items;
     return GridView.builder(
       padding: const EdgeInsets.all(10),
-      itemCount: categoryData.items.length,
-      itemBuilder: (ctx, i) => CategoryArtworkItem(
-        categoryData.items[i].id,
-        categoryData.items[i].name,
-        userRole
+      itemCount: categories.length,
+      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+        value: categories[i],
+        child: CategoryArtworkItem(
+          categories[i].id,
+          categories[i].name,
+          userRole,
+        ),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
