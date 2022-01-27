@@ -9,38 +9,9 @@ import 'package:museum_app/firebase_resources/auth_methods.dart';
 import '../models/user.dart';
 
 class Users with ChangeNotifier {
-  List<User> _users = [
-    User(
-      id: 'u1',
-      name: 'Tomislav',
-      surname: 'Tomiek',
-      username: 'ttomiek',
-      email: 'ttomiek@foi.hr',
-      password:
-          'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
-      salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
-      userRole: '1',
-      phoneNumber: '0951234567',
-      museumId: '2',
-    ),
-    User(
-      id: 'u2',
-      name: 'Martin',
-      surname: 'Sakač',
-      username: 'msakac',
-      email: 'msakac@foi.hr',
-      password:
-          'cb8e21e75482d6cc5d70478d36fdce4f5dd9cb530d638304b39a778e785250f9',
-      salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
-      userRole: '1',
-      userImage: 'https://i.imgur.com/BoN9kdC.png',
-      phoneNumber: '',
-    )
-  ];
   
-  
+  List<User> _users = [];
   User _user;
-
   final AuthMethods _authMethods = AuthMethods();
 
   User getUser(){
