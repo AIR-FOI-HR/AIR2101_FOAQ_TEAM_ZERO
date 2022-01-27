@@ -10,7 +10,6 @@ class UserDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<Users>(context).getUser();
-    print(userData.userImage);
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColorDark,
