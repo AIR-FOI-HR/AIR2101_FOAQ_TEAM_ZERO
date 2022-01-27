@@ -11,17 +11,18 @@ import 'package:provider/provider.dart';
 import '../providers/museums.dart';
 
 import '../screens/buy_ticket_screen.dart';
+import '../screens/login/login_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
       '/museum-detail'; //namedroute for pushing named from MuseumOverviewScree
 
-void _launchURL(String url) async{
-  if(url == null){
-    return;
+  void _launchURL(String url) async {
+    if (url == null) {
+      return;
+    }
+    if (!await launch(url)) throw 'Could not open $url';
   }
-  if(!await launch(url)) throw 'Could not open $url';
- }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,8 @@ void _launchURL(String url) async{
     final museum = Provider.of<Museums>(context)
         .getById(museumId); //get museum by id from Museums provider
     return Scaffold(
-      appBar: appBar(museum.name, context, Theme.of(context).highlightColor,appUser),
+      appBar: appBar(
+          museum.name, context, Theme.of(context).highlightColor, appUser),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -61,7 +63,7 @@ void _launchURL(String url) async{
             ),
             //description, map and addres
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10,bottom: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,8 +74,7 @@ void _launchURL(String url) async{
                       children: [
                         //description
                         Container(
-                          color:
-                              Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
                           child: Column(
                             children: [
                               Container(
@@ -149,7 +150,7 @@ void _launchURL(String url) async{
                             Padding(
                               padding: const EdgeInsets.all(5),
                               child: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   print(museum.location);
                                   _launchURL(museum.location);
                                 },
@@ -180,7 +181,7 @@ void _launchURL(String url) async{
               endIndent: 50,
               indent: 50,
             ),
-           //'museum' gallery
+            //'museum' gallery
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(left: 15, bottom: 5),
@@ -195,7 +196,9 @@ void _launchURL(String url) async{
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
         onPressed: () {
-          Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
+          appUser == null
+              ? Navigator.of(context).pushNamed(LoginScreen.routeName)
+              : Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
         },
         child: IconButton(
           icon: Icon(
