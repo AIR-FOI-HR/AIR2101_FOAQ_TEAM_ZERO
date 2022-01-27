@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/models/category_artwork.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
@@ -75,9 +77,14 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
                   Navigator.of(context)
                       .pushReplacementNamed(CategoryArtworkScreen.routeName);
                 }),
-              CrudElevatedButton(categoryItemId == null ? 'Add' : 'Save', () {
-                categoryItems.addCategory(
-                    categoryItemId, categoryNameControler.text);
+              CrudElevatedButton('Save', () {
+                CategoryArtwork newCategory =
+                    CategoryArtwork(name: categoryNameControler.text);
+                categoryItemId == null
+                    ? DBCaller.createCategory(newCategory)
+                    : null; //TODO
+                // categoryItems.addCategory(
+                //     categoryItemId, categoryNameControler.text);
                 Navigator.of(context)
                     .pushReplacementNamed(CategoryArtworkScreen.routeName);
               })
