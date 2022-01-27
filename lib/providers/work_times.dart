@@ -53,6 +53,20 @@ class WorkTimes with ChangeNotifier {
       timeTo: const TimeOfDay(hour: 20, minute: 0),
       museumId: '1',
     ),
+    WorkTime(
+      id: '7',
+      day: 'Thursday',
+      timeFrom: const TimeOfDay(hour: 8, minute: 0),
+      timeTo: const TimeOfDay(hour: 20, minute: 0),
+      museumId: '3',
+    ),
+    WorkTime(
+      id: '8',
+      day: 'Thursday',
+      timeFrom: const TimeOfDay(hour: 8, minute: 0),
+      timeTo: const TimeOfDay(hour: 20, minute: 0),
+      museumId: '4',
+    ),
   ];
 
   List days = [

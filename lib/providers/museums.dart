@@ -22,6 +22,7 @@ class Museums with ChangeNotifier {
             'The exposition represents an itinerary through history going from the VII century B.C. to the IV century A.D. brought to life through the accurate reconstruction of helmets and armour of the Roman legions and gladiators, showing over a millenium of history through the most representative weaponry of Roman army and its enemies. Set on two floors, in the basement there is the chance to see and touch the autentique columns of the ancient Stadium of Domitian and to take photos into the gladiators’ prison.',
         tourDuration: 45,
         imageUrl: 'assets/images/Gladiator.png',
+        capacity: 10,
         location:
             'https://www.google.com/maps/place/Gladiator+museum/@41.8989508,12.4712464,17z/data=!3m1!4b1!4m5!3m4!1s0x132f604fe38ab94f:0x1bbf5eaf6454aaf5!8m2!3d41.8989508!4d12.4734351'),
     Museum(
