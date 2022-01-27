@@ -89,7 +89,7 @@ class Users with ChangeNotifier {
   }
 
   bool isValidEmail(String email) {
-    if (email == null || email.isEmpty || !EmailValidator.validate(email)) {
+    if (email == null || email.isEmpty || !EmailValidator.validate(email.replaceAll(' ', ''))) {
       return true;
     } else {
       return false;
