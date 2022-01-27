@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
-class CategoryArtwork {
+class CategoryArtwork with ChangeNotifier{
   final String id;
   final String name;
 
