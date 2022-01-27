@@ -1,11 +1,12 @@
 // ignore_for_file: unused_field, prefer_final_fields
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import '../models/category_artwork.dart';
 import 'package:flutter/foundation.dart';
 
 class Categories with ChangeNotifier {
-  List<CategoryArtwork> _items = [
+  List<CategoryArtwork> _categories = [
     CategoryArtwork(id: 'c1', name: 'Early american art'),
     CategoryArtwork(id: 'c2', name: '19th centurey'),
     CategoryArtwork(id: 'c3', name: '20th century'),
@@ -38,8 +39,28 @@ class Categories with ChangeNotifier {
     CategoryArtwork(id: 'c0', name: 'All Museums')
   ];
 
+  Future<void> fetchCategories() async {
+    List<CategoryArtwork> loadedCategories = [];
+    _categories.clear();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("categories").get();
+
+    for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> data = doc.data();
+      loadedCategories.add(CategoryArtwork(
+        id: doc.id,
+        name: data["name"],
+      ));
+      print(doc.id);
+      print(data["name"]);
+    }
+    _categories = loadedCategories;
+    notifyListeners();
+  }
+
   List<CategoryArtwork> get items {
-    return [..._items];
+    print(_categories.length);
+    return [..._categories];
   }
 
   List<CategoryArtwork> get itemsSelectetCategory {
@@ -65,20 +86,21 @@ class Categories with ChangeNotifier {
   }
 
   void deleteCategoryById(String id) {
-    _items.removeWhere((cateData) => cateData.id == id);
+    _categories.removeWhere((cateData) => cateData.id == id);
   }
 
   void addCategory(String id, String name) {
-    var newId = (_items.length + 1).toString();
+    var newId = (_categories.length + 1).toString();
     if (id != null) {
       deleteCategoryById(id);
       newId = id;
     }
-    _items.insert(0, CategoryArtwork(id: newId, name: name));
+    _categories.insert(0, CategoryArtwork(id: newId, name: name));
   }
 
   CategoryArtwork findById(String id) {
     if (id == null) return null;
-    return _items.firstWhere((catData) => catData.id == id, orElse: () => null);
+    return _categories.firstWhere((catData) => catData.id == id,
+        orElse: () => null);
   }
 }
