@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/museum.dart';
 import './museum_image.dart';
 import './first_colmn.dart';
+import './second_column.dart';
 
 class BuyTicketSingleMuseum extends StatelessWidget {
   final Museum museumData;
@@ -19,31 +20,28 @@ class BuyTicketSingleMuseum extends StatelessWidget {
         elevation: 4,
         child: Row(
           children: [
-            if (side) MuseumImage(museumData.imageUrl),
-            FirstColumn(museumData),
+            if (side)
+              Expanded(
+                flex: 3,
+                child: MuseumImage(museumData.imageUrl),
+              ),
+            Expanded(
+              flex: 3,
+              child: FirstColumn(museumData),
+            ),
+            VerticalDivider(
+              thickness: 1,
+              color: color.highlightColor,
+            ),
             Expanded(
               flex: 2,
-              child: Column(
-                children: [
-                  FittedBox(
-                    fit: BoxFit.cover,
-                    child: Text(
-                      museumData.name,
-                      style: color.textTheme.headline5,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  FittedBox(
-                    fit: BoxFit.cover,
-                    child: Text(
-                      museumData.address,
-                      style: color.textTheme.headline4,
-                    ),
-                  ),
-                ],
-              ),
+              child: SecondColumn(museumData),
             ),
-            if (!side) MuseumImage(museumData.imageUrl),
+            if (!side)
+              Expanded(
+                flex: 3,
+                child: MuseumImage(museumData.imageUrl),
+              ),
           ],
         ),
       ),
