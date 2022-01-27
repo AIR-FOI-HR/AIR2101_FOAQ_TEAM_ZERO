@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import '../models/user.dart' as model;
+import 'db_caller.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -33,10 +35,7 @@ class AuthMethods {
         userImage: "",
         museumId: "",
       );
-      await _firestore
-          .collection("users")
-          .doc(cred.user.uid)
-          .set(_user.toJson());
+      await DBCaller.createUser(_user, cred.user.uid);
 
       result = "Success";
     } catch (error) {
