@@ -19,7 +19,7 @@ class AuthMethods {
     String result = "Ugh Ough, something went wront!";
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
-        email: email,
+        email: email.replaceAll(' ', ''),
         password: password,
       );
       model.User _user = model.User(
@@ -29,9 +29,9 @@ class AuthMethods {
         surname: surname,
         userRole: '1',
         username: username,
-        phoneNumber: null,
-        userImage: null,
-        museumId: null,
+        phoneNumber: "",
+        userImage: "",
+        museumId: "",
       );
       await _firestore
           .collection("users")
