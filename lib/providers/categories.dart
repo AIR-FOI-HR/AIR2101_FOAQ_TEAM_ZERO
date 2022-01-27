@@ -24,8 +24,6 @@ class Categories with ChangeNotifier {
         id: doc.id,
         name: data["name"],
       ));
-      print(doc.id);
-      print(data["name"]);
     }
     _categories = loadedCategories;
     notifyListeners();

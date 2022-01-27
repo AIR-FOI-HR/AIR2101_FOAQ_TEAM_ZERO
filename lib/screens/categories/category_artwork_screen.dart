@@ -19,10 +19,10 @@ class CategoryArtworkScreen extends StatefulWidget {
 }
 
 class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
+
   @override
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context).getUser();
-
     Future<void> _fetchCategories() async {
       await Provider.of<Categories>(context, listen: false).fetchCategories();
     }
