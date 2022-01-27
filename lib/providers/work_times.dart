@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import '../models/work_time.dart';
 
@@ -82,6 +83,40 @@ class WorkTimes with ChangeNotifier {
     return _workTimes
         .where((workTimeData) => workTimeData.museumId == id)
         .toList();
+  }
+
+  WorkTime todayWorkTimeData(String museumId) {
+    List<WorkTime> museumWorkTime = _workTimes
+        .where((workTimeData) => workTimeData.museumId == museumId)
+        .toList();
+    String todayDay = getDayName();
+    return museumWorkTime.firstWhere(
+      (museumWorkTimeData) => museumWorkTimeData.day == todayDay,
+      orElse: () => null,
+    );
+  }
+
+  bool ifTheWorkTimeExist(String museumId) {
+    WorkTime todayWorkTime = todayWorkTimeData(museumId);
+
+    if (todayWorkTime != null &&
+        todayWorkTime.timeFrom != null &&
+        todayWorkTime.timeTo != null) {
+      print(todayWorkTime.timeFrom);
+      return true;
+    }
+    return false;
+  }
+
+  String getDayName() {
+    final now = new DateTime.now();
+    String formatter = DateFormat('EEEE').format(now);
+    return formatter;
+  }
+
+  String getTheWorkTime(String museumId, BuildContext context) {
+    WorkTime todayWorkTime = todayWorkTimeData(museumId);
+    return '${todayWorkTime.timeFrom.format(context)} - ${todayWorkTime.timeTo.format(context)}';
   }
 
   WorkTime findWorkTimeById(String id) {
