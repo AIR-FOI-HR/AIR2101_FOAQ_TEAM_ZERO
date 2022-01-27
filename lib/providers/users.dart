@@ -4,7 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:museum_app/firebase_resources/auth_methods.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
 
 import '../models/user.dart';
 

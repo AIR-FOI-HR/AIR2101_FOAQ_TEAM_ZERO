@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/firebase_resources/auth_methods.dart';
 import 'package:museum_app/models/user.dart';
 import '../screens/login/login_screen.dart';
-import '../firebase_resources/auth_methods.dart';
+import '../firebase_managers/auth_methods.dart';
 
 void logOut() async {
   await AuthMethods().signOut();

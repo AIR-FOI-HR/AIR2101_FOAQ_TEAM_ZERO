@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/firebase_resources/auth_methods.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
