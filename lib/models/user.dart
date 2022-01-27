@@ -32,6 +32,7 @@ class User {
     var snapshot = snap.data() as Map<String, dynamic>;
     return User(
       id: snapshot["id"],
+      username: snapshot["username"],
       name: snapshot["name"],
       surname: snapshot["surname"],
       email: snapshot["email"],
@@ -45,6 +46,7 @@ class User {
 
   Map<String, dynamic> toJson() =>{
     "id": id,
+    "username": username,
     "name": name,
     "surname": surname,
     "email": email,
