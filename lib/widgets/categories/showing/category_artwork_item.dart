@@ -33,7 +33,7 @@ class _CategoryArtworkItemState extends State<CategoryArtworkItem> {
           style: Theme.of(context).textTheme.headline4,
         ),
         onPressed: () {
-          if (widget.userRole > 3) {
+          if (widget.userRole < 3) {
             setState(() {
               if (_showSelectedCategory) {
                 categoryData.removeSelectedCategory(widget.id);
