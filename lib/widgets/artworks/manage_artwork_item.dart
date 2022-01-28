@@ -32,17 +32,69 @@ class ManageArtworkItem extends StatelessWidget {
                       arguments: id);
                 }),
             IconButton(
-                icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
-                onPressed: () {
-                  Provider.of<Artworks>(context, listen: false)
-                      .deleteArtwork(id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Deleted Artwork: '+title),
-                      duration: Duration(seconds: 3),
+              icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
+              onPressed: () => showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text(
+                    'Are you sure?',
+                    style: TextStyle(
+                      backgroundColor: Colors.white,
+                      color: Colors.black,
                     ),
-                  );
-                }),
+                  ),
+                  content: Container(
+                    height: 70,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Do you want to remove artwork: '),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${title}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                  ),
+                  actions: [
+                    TextButton(
+                      child: const Text(
+                        'No',
+                        style: TextStyle(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop(false);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text(
+                        'Yes',
+                        style: TextStyle(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop(true);
+                        Provider.of<Artworks>(context, listen: false)
+                            .deleteArtwork(id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Deleted Artwork: ' + title),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
