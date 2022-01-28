@@ -24,7 +24,7 @@ class Artworks with ChangeNotifier {
         imageUrl:
             'https://www.doriapamphilj.it/wp-content/uploads/2019/01/ADP-Fc-672-Ph-Alessandro-Vasari.jpg',
         museum: '2',
-        category: 'c11'),
+        category: 'c10'),
     Artwork(
         id: '2',
         name: 'Landscape with Ford',
@@ -123,7 +123,7 @@ class Artworks with ChangeNotifier {
   ];
 
   List getCategoryFromMuseum(String museumId) {
-    List _categoryList = [];
+    var _categoryList = [];
     List<Artwork> _museumAllArtworks = _artworks
         .where((artworkData) => artworkData.museum == museumId)
         .toList();
