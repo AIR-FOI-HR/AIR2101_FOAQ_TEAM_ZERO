@@ -18,7 +18,8 @@ class MuseumGridItem extends StatelessWidget {
       child: GridTile(
         child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName, arguments: museum.id);
+              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName,
+                  arguments: museum.id);
               //on tap we navigate to museum detail and pass museum id as argument
             },
             child: Image.asset(museum.imageUrl, fit: BoxFit.cover)),
@@ -37,10 +38,9 @@ class MuseumGridItem extends StatelessWidget {
                 TextSpan(
                     text: city,
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).accentColor,
-                      fontWeight: FontWeight.w300
-                    )),
+                        fontSize: 16,
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.w300)),
               ],
             ),
           ),
@@ -55,10 +55,9 @@ class MuseumGridItem extends StatelessWidget {
             child: Text(
               '${museum.name}',
               style: TextStyle(
-                fontSize: 18,
-                color: Theme.of(context).highlightColor,
-                fontWeight: FontWeight.bold
-              ),
+                  fontSize: 18,
+                  color: Theme.of(context).highlightColor,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_final_fields
 
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import '../models/work_time.dart';
 
@@ -83,5 +82,18 @@ class WorkTimes with ChangeNotifier {
     return _workTimes
         .where((workTimeData) => workTimeData.museumId == id)
         .toList();
+  }
+
+  WorkTime findWorkTimeById(String id) {
+    return _workTimes.firstWhere((workTimeData) => workTimeData.id == id);
+  }
+
+  void updateWorkTime(WorkTime newWorkTime) {
+    final workTimeIndex = _workTimes
+        .indexWhere((workTimeData) => workTimeData.id == newWorkTime.id);
+    if (workTimeIndex >= 0) {
+      _workTimes[workTimeIndex] = newWorkTime;
+      notifyListeners();
+    }
   }
 }

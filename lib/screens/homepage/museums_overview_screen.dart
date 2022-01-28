@@ -17,11 +17,13 @@ class MuseumsOverviewScreen extends StatefulWidget {
 //If we choose category then we can only search for that category
 class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   //List<Museum> museumSearch; //this list is used for searching result
-  List<Museum> museumsForWidget; //this list is used when passing data to MuseumsGrid widget
-  List<Museum> mainMuseumList; //this list is used for getting all museums and filtering,
-                              //also it is used when searching
+  List<Museum>
+      museumsForWidget; //this list is used when passing data to MuseumsGrid widget
+  List<Museum>
+      mainMuseumList; //this list is used for getting all museums and filtering,
+  //also it is used when searching
   String query = '';
-  String category ='c0';
+  String category = 'c0';
 
   @override
   void didChangeDependencies() {
@@ -32,7 +34,6 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('rebildam skrin');
     return Scaffold(
       appBar: appBar('Museum app', context, Theme.of(context).primaryColor),
       body: SingleChildScrollView(
@@ -46,7 +47,8 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
                 SearchBar(searchMuseum),
               ],
             ),
-            MuseumsGrid(museumsForWidget), //wrap with flexible if search is fixed
+            MuseumsGrid(
+                museumsForWidget), //wrap with flexible if search is fixed
           ],
         ),
       ),
@@ -54,10 +56,11 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     );
   }
 
-  void searchMuseumByCategory(String categoryId){
+  void searchMuseumByCategory(String categoryId) {
     setState(() {
       this.category = categoryId;
-      this.mainMuseumList = Provider.of<Museums>(context, listen:false).filterMusemsByCategory(categoryId);
+      this.mainMuseumList = Provider.of<Museums>(context, listen: false)
+          .filterMusemsByCategory(categoryId);
       museumsForWidget = mainMuseumList;
     });
   }
@@ -66,10 +69,10 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     setState(() {
       this.query = query;
       this.museumsForWidget = mainMuseumList.where((museum) {
-      final titleLower = museum.name.toLowerCase();
-      final searchLower = query.toLowerCase();
-      return titleLower.contains(searchLower);
-    }).toList();
+        final titleLower = museum.name.toLowerCase();
+        final searchLower = query.toLowerCase();
+        return titleLower.contains(searchLower);
+      }).toList();
     });
   }
 }

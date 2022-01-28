@@ -18,19 +18,21 @@ class WorkTimeRowData extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Text(
             day,
             style: const TextStyle(fontSize: 16),
           ),
         ),
         Expanded(
+          flex: 2,
           child: Text(
             timeFrom,
             style: const TextStyle(fontSize: 16),
           ),
         ),
         Expanded(
+          flex: 2,
           child: Text(
             timeTo,
             style: const TextStyle(fontSize: 16),

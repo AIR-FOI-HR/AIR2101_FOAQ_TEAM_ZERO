@@ -8,6 +8,8 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_configuration/ticket_configuration.dart';
 import '../../widgets/museum_work_time/museum_work_time.dart';
+import '../../widgets/single_musum_inforamtion/single_museum_inforamtion.dart';
+import '../../widgets/museum_tour_duration/museum_tour_duration.dart';
 
 class SingleMuseumConfigurationScreen extends StatelessWidget {
   static const routeName = '/SingleMuseumConfiguration';
@@ -17,8 +19,8 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loggedUserData = Provider.of<Users>(context, listen: false)
         .findByUsername(logedUserUsername);
-    final museumData = Provider.of<Museums>(context, listen: false)
-        .getById(loggedUserData.museumId);
+    final museumData =
+        Provider.of<Museums>(context).getById(loggedUserData.museumId);
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColor,
@@ -72,16 +74,16 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
-              child: Text('TOO DOO need a museum information blok'),
+                  0.58,
+              child: SingleMuseumInformation(museumData.id),
             ),
             divider,
             SizedBox(
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
-              child: Text('TOO DOO need a tour duration block'),
+                  0.25,
+              child: MuseumTourDuration(museumData.id),
             ),
           ],
         ),
