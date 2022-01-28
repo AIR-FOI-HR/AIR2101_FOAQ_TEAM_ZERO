@@ -8,6 +8,8 @@ import './providers/artworks.dart';
 import './providers/users.dart';
 import './providers/tickets.dart';
 import './providers/work_times.dart';
+import './providers/bills.dart';
+import './providers/user_tickets.dart';
 
 import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
@@ -48,7 +50,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => WorkTimes(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Bills(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => UserTickets(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
