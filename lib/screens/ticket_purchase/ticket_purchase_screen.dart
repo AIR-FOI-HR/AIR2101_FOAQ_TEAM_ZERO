@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_purchase/buy_ticket.dart';
+import '../../widgets/my_reservations/my_reservations.dart';
 
 class TicketPurchaseScreen extends StatelessWidget {
   static const routeName = '/TicketPurchase';
@@ -31,7 +32,7 @@ class TicketPurchaseScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             BuyTicket(),
-            Text('Todo'),
+            MyReservations(),
           ],
         ),
       ),
