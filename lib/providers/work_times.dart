@@ -28,7 +28,7 @@ class WorkTimes with ChangeNotifier {
       museumId: '1',
     ),
     WorkTime(
-      id: '3',
+      id: '2',
       day: 'Thursday',
       timeFrom: const TimeOfDay(hour: 8, minute: 0),
       timeTo: const TimeOfDay(hour: 16, minute: 0),
@@ -37,6 +37,8 @@ class WorkTimes with ChangeNotifier {
     WorkTime(
       id: '4',
       day: 'Friday',
+      timeFrom: const TimeOfDay(hour: 8, minute: 0),
+      timeTo: const TimeOfDay(hour: 20, minute: 0),
       museumId: '1',
     ),
     WorkTime(
@@ -58,11 +60,25 @@ class WorkTimes with ChangeNotifier {
       day: 'Thursday',
       timeFrom: const TimeOfDay(hour: 8, minute: 0),
       timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '3',
+      museumId: '2',
     ),
     WorkTime(
       id: '8',
       day: 'Thursday',
+      timeFrom: const TimeOfDay(hour: 8, minute: 0),
+      timeTo: const TimeOfDay(hour: 20, minute: 0),
+      museumId: '4',
+    ),
+    WorkTime(
+      id: '9',
+      day: 'Friday',
+      timeFrom: const TimeOfDay(hour: 8, minute: 0),
+      timeTo: const TimeOfDay(hour: 20, minute: 0),
+      museumId: '2',
+    ),
+    WorkTime(
+      id: '10',
+      day: 'Friday',
       timeFrom: const TimeOfDay(hour: 8, minute: 0),
       timeTo: const TimeOfDay(hour: 20, minute: 0),
       museumId: '4',
@@ -116,7 +132,6 @@ class WorkTimes with ChangeNotifier {
     if (todayWorkTime != null &&
         todayWorkTime.timeFrom != null &&
         todayWorkTime.timeTo != null) {
-      print(todayWorkTime.timeFrom);
       return true;
     }
     return false;

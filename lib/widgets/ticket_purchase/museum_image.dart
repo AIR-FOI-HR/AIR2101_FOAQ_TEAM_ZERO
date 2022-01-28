@@ -9,7 +9,7 @@ class MuseumImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       imageUrl,
-      height: 150,
+      height: 170,
       fit: BoxFit.fill,
     );
   }
