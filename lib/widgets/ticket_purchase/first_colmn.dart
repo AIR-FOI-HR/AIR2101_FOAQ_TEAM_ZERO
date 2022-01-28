@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/museum.dart';
 import '../../providers/work_times.dart';
-import '../ticket_configuration/elevated_button_settings.dart';
+import '../../providers/artworks.dart';
+import '../../providers/categories.dart';
+import '../../screens/buy_ticket_screen.dart';
 
 class FirstColumn extends StatelessWidget {
   final Museum museumData;
@@ -12,6 +14,10 @@ class FirstColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context);
+    List artworkProv =
+        Provider.of<Artworks>(context).getCategoryFromMuseum(museumData.id);
+    String categoryNames =
+        Provider.of<Categories>(context).getCategoryName(artworkProv);
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Column(
@@ -42,7 +48,7 @@ class FirstColumn extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: Text(
-                  'categories categories categories categories categories categories ',
+                  categoryNames,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -50,7 +56,10 @@ class FirstColumn extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(BuyTicketScreen.routeName,
+                        arguments: museumData.id);
+                  },
                   icon: Icon(
                     Icons.shopping_basket_outlined,
                     size: 30,
