@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Bill {
   final String id;
@@ -6,6 +7,8 @@ class Bill {
   final String qrCode;
   final double totalCost;
   final String userId;
+  final bool isCanceled;
+  final TimeOfDay museumTime;
 
   Bill({
     @required this.id,
@@ -13,5 +16,7 @@ class Bill {
     this.qrCode,
     @required this.totalCost,
     @required this.userId,
+    this.isCanceled = false,
+    this.museumTime,
   });
 }
