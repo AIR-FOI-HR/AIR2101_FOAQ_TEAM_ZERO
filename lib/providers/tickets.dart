@@ -35,6 +35,13 @@ class Tickets with ChangeNotifier {
     return _tickets.where((ticketData) => ticketData.museumId == id).toList();
   }
 
+  String getMuseumIdByTicketId(String ticketId) {
+    return _tickets
+        .firstWhere((ticketData) => ticketData.id == ticketId,
+            orElse: () => null)
+        .museumId;
+  }
+
   Ticket findById(String id) {
     return _tickets.firstWhere((ticketData) => ticketData.id == id);
   }
