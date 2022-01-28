@@ -25,6 +25,26 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
     final categoryItemData = categoryItems.findById(categoryItemId);
     final mediaQuery = MediaQuery.of(context);
 
+    void saveCategory() {
+      CategoryArtwork newCategory = CategoryArtwork(
+        id: categoryItemId,
+        name: categoryNameControler.text,
+      );
+
+      if (categoryItemId == null) {
+        DBCaller.addCategory(newCategory)
+            .then((_) => Navigator.of(context).pop());
+      } else {
+        DBCaller.updateCategory(newCategory)
+            .then((_) => Navigator.of(context).pop());
+      }
+    }
+
+    void deleteCategory(String categoryId) {
+      DBCaller.deleteCategory(categoryId).then((_) => Navigator.of(context)
+          .pushReplacementNamed(CategoryArtworkScreen.routeName));
+    }
+
     return Scaffold(
       appBar: appBarProperty,
       body: Column(
@@ -68,26 +88,19 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CrudElevatedButton('Cancel', () {
-                Navigator.of(context).pop();
-              }),
+              CrudElevatedButton(
+                'Cancel',
+                () => Navigator.of(context).pop(),
+              ),
               if (categoryItemId != null)
-                CrudElevatedButton('Delete', () {
-                  categoryItems.deleteCategoryById(categoryItemId);
-                  Navigator.of(context)
-                      .pushReplacementNamed(CategoryArtworkScreen.routeName);
-                }),
-              CrudElevatedButton('Save', () {
-                CategoryArtwork newCategory =
-                    CategoryArtwork(name: categoryNameControler.text);
-                categoryItemId == null
-                    ? DBCaller.createCategory(newCategory)
-                    : null; //TODO
-                // categoryItems.addCategory(
-                //     categoryItemId, categoryNameControler.text);
-                Navigator.of(context)
-                    .pushReplacementNamed(CategoryArtworkScreen.routeName);
-              })
+                CrudElevatedButton(
+                  'Delete',
+                  () => deleteCategory(categoryItemId),
+                ),
+              CrudElevatedButton(
+                'Save',
+                () => saveCategory(),
+              )
             ],
           )
         ],
