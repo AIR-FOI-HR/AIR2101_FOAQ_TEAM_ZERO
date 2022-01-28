@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
-class Museum with ChangeNotifier{
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Museum with ChangeNotifier {
   final String id;
   final String name;
   final String description;
@@ -19,4 +21,26 @@ class Museum with ChangeNotifier{
     this.imageUrl,
     this.location,
   });
+
+  static Museum fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, String>;
+    return Museum(
+      id: snap.id,
+      name: snap["name"],
+      address: snap["address"],
+      description: snap["description"],
+      imageUrl: snap["imageUrl"],
+      location: snap["location"],
+      tourDuration: snap["tourDuration"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "address": address,
+        "description": description,
+        "imageUrl": imageUrl,
+        "location": location,
+        "tourDuration": tourDuration
+      };
 }
