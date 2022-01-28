@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../models/museum.dart';
 import './museum_image.dart';
 import './first_colmn.dart';
-import './second_column.dart';
 
 class BuyTicketSingleMuseum extends StatelessWidget {
   final Museum museumData;
@@ -14,7 +13,7 @@ class BuyTicketSingleMuseum extends StatelessWidget {
   Widget itemDesign(BuildContext context, bool side) {
     final color = Theme.of(context);
     return SizedBox(
-      height: 150,
+      height: 170,
       child: Card(
         color: Colors.white,
         elevation: 4,
@@ -26,16 +25,8 @@ class BuyTicketSingleMuseum extends StatelessWidget {
                 child: MuseumImage(museumData.imageUrl),
               ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: FirstColumn(museumData),
-            ),
-            VerticalDivider(
-              thickness: 1,
-              color: color.highlightColor,
-            ),
-            Expanded(
-              flex: 2,
-              child: SecondColumn(museumData),
             ),
             if (!side)
               Expanded(
