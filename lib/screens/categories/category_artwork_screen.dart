@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:museum_app/models/category_artwork.dart';
 import 'package:museum_app/providers/categories.dart';
@@ -36,10 +37,9 @@ class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
       body: Container(
         child: FutureBuilder(
           future: _fetchCategories(),
-          builder: (ctx, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : SingleChildScrollView(
+          builder: (ctx, snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+            return SingleChildScrollView(
                       child: Column(
                         children: [
                           SizedBox(
@@ -60,7 +60,10 @@ class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
                                   : SaveButton(),
                         ],
                       ),
-                    ),
+                    );
+            }
+            return Center(child: CircularProgressIndicator(),);
+        }
         ),
       ),
     );
