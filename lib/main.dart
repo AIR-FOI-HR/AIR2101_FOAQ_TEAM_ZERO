@@ -22,6 +22,7 @@ import './screens/my_profile/my_profile_editing_screen.dart';
 import './screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import './screens/single_musem_configuration/ticket_crud_screen.dart';
 import './screens/single_musem_configuration/museum_work_time_crud_screen.dart';
+import './screens/artworks/edit_add_artworks_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -116,6 +117,7 @@ class MyApp extends StatelessWidget {
           TicketCrudScreen.routeName: (ctx) => TicketCrudScreen(),
           MuseumWorkTimeCrudScreen.routeName: (ctx) =>
               MuseumWorkTimeCrudScreen(),
+          EditAddArtworksScreen.routeName: (ctx) => EditAddArtworksScreen(),
         },
       ),
     );

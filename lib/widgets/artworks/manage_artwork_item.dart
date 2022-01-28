@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../screens/artworks/edit_add_artworks_screen.dart';
+import '../../providers/artworks.dart';
 
 class ManageArtworkItem extends StatelessWidget {
   final String id;
   final String title;
   final String imageUrl;
 
-  ManageArtworkItem(this.id, this.title,this.imageUrl);
+  ManageArtworkItem(this.id, this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: NetworkImage(imageUrl != ''
+            ? imageUrl
+            : 'https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png'),
+        radius: 35,
       ),
       trailing: Container(
         width: 100,
@@ -21,13 +27,74 @@ class ManageArtworkItem extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 onPressed: () {
-                  //to do on update
+                  Navigator.of(context).pushNamed(
+                      EditAddArtworksScreen.routeName,
+                      arguments: id);
                 }),
             IconButton(
-                icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
-                onPressed: () {
-                  //to do on delete
-                }),
+              icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
+              onPressed: () => showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text(
+                    'Are you sure?',
+                    style: TextStyle(
+                      backgroundColor: Colors.white,
+                      color: Colors.black,
+                    ),
+                  ),
+                  content: Container(
+                    height: 70,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Do you want to remove artwork: '),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${title}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                  ),
+                  actions: [
+                    TextButton(
+                      child: const Text(
+                        'No',
+                        style: TextStyle(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop(false);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text(
+                        'Yes',
+                        style: TextStyle(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop(true);
+                        Provider.of<Artworks>(context, listen: false)
+                            .deleteArtwork(id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Deleted Artwork: ' + title),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

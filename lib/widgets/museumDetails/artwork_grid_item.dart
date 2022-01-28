@@ -15,7 +15,11 @@ class ArtworkGridItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: GridTile(
-        child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
+        child: Image.network(
+            artwork.imageUrl != ''
+                ? artwork.imageUrl
+                : 'https://bitsofco.de/content/images/2018/12/broken-1.png',
+            fit: BoxFit.cover),
         header: buildHeader(context, artwork, color),
         footer: buildFooter(context, artwork, color),
       ),
