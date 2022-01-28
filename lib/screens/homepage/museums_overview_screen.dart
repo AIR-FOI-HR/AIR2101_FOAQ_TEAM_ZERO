@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/homepage/museums_grid.dart';
 import '../../widgets/homepage/search_bar.dart';
@@ -35,7 +36,6 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('rebildam skrin');
     return Scaffold(
       appBar: appBar('Museum app', context, Theme.of(context).primaryColor,appUser),
       body: SingleChildScrollView(

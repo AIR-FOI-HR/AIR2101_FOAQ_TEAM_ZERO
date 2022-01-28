@@ -11,7 +11,6 @@ class MuseumsGrid extends StatelessWidget {
   MuseumsGrid(this.museums);
   @override
   Widget build(BuildContext context) {
-    print('rebilda grid muzeja');
      //access to museums data
     return museums.isNotEmpty ? GridView.builder(
       shrinkWrap: true, //remove this if search is fixed
