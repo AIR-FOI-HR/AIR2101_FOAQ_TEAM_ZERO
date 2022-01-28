@@ -47,6 +47,8 @@ class _BuyTicketState extends State<BuyTicket> {
     });
   }
 
+  int itemCounter = 1;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -75,16 +77,27 @@ class _BuyTicketState extends State<BuyTicket> {
                     : SizedBox(
                         height: constraints.maxHeight * 0.82,
                         child: ListView.builder(
-                          itemCount: museumsForWidget.length,
-                          itemBuilder: (_, i) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (Provider.of<WorkTimes>(context)
-                                  .ifTheWorkTimeExist(museumsForWidget[i].id))
-                                BuyTicketSingleMuseum(museumsForWidget[i], i),
-                            ],
-                          ),
-                        ),
+                            itemCount: museumsForWidget.length,
+                            itemBuilder: (_, i) {
+                              bool museumHaveWorkTime = Provider.of<WorkTimes>(
+                                      context)
+                                  .ifTheWorkTimeExist(museumsForWidget[i].id);
+                              if (museumHaveWorkTime) {
+                                itemCounter++;
+                              }
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (museumHaveWorkTime)
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: BuyTicketSingleMuseum(
+                                          museumsForWidget[i], itemCounter),
+                                    ),
+                                ],
+                              );
+                            }),
                       ),
               ],
             ),
