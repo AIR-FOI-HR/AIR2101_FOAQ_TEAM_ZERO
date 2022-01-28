@@ -81,4 +81,22 @@ class Categories with ChangeNotifier {
     if (id == null) return null;
     return _items.firstWhere((catData) => catData.id == id, orElse: () => null);
   }
+
+  String getCategoryName(List categoryIds) {
+    String categoryNames = '';
+    CategoryArtwork prematureValue;
+    for (var i = 0; i < categoryIds.length; i++) {
+      prematureValue =
+          items.firstWhere((categoryData) => categoryData.id == categoryIds[i]);
+      if (i == categoryIds.length - 1) {
+        categoryNames += prematureValue.name;
+      } else {
+        categoryNames += prematureValue.name + ', ';
+      }
+    }
+    if (categoryNames == '') {
+      return 'No categorys are added. No categorys are added. No categorys are added. No categorys are added';
+    }
+    return categoryNames;
+  }
 }
