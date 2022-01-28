@@ -20,7 +20,23 @@ class UserTickets with ChangeNotifier {
       ticketId: '2',
       quantity: 1,
     ),
+    UserTicket(
+      billId: '3',
+      ticketId: '2',
+      quantity: 1,
+    ),
+    UserTicket(
+      billId: '4',
+      ticketId: '2',
+      quantity: 1,
+    ),
   ];
+
+  String getUserTicketIdByBillId(String billId) {
+    return _userTickets
+        .firstWhere((userTicektData) => userTicektData.billId == billId)
+        .ticketId;
+  }
 
   List<UserTicket> getUserTicket(String userTicketId) {
     return _userTickets
@@ -31,5 +47,10 @@ class UserTickets with ChangeNotifier {
   void addNewUserTicket(UserTicket newUserTicket) {
     _userTickets.add(newUserTicket);
     notifyListeners();
+  }
+
+  void deleteUserTicket(String billId) {
+    _userTickets
+        .removeWhere((userTicketData) => userTicketData.billId == billId);
   }
 }
