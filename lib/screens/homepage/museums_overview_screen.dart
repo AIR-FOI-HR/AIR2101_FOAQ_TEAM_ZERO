@@ -22,12 +22,6 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   String query = '';
   String category = 'c0';
 
-  Future<void> _fetchMuseums() async {
-    await Provider.of<Museums>(context, listen: false).fetchMuseums();
-    mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
-    museumsForWidget = mainMuseumList;
-  }
-
   @override
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context, listen: false).getUser();
@@ -50,8 +44,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
                         SearchBar(searchMuseum),
                       ],
                     ),
-                    MuseumsGrid(
-                        museumsForWidget), //wrap with flexible if search is fixed
+                    MuseumsGrid(museumsForWidget),
                   ],
                 ),
               );
@@ -82,5 +75,13 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
         return titleLower.contains(searchLower);
       }).toList();
     });
+  }
+
+  Future<void> _fetchMuseums() async {
+    //While waiting for data from database we wait 0.5 seconds. This is for better UX and smoothness
+    Provider.of<Museums>(context, listen: false).fetchMuseums();
+    await Future.delayed(Duration(milliseconds: 700)); 
+    mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
+    museumsForWidget = mainMuseumList;
   }
 }
