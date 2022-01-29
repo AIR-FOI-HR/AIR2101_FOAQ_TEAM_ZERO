@@ -25,7 +25,8 @@ class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context).getUser();
     Future<void> _fetchCategories() async {
-      await Provider.of<Categories>(context, listen: false).fetchCategories();
+      Provider.of<Categories>(context, listen: false).fetchCategories();
+      await Future.delayed(Duration(milliseconds: 700)); 
     }
 
     final appBarProperty =
