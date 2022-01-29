@@ -14,7 +14,7 @@ class Artwork with ChangeNotifier{
   Artwork({
   @required this.id,
   @required this.name,
-  @required this.imageUrl,
+  this.imageUrl,
   this.description,
   this.author,
   @required this.museum,
