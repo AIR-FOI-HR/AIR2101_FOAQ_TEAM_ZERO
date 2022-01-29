@@ -4,7 +4,7 @@ import '../../models/museum.dart';
 import '../../providers/work_times.dart';
 import '../../providers/artworks.dart';
 import '../../providers/categories.dart';
-import '../../screens/buy_ticket_screen.dart';
+import '../../screens/ticket_purchase/buy_ticket_screen.dart';
 
 class FirstColumn extends StatelessWidget {
   final Museum museumData;
