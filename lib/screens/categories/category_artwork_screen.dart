@@ -62,7 +62,7 @@ class _CategoryArtworkScreenState extends State<CategoryArtworkScreen> {
                       ),
                     );
             }
-            return Center(child: CircularProgressIndicator(),);
+            return const Center(child: CircularProgressIndicator(),);
         }
         ),
       ),
