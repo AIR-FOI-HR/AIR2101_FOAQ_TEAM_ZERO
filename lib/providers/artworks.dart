@@ -125,7 +125,8 @@ class Artworks with ChangeNotifier {
   ];
   final urlArtworks = Uri.parse(
       'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks.json');
-  List<Artwork> _artworks = [];
+
+  //List<Artwork> _artworks = [];
 
   List getCategoryFromMuseum(String museumId) {
     var _categoryList = [];
@@ -179,6 +180,8 @@ class Artworks with ChangeNotifier {
     return _artworks
         .where((artwork) => artwork.category == categoryId)
         .toList();
+  }
+
   Artwork getById(String id) {
     try {
       fetchAndSetArtworks();
@@ -188,16 +191,16 @@ class Artworks with ChangeNotifier {
     return _artworks.firstWhere((artwork) => artwork.id == id);
   }
 
-  List<Artwork> getByCategory(String categoryId) {
-    try {
-      fetchAndSetArtworks();
-    } catch (error) {
-      throw (error);
-    }
-    return _artworks
-        .where((artwork) => artwork.category == categoryId)
-        .toList();
-  }
+  // List<Artwork> getByCategory(String categoryId) {
+  //   try {
+  //     fetchAndSetArtworks();
+  //   } catch (error) {
+  //     throw (error);
+  //   }
+  //   return _artworks
+  //       .where((artwork) => artwork.category == categoryId)
+  //       .toList();
+  // }
 
   Future<void> addArtwork(Artwork artwork) async {
     try {
