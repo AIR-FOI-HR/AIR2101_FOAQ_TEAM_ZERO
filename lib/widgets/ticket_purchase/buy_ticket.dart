@@ -54,12 +54,12 @@ class _BuyTicketState extends State<BuyTicket> {
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DropDownCategory(searchMuseumByCategory),
@@ -67,26 +67,30 @@ class _BuyTicketState extends State<BuyTicket> {
                         fit: BoxFit.contain, child: SearchBar(searchMuseum)),
                   ],
                 ),
-                SizedBox(height: constraints.maxHeight * 0.03),
-                museumsForWidget.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Image.asset(
-                          'assets/images/NoArtworks.png',
-                          fit: BoxFit.fill,
-                        ))
-                    : SizedBox(
-                        height: constraints.maxHeight * 0.82,
-                        child: ListView.builder(
-                            itemCount: museumsForWidget.length,
-                            itemBuilder: (_, i) {
-                              bool museumHaveWorkTime = Provider.of<WorkTimes>(
-                                      context)
-                                  .ifTheWorkTimeExist(museumsForWidget[i].id);
-                              if (museumHaveWorkTime) {
-                                itemCounter++;
-                              }
-                              return Column(
+              ),
+              SizedBox(height: constraints.maxHeight * 0.02),
+              museumsForWidget.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Image.asset(
+                        'assets/images/NoArtworks.png',
+                        fit: BoxFit.fill,
+                      ))
+                  : SizedBox(
+                      height: constraints.maxHeight * 0.82,
+                      child: ListView.builder(
+                          itemCount: museumsForWidget.length,
+                          itemBuilder: (_, i) {
+                            bool museumHaveWorkTime =
+                                Provider.of<WorkTimes>(context)
+                                    .ifTheWorkTimeExist(museumsForWidget[i].id);
+                            if (museumHaveWorkTime) {
+                              itemCounter++;
+                            }
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (museumHaveWorkTime)
@@ -97,11 +101,11 @@ class _BuyTicketState extends State<BuyTicket> {
                                           museumsForWidget[i], itemCounter),
                                     ),
                                 ],
-                              );
-                            }),
-                      ),
-              ],
-            ),
+                              ),
+                            );
+                          }),
+                    ),
+            ],
           ),
         );
       },
