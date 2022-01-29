@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/providers/work_times.dart';
 import 'package:provider/provider.dart';
 
 import '../homepage/search_bar.dart';
@@ -7,7 +6,7 @@ import '../../models/museum.dart';
 import '../../providers/museums.dart';
 import '../../widgets/homepage/dropdown_category.dart';
 import './buy_ticket_single_museum.dart';
-import '../../providers/museums.dart';
+import '../../providers/work_times.dart';
 
 class BuyTicket extends StatefulWidget {
   @override
@@ -79,31 +78,30 @@ class _BuyTicketState extends State<BuyTicket> {
                   : SizedBox(
                       height: constraints.maxHeight * 0.82,
                       child: ListView.builder(
-                          itemCount: museumsForWidget.length,
-                          itemBuilder: (_, i) {
-                            bool museumHaveWorkTime =
-                                Provider.of<WorkTimes>(context)
-                                    .ifTheWorkTimeExist(museumsForWidget[i].id);
-                            if (museumHaveWorkTime) {
-                              itemCounter++;
-                            }
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (museumHaveWorkTime)
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: BuyTicketSingleMuseum(
-                                          museumsForWidget[i], itemCounter),
-                                    ),
-                                ],
-                              ),
-                            );
-                          }),
+                        itemCount: museumsForWidget.length,
+                        itemBuilder: (_, i) {
+                          bool museumHaveWorkTime =
+                              Provider.of<WorkTimes>(context)
+                                  .ifTheWorkTimeExist(museumsForWidget[i].id);
+                          if (museumHaveWorkTime) {
+                            itemCounter++;
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (museumHaveWorkTime)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: BuyTicketSingleMuseum(
+                                        museumsForWidget[i], itemCounter),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
             ],
           ),
