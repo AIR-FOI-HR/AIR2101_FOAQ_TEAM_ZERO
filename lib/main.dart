@@ -15,7 +15,7 @@ import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
 import './screens/categories/category_artwork_screen.dart';
 import './screens/categories/category_artwork_editing_screen.dart';
-import './screens/buy_ticket_screen.dart';
+import './screens/ticket_purchase/buy_ticket_screen.dart';
 import './screens/login/login_screen.dart';
 import './screens/artworks/manage_artworks_screen.dart';
 import './screens/login/registration_screen.dart';
@@ -26,6 +26,7 @@ import './screens/single_musem_configuration/ticket_crud_screen.dart';
 import './screens/single_musem_configuration/museum_work_time_crud_screen.dart';
 import './screens/artworks/edit_add_artworks_screen.dart';
 import './screens/ticket_purchase/ticket_purchase_screen.dart';
+import './screens/ticket_purchase/bill_details_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -128,6 +129,7 @@ class MyApp extends StatelessWidget {
               MuseumWorkTimeCrudScreen(),
           EditAddArtworksScreen.routeName: (ctx) => EditAddArtworksScreen(),
           TicketPurchaseScreen.routeName: (ctx) => TicketPurchaseScreen(),
+          BillDetailsScreen.routeName: (ctx) => BillDetailsScreen(),
         },
       ),
     );
