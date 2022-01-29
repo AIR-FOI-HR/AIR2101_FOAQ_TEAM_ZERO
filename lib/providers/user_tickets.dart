@@ -32,15 +32,22 @@ class UserTickets with ChangeNotifier {
     ),
   ];
 
+  int getSpecificUserTicket(String billId, String ticketId) {
+    List<UserTicket> userTickets = getUserTicket(billId);
+    return userTickets
+        .firstWhere((userTicketsData) => userTicketsData.ticketId == ticketId)
+        .quantity;
+  }
+
   String getUserTicketIdByBillId(String billId) {
     return _userTickets
         .firstWhere((userTicektData) => userTicektData.billId == billId)
         .ticketId;
   }
 
-  List<UserTicket> getUserTicket(String userTicketId) {
+  List<UserTicket> getUserTicket(String billId) {
     return _userTickets
-        .where((userTicektData) => userTicektData.billId == userTicketId)
+        .where((userTicektData) => userTicektData.billId == billId)
         .toList();
   }
 
