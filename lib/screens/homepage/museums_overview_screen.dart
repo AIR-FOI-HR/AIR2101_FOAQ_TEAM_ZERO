@@ -29,30 +29,33 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     return Scaffold(
       appBar: appBar(
           'Museum app', context, Theme.of(context).primaryColor, appUser),
-      body: FutureBuilder(
-          future: mainMuseumList.isEmpty ? _fetchMuseums() : null,
-          builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done ||
-                mainMuseumList.isNotEmpty) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        DropDownCategory(searchMuseumByCategory),
-                        SearchBar(searchMuseum),
-                      ],
-                    ),
-                    MuseumsGrid(museumsForWidget),
-                  ],
-                ),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder(
+            future: mainMuseumList.isEmpty ? _fetchMuseums() : null,
+            builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done ||
+                  mainMuseumList.isNotEmpty) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DropDownCategory(searchMuseumByCategory),
+                          SearchBar(searchMuseum),
+                        ],
+                      ),
+                      MuseumsGrid(museumsForWidget),
+                    ],
+                  ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
+            }),
+      ),
       drawer: MainMenuDrawer(),
     );
   }
@@ -83,5 +86,14 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     await Future.delayed(Duration(milliseconds: 700)); 
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     museumsForWidget = mainMuseumList;
+  }
+
+  Future<void> _refresh() async {
+        Provider.of<Museums>(context, listen: false).fetchMuseums();
+    await Future.delayed(Duration(milliseconds: 1300)); 
+    mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
+    setState(() {
+      museumsForWidget = mainMuseumList;
+    });
   }
 }
