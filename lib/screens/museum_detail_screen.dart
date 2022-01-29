@@ -8,7 +8,7 @@ import '../widgets/museumDetails/artworks_grid.dart';
 
 import '../providers/museums.dart';
 
-import '../screens/buy_ticket_screen.dart';
+import 'ticket_purchase/buy_ticket_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
