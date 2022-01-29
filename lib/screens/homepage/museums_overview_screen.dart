@@ -10,57 +10,65 @@ import '../../models/museum.dart';
 import '../../models/user.dart';
 import '../../providers/museums.dart';
 import '../../providers/users.dart';
+
 class MuseumsOverviewScreen extends StatefulWidget {
   @override
   State<MuseumsOverviewScreen> createState() => _MuseumsOverviewScreenState();
 }
 
-//when this widget builds we get all museums in one list. This list is used for filterign by category
-//If we choose category then we can only search for that category
 class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
-  //List<Museum> museumSearch; //this list is used for searching result
-  List<Museum> museumsForWidget; //this list is used when passing data to MuseumsGrid widget
-  List<Museum> mainMuseumList;
-  User appUser; //this list is used for getting all museums and filtering,
-                              //also it is used when searching
+  List<Museum> museumsForWidget = [];
+  List<Museum> mainMuseumList = [];
   String query = '';
-  String category ='c0';
+  String category = 'c0';
 
-  @override
-  void didChangeDependencies() {
+  Future<void> _fetchMuseums() async {
+    await Provider.of<Museums>(context, listen: false).fetchMuseums();
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
-    appUser = Provider.of<Users>(context).getUser();
     museumsForWidget = mainMuseumList;
-    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
+
     return Scaffold(
-      appBar: appBar('Museum app', context, Theme.of(context).primaryColor,appUser),
-      body: SingleChildScrollView(
-        //remove this SingleChildScroolView if search is fixed
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropDownCategory(searchMuseumByCategory),
-                SearchBar(searchMuseum),
-              ],
-            ),
-            MuseumsGrid(museumsForWidget), //wrap with flexible if search is fixed
-          ],
-        ),
-      ),
+      appBar: appBar(
+          'Museum app', context, Theme.of(context).primaryColor, appUser),
+      body: FutureBuilder(
+          future: mainMuseumList.isEmpty ? _fetchMuseums() : null,
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done ||
+                mainMuseumList.isNotEmpty) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropDownCategory(searchMuseumByCategory),
+                        SearchBar(searchMuseum),
+                      ],
+                    ),
+                    MuseumsGrid(
+                        museumsForWidget), //wrap with flexible if search is fixed
+                  ],
+                ),
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
       drawer: MainMenuDrawer(),
     );
   }
 
-  void searchMuseumByCategory(String categoryId){
+  void searchMuseumByCategory(String categoryId) {
     setState(() {
       this.category = categoryId;
-      this.mainMuseumList = Provider.of<Museums>(context, listen:false).filterMusemsByCategory(categoryId);
+      this.mainMuseumList = Provider.of<Museums>(context, listen: false)
+          .filterMusemsByCategory(categoryId);
       museumsForWidget = mainMuseumList;
     });
   }
@@ -69,10 +77,10 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     setState(() {
       this.query = query;
       this.museumsForWidget = mainMuseumList.where((museum) {
-      final titleLower = museum.name.toLowerCase();
-      final searchLower = query.toLowerCase();
-      return titleLower.contains(searchLower);
-    }).toList();
+        final titleLower = museum.name.toLowerCase();
+        final searchLower = query.toLowerCase();
+        return titleLower.contains(searchLower);
+      }).toList();
     });
   }
 }
