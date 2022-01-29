@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_bar.dart';
+import '../../widgets/app_bar.dart';
 
 class BuyTicketScreen extends StatelessWidget {
   static const routeName = "/buy-tickets"; //namedroute for buy ticket screen
