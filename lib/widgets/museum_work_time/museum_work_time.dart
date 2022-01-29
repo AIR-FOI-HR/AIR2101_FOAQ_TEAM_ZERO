@@ -30,7 +30,7 @@ class MuseumWorkTime extends StatelessWidget {
                 children: [
                   WorkTimeRowData('0', 'Day', 'From', 'To', false),
                   SizedBox(
-                    height: constraints.maxHeight * 0.75,
+                    height: constraints.maxHeight * 0.8,
                     child: ListView.builder(
                       itemCount: workTimeProv.length,
                       itemBuilder: (_, i) => Column(

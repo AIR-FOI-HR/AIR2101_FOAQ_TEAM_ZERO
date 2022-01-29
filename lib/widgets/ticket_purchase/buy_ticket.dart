@@ -63,7 +63,8 @@ class _BuyTicketState extends State<BuyTicket> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DropDownCategory(searchMuseumByCategory),
-                    SearchBar(searchMuseum),
+                    FittedBox(
+                        fit: BoxFit.contain, child: SearchBar(searchMuseum)),
                   ],
                 ),
                 SizedBox(height: constraints.maxHeight * 0.03),

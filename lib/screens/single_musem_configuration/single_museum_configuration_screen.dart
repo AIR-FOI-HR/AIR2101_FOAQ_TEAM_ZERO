@@ -58,7 +58,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
+                  0.50,
               child: TicketConfiguration(museumData.id),
             ),
             divider,
@@ -66,7 +66,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
+                  0.50,
               child: MuseumWorkTime(museumData.id),
             ),
             divider,
@@ -74,7 +74,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.58,
+                  0.65,
               child: SingleMuseumInformation(museumData.id),
             ),
             divider,
@@ -82,7 +82,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.25,
+                  0.3,
               child: MuseumTourDuration(museumData.id),
             ),
           ],
