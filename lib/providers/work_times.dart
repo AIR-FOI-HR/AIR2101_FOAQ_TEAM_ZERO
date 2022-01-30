@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_init_to_null
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -144,9 +144,9 @@ class WorkTimes with ChangeNotifier {
     'Sunday',
   ];
 
-  List<WorkTime> getWorkTime(String id) {
+  List<WorkTime> getWorkTime(String museumId) {
     final workTimeList = _workTimes.firstWhere(
-        (workTimeData) => workTimeData.museumId == id,
+        (workTimeData) => workTimeData.museumId == museumId,
         orElse: () => null);
     if (workTimeList == null) {
       int theLastId = _workTimes.length;
@@ -154,13 +154,13 @@ class WorkTimes with ChangeNotifier {
         final newWorkTime = WorkTime(
           id: (theLastId + i).toString(),
           day: days[i],
-          museumId: id,
+          museumId: museumId,
         );
         _workTimes.add(newWorkTime);
       }
     }
     return _workTimes
-        .where((workTimeData) => workTimeData.museumId == id)
+        .where((workTimeData) => workTimeData.museumId == museumId)
         .toList();
   }
 
@@ -168,7 +168,7 @@ class WorkTimes with ChangeNotifier {
     List<WorkTime> museumWorkTime = _workTimes
         .where((workTimeData) => workTimeData.museumId == museumId)
         .toList();
-    String todayDay = getDayName();
+    String todayDay = getDayName(null);
     return museumWorkTime.firstWhere(
       (museumWorkTimeData) => museumWorkTimeData.day == todayDay,
       orElse: () => null,
@@ -186,10 +186,27 @@ class WorkTimes with ChangeNotifier {
     return false;
   }
 
-  String getDayName() {
-    final now = new DateTime.now();
+  String getDayName(String dateTime) {
+    DateTime now;
+    if (dateTime == null) {
+      now = DateTime.now();
+    } else {
+      now = DateTime.parse(dateTime);
+    }
+
     String formatter = DateFormat('EEEE').format(now);
     return formatter;
+  }
+
+  WorkTime getTheWorkTimeOfSelectedDay(String museumId, DateTime dateTime) {
+    List<WorkTime> museumWorkTime = _workTimes
+        .where((workTimeData) => workTimeData.museumId == museumId)
+        .toList();
+    String todayDay = getDayName(dateTime.toString());
+    return museumWorkTime.firstWhere(
+      (museumWorkTimeData) => museumWorkTimeData.day == todayDay,
+      orElse: () => null,
+    );
   }
 
   String getTheWorkTime(String museumId, BuildContext context) {
