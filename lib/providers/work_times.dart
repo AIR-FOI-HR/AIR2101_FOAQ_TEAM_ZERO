@@ -203,24 +203,29 @@ class WorkTimes with ChangeNotifier {
     int tourDuration,
     BuildContext context,
   ) {
-    int closingMinuts =
-        museumWorkTimeData.timeTo.hour * 60 + museumWorkTimeData.timeTo.minute;
-    int openingMinuts = museumWorkTimeData.timeFrom.hour * 60 +
-        museumWorkTimeData.timeFrom.minute;
-    int sections = (closingMinuts - openingMinuts) ~/ tourDuration;
+    if (museumWorkTimeData.timeFrom != null &&
+        museumWorkTimeData.timeTo != null) {
+      int closingMinuts = museumWorkTimeData.timeTo.hour * 60 +
+          museumWorkTimeData.timeTo.minute;
+      int openingMinuts = museumWorkTimeData.timeFrom.hour * 60 +
+          museumWorkTimeData.timeFrom.minute;
+      int sections = (closingMinuts - openingMinuts) ~/ tourDuration;
 
-    var workTimeSections = List(sections);
+      var workTimeSections = List(sections);
 
-    for (int i = 0; i < sections; i++) {
-      int time = openingMinuts + i * tourDuration;
-      TimeOfDay openingTime = getTimeOfDay(time);
-      TimeOfDay closingTime = getTimeOfDay(time + tourDuration);
-      workTimeSections[i] = {
-        'openingTime': openingTime,
-        'closingTime': closingTime
-      };
+      for (int i = 0; i < sections; i++) {
+        int time = openingMinuts + i * tourDuration;
+        TimeOfDay openingTime = getTimeOfDay(time);
+        TimeOfDay closingTime = getTimeOfDay(time + tourDuration);
+        workTimeSections[i] = {
+          'openingTime': openingTime,
+          'closingTime': closingTime
+        };
+      }
+      return workTimeSections;
+    } else {
+      return [];
     }
-    return workTimeSections;
   }
 
   TimeOfDay getTimeOfDay(int time) {
