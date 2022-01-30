@@ -102,7 +102,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                         const SizedBox(height: 10),
                         MuseumColumnData(workTimeData.timeFrom == null ||
                                 workTimeData.timeTo == null
-                            ? 'Closed'
+                            ? 'Work time:\nClosed'
                             : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
                         const SizedBox(height: 5),
                         Align(
@@ -116,28 +116,29 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBarProperty.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.3,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.all(10),
-                        itemCount: workTimeSections.length,
-                        itemBuilder: (ctx, i) =>
-                            WorkTimeItem(workTimeSections[i]),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 8 / 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
+                  if (workTimeSections.isNotEmpty)
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        height: (mediaQuery.size.height -
+                                appBarProperty.preferredSize.height -
+                                mediaQuery.padding.top) *
+                            0.3,
+                        child: GridView.builder(
+                          padding: const EdgeInsets.all(10),
+                          itemCount: workTimeSections.length,
+                          itemBuilder: (ctx, i) =>
+                              WorkTimeItem(workTimeSections[i]),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            childAspectRatio: 8 / 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
                         ),
                       ),
-                    ),
-                  )
+                    )
                 ],
               ),
             ],
