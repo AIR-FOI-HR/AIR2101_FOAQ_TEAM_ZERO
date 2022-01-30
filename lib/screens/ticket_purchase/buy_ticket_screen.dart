@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/buy_tickets/work_time_item.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/buy_tickets/museum_column_data.dart';
 import '../../widgets/my_reservations/elevated_button_my_reservation.dart';
@@ -60,8 +61,11 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 
     final Museum museumData = Provider.of<Museums>(context).getById(museumId);
 
-    final WorkTime workTimeData = Provider.of<WorkTimes>(context)
-        .getTheWorkTimeOfSelectedDay(museumId, selectedDate);
+    final workTimeProv = Provider.of<WorkTimes>(context);
+    final WorkTime workTimeData =
+        workTimeProv.getTheWorkTimeOfSelectedDay(museumId, selectedDate);
+    final workTimeSections =
+        workTimeProv.getWorkTimeSections(workTimeData, 45, context);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
     return Scaffold(
@@ -100,11 +104,13 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                                 workTimeData.timeTo == null
                             ? 'Closed'
                             : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
+                        const SizedBox(height: 5),
                         Align(
                           alignment: Alignment.topLeft,
                           child: ElevatedButtonMyReservation(
                               'Select date', () => _selectDate(context)),
                         ),
+                        const SizedBox(height: 5),
                         MuseumColumnData(
                             'Selectad date:\n${date.format(selectedDate.toLocal())}'),
                       ],
@@ -112,7 +118,25 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: Text('to do'),
+                    child: SizedBox(
+                      height: (mediaQuery.size.height -
+                              appBarProperty.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.3,
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: workTimeSections.length,
+                        itemBuilder: (ctx, i) =>
+                            WorkTimeItem(workTimeSections[i]),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          childAspectRatio: 8 / 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
