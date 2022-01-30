@@ -198,6 +198,37 @@ class WorkTimes with ChangeNotifier {
     return formatter;
   }
 
+  List getWorkTimeSections(
+    WorkTime museumWorkTimeData,
+    int tourDuration,
+    BuildContext context,
+  ) {
+    int closingMinuts =
+        museumWorkTimeData.timeTo.hour * 60 + museumWorkTimeData.timeTo.minute;
+    int openingMinuts = museumWorkTimeData.timeFrom.hour * 60 +
+        museumWorkTimeData.timeFrom.minute;
+    int sections = (closingMinuts - openingMinuts) ~/ tourDuration;
+
+    var workTimeSections = List(sections);
+
+    for (int i = 0; i < sections; i++) {
+      int time = openingMinuts + i * tourDuration;
+      TimeOfDay openingTime = getTimeOfDay(time);
+      TimeOfDay closingTime = getTimeOfDay(time + tourDuration);
+      workTimeSections[i] = {
+        'openingTime': openingTime,
+        'closingTime': closingTime
+      };
+    }
+    return workTimeSections;
+  }
+
+  TimeOfDay getTimeOfDay(int time) {
+    int timeHours = time ~/ 60;
+    int timeMinuts = time - timeHours * 60;
+    return TimeOfDay(hour: timeHours, minute: timeMinuts);
+  }
+
   WorkTime getTheWorkTimeOfSelectedDay(String museumId, DateTime dateTime) {
     List<WorkTime> museumWorkTime = _workTimes
         .where((workTimeData) => workTimeData.museumId == museumId)
