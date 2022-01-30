@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../screens/museum_detail_screen.dart';
+
 import '../../widgets/app_bar.dart';
 
 import '../../providers/user_tickets.dart';
@@ -13,8 +15,8 @@ import '../../models/user.dart';
 import '../../models/museum.dart';
 import '../../models/bill.dart';
 
-import './bill_details_row_data.dart';
-import './text_for_row.dart';
+import '../../widgets/ticket_purchase/bill_details_row_data.dart';
+import '../../widgets/ticket_purchase/text_for_row.dart';
 
 class BillDetailsScreen extends StatelessWidget {
   String username = 'ttomiek';
@@ -49,141 +51,148 @@ class BillDetailsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(width: 2),
         ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: GridTile(
-                child: Image.asset(
-                  museumData.imageUrl,
-                  fit: BoxFit.cover,
-                  height: 200,
-                ),
-                header: GridTileBar(
-                  trailing: Container(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      museumData.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Theme.of(context).highlightColor,
-                        fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: GridTile(
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pushNamed(
+                        MuseumDetailScreen.routeName,
+                        arguments: museumId),
+                    child: Image.asset(
+                      museumData.imageUrl,
+                      fit: BoxFit.cover,
+                      height: 200,
+                    ),
+                  ),
+                  header: GridTileBar(
+                    trailing: Container(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        museumData.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).highlightColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: Text(
-                          museumData.address,
-                          style: textTheme,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            museumData.address,
+                            style: textTheme,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          date.format(billData.date),
-                          style: textTheme,
-                          textAlign: TextAlign.right,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      billData.museumTime.format(context),
-                      style: color.textTheme.headline5,
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            date.format(billData.date),
+                            style: textTheme,
+                            textAlign: TextAlign.right,
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextForRow(
-                        textTheme: textTheme,
-                        expanded: 2,
-                        title: 'Ticket type',
-                      ),
-                      TextForRow(
-                          textTheme: textTheme, expanded: 1, title: 'Qty'),
-                      TextForRow(
-                          textTheme: textTheme, expanded: 1, title: 'Price'),
-                      TextForRow(
-                          textTheme: textTheme, expanded: 1, title: 'Total'),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      itemCount: ticketsData.length,
-                      itemBuilder: (_, i) => Column(
-                        children: [
-                          BillDetailsRowData(
-                              billData.id, ticketsData[i].ticketId),
-                          const Divider(thickness: 1),
-                        ],
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        billData.museumTime.format(context),
+                        style: color.textTheme.headline5,
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextForRow(
+                          textTheme: textTheme,
+                          expanded: 2,
+                          title: 'Ticket type',
+                        ),
+                        TextForRow(
+                            textTheme: textTheme, expanded: 1, title: 'Qty'),
+                        TextForRow(
+                            textTheme: textTheme, expanded: 1, title: 'Price'),
+                        TextForRow(
+                            textTheme: textTheme, expanded: 1, title: 'Total'),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        itemCount: ticketsData.length,
+                        itemBuilder: (_, i) => Column(
                           children: [
-                            Text(
-                              userData.name,
-                              style: textTheme,
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              userData.surname,
-                              style: textTheme,
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Time of purchase if we dont forgot to add hehehe',
-                              maxLines: 2,
-                              style: textTheme,
-                            ),
+                            BillDetailsRowData(
+                                billData.id, ticketsData[i].ticketId),
+                            const Divider(thickness: 1),
                           ],
                         ),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Paid: ${billData.totalCost} €',
-                              style: color.textTheme.headline5,
-                            ),
-                            Image.network(
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'),
-                          ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userData.name,
+                                style: textTheme,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                userData.surname,
+                                style: textTheme,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Time of purchase if we dont forgot to add hehehe',
+                                maxLines: 2,
+                                style: textTheme,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Paid: ${billData.totalCost} €',
+                                style: color.textTheme.headline5,
+                              ),
+                              Image.network(
+                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
