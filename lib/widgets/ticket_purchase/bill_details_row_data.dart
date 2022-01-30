@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './text_for_row.dart';
+import 'text_for_row.dart';
 
 import '../../models/ticket.dart';
 
