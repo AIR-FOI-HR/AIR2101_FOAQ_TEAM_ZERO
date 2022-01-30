@@ -10,30 +10,12 @@ import '../../providers/bills.dart';
 import '../../models/bill.dart';
 import '../../models/museum.dart';
 
+import './elevated_button_my_reservation.dart';
+
 class UserTicketsItems extends StatelessWidget {
   final String billId;
 
   UserTicketsItems(this.billId);
-
-  Widget elevatedButton(String title, Function butonFunction, ThemeData color) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(color.highlightColor),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-          ),
-        ),
-      ),
-      onPressed: butonFunction,
-      child: FittedBox(
-        child: Text(
-          title,
-          style: color.textTheme.headline4,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +86,14 @@ class UserTicketsItems extends StatelessWidget {
                       '${billData.totalCost} €',
                       style: textTheme,
                     ),
-                    elevatedButton(buttonData, () {
+                    ElevatedButtonMyReservation(buttonData, () {
                       if (buttonData == 'Delete') {
                         userTicketProv.deleteUserTicket(billData.id);
                         billProv.deleteBill(billData.id);
                       } else {
                         billProv.calcelBill(billData.id);
                       }
-                    }, Theme.of(context))
+                    })
                   ],
                 )
               ],
