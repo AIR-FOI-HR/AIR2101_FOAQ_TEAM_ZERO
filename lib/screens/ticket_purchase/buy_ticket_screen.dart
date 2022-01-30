@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/buy_tickets/museum_column_data.dart';
+import '../../widgets/my_reservations/elevated_button_my_reservation.dart';
 
 import '../../models/museum.dart';
+import '../../models/work_time.dart';
 
 import '../../providers/museums.dart';
 import '../../providers/artworks.dart';
 import '../../providers/categories.dart';
+import '../../providers/work_times.dart';
 
 class BuyTicketScreen extends StatefulWidget {
   static const routeName = "/buy-tickets";
@@ -26,6 +30,14 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
       initialDate: selectedDate, // Refer step 1
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
+      errorFormatText: 'Enter valid date',
+      errorInvalidText: 'Enter date in valid range',
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light(), // This will change to light theme.
+          child: child,
+        );
+      },
     );
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -46,8 +58,12 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     String categoryNames =
         Provider.of<Categories>(context).getCategoryName(artworkProv);
 
-    final TextStyle textStyle = color.textTheme.headline4;
     final Museum museumData = Provider.of<Museums>(context).getById(museumId);
+
+    final WorkTime workTimeData = Provider.of<WorkTimes>(context)
+        .getTheWorkTimeOfSelectedDay(museumId, selectedDate);
+
+    final DateFormat date = DateFormat('dd.MM.yyyy.');
     return Scaffold(
       appBar: appBarProperty,
       body: Padding(
@@ -56,7 +72,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
           height: (mediaQuery.size.height -
                   appBarProperty.preferredSize.height -
                   mediaQuery.padding.top) *
-              0.35,
+              0.4,
           decoration: BoxDecoration(
             border: Border.all(width: 2),
           ),
@@ -80,22 +96,24 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                         const SizedBox(height: 10),
                         MuseumColumnData('Categories: $categoryNames'),
                         const SizedBox(height: 10),
-                        MuseumColumnData(
-                            '${selectedDate.toLocal()}'.split(' ')[0]),
-                        const SizedBox(height: 20.0),
-                        RaisedButton(
-                          onPressed: () => _selectDate(context), // Refer step 3
-                          child: const Text(
-                            'Select date',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          color: Colors.greenAccent,
+                        MuseumColumnData(workTimeData.timeFrom == null ||
+                                workTimeData.timeTo == null
+                            ? 'Closed'
+                            : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: ElevatedButtonMyReservation(
+                              'Select date', () => _selectDate(context)),
                         ),
+                        MuseumColumnData(
+                            'Selectad date:\n${date.format(selectedDate.toLocal())}'),
                       ],
                     ),
                   ),
+                  Expanded(
+                    flex: 2,
+                    child: Text('to do'),
+                  )
                 ],
               ),
             ],
