@@ -11,7 +11,6 @@ class BuyTicketSingleMuseum extends StatelessWidget {
   BuyTicketSingleMuseum(this.museumData, this.index);
 
   Widget itemDesign(BuildContext context, bool side) {
-    final color = Theme.of(context);
     return SizedBox(
       height: 170,
       child: Card(
