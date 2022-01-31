@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +37,10 @@ class _WorkTimeItemState extends State<WorkTimeItem> {
         child: FlatButton(
           child: Text(
             '$openingSection - $closingSection',
-            style: color.textTheme.headline4,
+            style: const TextStyle(
+                color: Colors.white,
+                backgroundColor: Colors.transparent,
+                fontWeight: FontWeight.w900),
           ),
           onPressed: () {
             setState(() {
