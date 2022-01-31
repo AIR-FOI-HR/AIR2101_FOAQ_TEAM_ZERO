@@ -122,24 +122,32 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   if (workTimeSections.isNotEmpty)
                     Expanded(
                       flex: 2,
-                      child: SizedBox(
-                        height: (mediaQuery.size.height -
-                                appBarProperty.preferredSize.height -
-                                mediaQuery.padding.top) *
-                            0.3,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(10),
-                          itemCount: workTimeSections.length,
-                          itemBuilder: (ctx, i) =>
-                              WorkTimeItem(workTimeSections[i]),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            childAspectRatio: 8 / 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Please select time:',
+                            style: color.textTheme.headline4,
                           ),
-                        ),
+                          SizedBox(
+                            height: (mediaQuery.size.height -
+                                    appBarProperty.preferredSize.height -
+                                    mediaQuery.padding.top) *
+                                0.3,
+                            child: GridView.builder(
+                              padding: const EdgeInsets.all(10),
+                              itemCount: workTimeSections.length,
+                              itemBuilder: (ctx, i) =>
+                                  WorkTimeItem(workTimeSections[i]),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 8 / 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                 ],
