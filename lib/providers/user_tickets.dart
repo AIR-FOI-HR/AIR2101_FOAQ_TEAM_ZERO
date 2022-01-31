@@ -74,8 +74,13 @@ class UserTickets with ChangeNotifier {
         .toList();
   }
 
-  void addNewUserTicket(UserTicket newUserTicket) {
-    _userTickets.add(newUserTicket);
+  void addNewUserTicket() {
+    int newUserTicketsLenght = _newUserTickets.length;
+
+    for (int i = 0; i < newUserTicketsLenght; i++) {
+      _userTickets.add(_newUserTickets[i]);
+    }
+    clearNewTickets();
     notifyListeners();
   }
 
