@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../models/ticket.dart';
 import '../../models/user_ticket.dart';
+
+import '../../providers/bills.dart';
 import '../../providers/user_tickets.dart';
 
 class TicketDataRow extends StatefulWidget {
@@ -24,20 +26,20 @@ class _TicketDataRowState extends State<TicketDataRow> {
   void add() {
     setState(() {
       _n++;
+      updateTheList(double.parse(widget.ticketData.cost));
     });
-    updateTheList();
   }
 
   void minus() {
     setState(() {
       if (_n != 0) {
         _n--;
+        updateTheList(double.parse(widget.ticketData.cost) * -1);
       }
     });
-    updateTheList();
   }
 
-  void updateTheList() {
+  void updateTheList(double price) {
     newUserTicket = UserTicket(
       ticketId: widget.ticketData.id,
       billId: widget.newBillId,
@@ -45,6 +47,8 @@ class _TicketDataRowState extends State<TicketDataRow> {
     );
     Provider.of<UserTickets>(context, listen: false)
         .addUserTickets(newUserTicket);
+    Provider.of<Bills>(context, listen: false)
+        .updateBillTotalAmount(widget.newBillId, price);
   }
 
   @override
