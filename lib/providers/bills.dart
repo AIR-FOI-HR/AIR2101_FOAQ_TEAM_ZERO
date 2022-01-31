@@ -80,6 +80,26 @@ class Bills with ChangeNotifier {
     return newBill.id;
   }
 
+  void updateBillTotalAmount(String billId, double price) {
+    final Bill billData =
+        _bills.firstWhere((billData) => billData.id == billId);
+    int index = _bills.indexWhere((billData) => billData.id == billId);
+
+    print('ID JE: $billId');
+
+    _bills[index] = Bill(
+      id: billData.id,
+      date: billData.date,
+      totalCost: billData.totalCost + price,
+      userId: billData.userId,
+    );
+    notifyListeners();
+  }
+
+  double getBillTotalAmount(String billId) {
+    return _bills.firstWhere((billData) => billData.id == billId).totalCost;
+  }
+
   void addNewBill(Bill bill) {
     final newBill = Bill(
       id: (_bills.length + 1).toString(),
