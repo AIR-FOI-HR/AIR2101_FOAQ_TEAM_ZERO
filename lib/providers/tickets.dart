@@ -31,8 +31,10 @@ class Tickets with ChangeNotifier {
     ),
   ];
 
-  List<Ticket> getTickets(String id) {
-    return _tickets.where((ticketData) => ticketData.museumId == id).toList();
+  List<Ticket> getTickets(String museumId) {
+    return _tickets
+        .where((ticketData) => ticketData.museumId == museumId)
+        .toList();
   }
 
   String getMuseumIdByTicketId(String ticketId) {
@@ -42,12 +44,12 @@ class Tickets with ChangeNotifier {
         .museumId;
   }
 
-  Ticket findById(String id) {
-    return _tickets.firstWhere((ticketData) => ticketData.id == id);
+  Ticket findById(String ticketId) {
+    return _tickets.firstWhere((ticketData) => ticketData.id == ticketId);
   }
 
-  void deleteTicketById(String id) {
-    _tickets.removeWhere((ticketData) => ticketData.id == id);
+  void deleteTicketById(String ticketId) {
+    _tickets.removeWhere((ticketData) => ticketData.id == ticketId);
     notifyListeners();
   }
 
