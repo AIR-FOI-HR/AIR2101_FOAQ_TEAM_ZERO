@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/bill.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -27,6 +28,11 @@ class BuyTicketScreen extends StatefulWidget {
 }
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
+  //TREBAM ID LOGIRANOG USERA
+  //VAZNO
+  //HITNO
+  final String logedUserId = 'u1';
+
   var _isInit = true;
   String newBillId;
 
@@ -64,6 +70,45 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     }
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text(
+        "OK",
+        style: TextStyle(
+          backgroundColor: Colors.transparent,
+          color: Colors.black,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        'Improperly filled',
+        style: TextStyle(
+          fontSize: 24,
+          color: Colors.black,
+        ),
+      ),
+      content: const Text("Please fill in the museum ticket correctly."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final museumId = ModalRoute.of(context).settings.arguments as String;
@@ -81,7 +126,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     int museumTourDuration =
         museumProv.getMuseumTourDuration(museumData.id).toInt();
 
-    final workTimeProv = Provider.of<WorkTimes>(context, listen: false);
+    final workTimeProv = Provider.of<WorkTimes>(context);
     final WorkTime workTimeData =
         workTimeProv.getTheWorkTimeOfSelectedDay(museumId, selectedDate);
     final workTimeSections = workTimeProv.getWorkTimeSections(
@@ -90,8 +135,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     final ticketsProv = Provider.of<Tickets>(context);
     final ticketData = ticketsProv.getTickets(museumId);
 
-    final double totalAmount =
-        Provider.of<Bills>(context).getBillTotalAmount(newBillId);
+    final billProv = Provider.of<Bills>(context);
+    final double totalAmount = billProv.getBillTotalAmount(newBillId);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
     return Scaffold(
@@ -213,11 +258,35 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                     },
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 25),
                 Align(
                   alignment: Alignment.topRight,
-                  child: Text('Total: $totalAmount'),
-                )
+                  child: Text(
+                    'Total: ${totalAmount.toStringAsFixed(2)} €',
+                    style: color.textTheme.headline5,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: ElevatedButtonMyReservation('Proceed to checkout', () {
+                    if (totalAmount == 0.0 ||
+                        billProv.getSelectedTime() == null) {
+                      showAlertDialog(context);
+                    } else {
+                      Bill newBill = Bill(
+                        id: newBillId,
+                        date: DateTime.now(),
+                        totalCost: totalAmount,
+                        userId: logedUserId,
+                        museumTime: billProv.getSelectedTime(),
+                      );
+                      billProv.addNewBill(newBill);
+                      Provider.of<UserTickets>(context, listen: false)
+                          .addNewUserTicket();
+                      Navigator.of(context).pop();
+                    }
+                  }),
+                ),
               ],
             ),
           )
