@@ -59,13 +59,16 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     String categoryNames =
         Provider.of<Categories>(context).getCategoryName(artworkProv);
 
-    final Museum museumData = Provider.of<Museums>(context).getById(museumId);
+    final museumProv = Provider.of<Museums>(context);
+    final Museum museumData = museumProv.getById(museumId);
+    int museumTourDuration =
+        museumProv.getMuseumTourDuration(museumData.id).toInt();
 
-    final workTimeProv = Provider.of<WorkTimes>(context);
+    final workTimeProv = Provider.of<WorkTimes>(context, listen: false);
     final WorkTime workTimeData =
         workTimeProv.getTheWorkTimeOfSelectedDay(museumId, selectedDate);
-    final workTimeSections =
-        workTimeProv.getWorkTimeSections(workTimeData, 45, context);
+    final workTimeSections = workTimeProv.getWorkTimeSections(
+        workTimeData, museumTourDuration, context);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
     return Scaffold(
