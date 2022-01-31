@@ -100,14 +100,9 @@ class Bills with ChangeNotifier {
     return _bills.firstWhere((billData) => billData.id == billId).totalCost;
   }
 
-  void addNewBill(Bill bill) {
-    final newBill = Bill(
-      id: (_bills.length + 1).toString(),
-      date: bill.date,
-      totalCost: bill.totalCost,
-      userId: bill.userId,
-    );
-    _bills.add(newBill);
+  void addNewBill(Bill newBill) {
+    int index = _bills.indexWhere((billData) => billData.id == newBill.id);
+    _bills[index] = newBill;
     notifyListeners();
   }
 
