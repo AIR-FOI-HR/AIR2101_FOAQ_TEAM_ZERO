@@ -25,8 +25,8 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.all(10),
             width: double.infinity,
             height: (mediaQuery.size.height -
                     appBarProperty.preferredSize.height -
@@ -43,7 +43,7 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
