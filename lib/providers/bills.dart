@@ -69,6 +69,17 @@ class Bills with ChangeNotifier {
     return 'Cancel';
   }
 
+  String createNewBill() {
+    final newBill = Bill(
+      id: (_bills.length + 1).toString(),
+      date: null,
+      totalCost: 0,
+      userId: '',
+    );
+    _bills.add(newBill);
+    return newBill.id;
+  }
+
   void addNewBill(Bill bill) {
     final newBill = Bill(
       id: (_bills.length + 1).toString(),
