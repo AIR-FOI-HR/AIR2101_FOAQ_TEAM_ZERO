@@ -89,6 +89,12 @@ class Museums with ChangeNotifier {
     }).toList();
   }
 
+  double getMuseumTourDuration(String museumId) {
+    return _museums
+        .firstWhere((museumData) => museumData.id == museumId)
+        .tourDuration;
+  }
+
   Museum getById(String id) {
     return _museums.firstWhere((museum) => museum.id == id);
   }
