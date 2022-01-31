@@ -34,12 +34,17 @@ class UserTickets with ChangeNotifier {
 
   List<UserTicket> _newUserTickets = [];
 
+  void clearNewTickets() {
+    _newUserTickets = [];
+    notifyListeners();
+  }
+
   void addUserTickets(UserTicket newUserTicket) {
     int index = _newUserTickets.indexWhere((userTicket) =>
         (userTicket.billId == newUserTicket.billId &&
             userTicket.ticketId == newUserTicket.ticketId));
     if (index == -1) {
-      print('KVAKKKKK');
+      print(newUserTicket.billId + ' : ' + newUserTicket.ticketId);
       _newUserTickets.add(newUserTicket);
     } else if (newUserTicket.quantity == 0) {
       _newUserTickets.removeAt(index);
@@ -47,6 +52,7 @@ class UserTickets with ChangeNotifier {
       _newUserTickets[index] = newUserTicket;
     }
     print(_newUserTickets.length);
+    notifyListeners();
   }
 
   int getSpecificUserTicket(String billId, String ticketId) {
