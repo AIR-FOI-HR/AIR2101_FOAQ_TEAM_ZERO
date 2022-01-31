@@ -35,6 +35,17 @@ class Bills with ChangeNotifier {
     ),
   ];
 
+  TimeOfDay selectedTime;
+
+  TimeOfDay getSelectedTime() {
+    return selectedTime;
+  }
+
+  void setSelectedTime(TimeOfDay userSelectedTime) {
+    selectedTime = userSelectedTime;
+    notifyListeners();
+  }
+
   Bill getBillsById(String billId) {
     return _bills.firstWhere((billData) => billData.id == billId);
   }
