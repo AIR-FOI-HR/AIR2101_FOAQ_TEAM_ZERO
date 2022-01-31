@@ -17,6 +17,7 @@ import '../../providers/artworks.dart';
 import '../../providers/categories.dart';
 import '../../providers/work_times.dart';
 import '../../providers/bills.dart';
+import '../../providers/user_tickets.dart';
 
 class BuyTicketScreen extends StatefulWidget {
   static const routeName = "/buy-tickets";
@@ -26,6 +27,19 @@ class BuyTicketScreen extends StatefulWidget {
 }
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
+  var _isInit = true;
+  String newBillId;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final billsProv = Provider.of<Bills>(context, listen: false);
+      newBillId = billsProv.createNewBill();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   DateTime selectedDate = DateTime.now();
 
   _selectDate(BuildContext context) async {
@@ -76,8 +90,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     final ticketsProv = Provider.of<Tickets>(context);
     final ticketData = ticketsProv.getTickets(museumId);
 
-    final billsProv = Provider.of<Bills>(context);
-    final newBillId = billsProv.createNewBill();
+    final double totalAmount =
+        Provider.of<Bills>(context).getBillTotalAmount(newBillId);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
     return Scaffold(
@@ -198,6 +212,11 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                       );
                     },
                   ),
+                ),
+                const SizedBox(height: 15),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text('Total: $totalAmount'),
                 )
               ],
             ),
