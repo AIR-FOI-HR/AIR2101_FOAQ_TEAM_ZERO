@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../../../providers/categories.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +10,7 @@ class CategoryArtworkItem extends StatefulWidget {
   final String name;
 
   CategoryArtworkItem(this.id, this.name);
+
   @override
   State<CategoryArtworkItem> createState() => _CategoryArtworkItemState();
 }
