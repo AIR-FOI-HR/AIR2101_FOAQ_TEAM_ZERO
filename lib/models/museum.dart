@@ -24,16 +24,16 @@ class Museum with ChangeNotifier {
     this.capacity,
   });
 
-  static Museum fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, String>;
+  static Museum fromSnap(QueryDocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
     return Museum(
       id: snap.id,
-      name: snap["name"],
-      address: snap["address"],
-      description: snap["description"],
-      imageUrl: snap["imageUrl"],
-      location: snap["location"],
-      tourDuration: snap["tourDuration"],
+      name: snapshot["name"],
+      address: snapshot["address"],
+      description: snapshot["description"],
+      imageUrl: snapshot["imageUrl"],
+      location: snapshot["location"],
+      tourDuration: snapshot["tourDuration"],
     );
   }
 

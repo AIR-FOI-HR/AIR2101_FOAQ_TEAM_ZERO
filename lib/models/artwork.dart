@@ -25,12 +25,12 @@ class Artwork with ChangeNotifier {
     var snapshot = snap.data() as Map<String, dynamic>;
     return Artwork(
       id: snap.id,
-      category: snap["category"],
-      museum: snap["museum"],
-      name: snap["name"],
-      author: snap["author"],
-      description: snap["description"],
-      imageUrl: snap["imageUrl"],
+      category: snapshot["category"],
+      museum: snapshot["museum"],
+      name: snapshot["name"],
+      author: snapshot["author"],
+      description: snapshot["description"],
+      imageUrl: snapshot["imageUrl"],
     );
   }
 
