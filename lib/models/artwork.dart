@@ -21,8 +21,8 @@ class Artwork with ChangeNotifier {
       @required this.category,
       this.isFavorite = false});
 
-  static Artwork fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, String>;
+  static Artwork fromSnap(QueryDocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
     return Artwork(
       id: snap.id,
       category: snap["category"],
