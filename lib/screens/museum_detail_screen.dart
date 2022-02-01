@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../providers/museums.dart';
 
 import 'ticket_purchase/buy_ticket_screen.dart';
-import '../screens/buy_ticket_screen.dart';
 import '../screens/login/login_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
