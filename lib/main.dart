@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import './providers/museums.dart';
 import './providers/categories.dart';
@@ -28,7 +29,13 @@ import './screens/artworks/edit_add_artworks_screen.dart';
 import './screens/ticket_purchase/ticket_purchase_screen.dart';
 import './screens/ticket_purchase/bill_details_screen.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+ 
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

@@ -9,7 +9,7 @@ import '../../providers/users.dart';
 class UserDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<Users>(context).findByUsername('msakac');
+    final userData = Provider.of<Users>(context).getUser();
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColorDark,

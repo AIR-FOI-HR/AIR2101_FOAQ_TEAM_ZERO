@@ -11,12 +11,13 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/artworks/manage_artwork_item.dart';
 import '../../widgets/error_dialog.dart';
-
+import '../../models/user.dart';
+import '../../providers/users.dart';
 import './edit_add_artworks_screen.dart';
 
 class ManageArtworksScreen extends StatefulWidget {
   static const routeName = '/artworks';
-
+  User appUser;
   @override
   State<ManageArtworksScreen> createState() => _ManageArtworksScreenState();
 }
@@ -55,9 +56,11 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
   Widget build(BuildContext context) {
     ThemeData color = Theme.of(context);
     final museums = Provider.of<Museums>(context);
+    User appUser = Provider.of<Users>(context).getUser();
 
     return Scaffold(
-        appBar: appBar('Artworks', context, Theme.of(context).primaryColor),
+        appBar: appBar(
+            'Artworks', context, Theme.of(context).primaryColor, appUser),
         body: _isLoading
             ? Center(
                 child: CircularProgressIndicator(),

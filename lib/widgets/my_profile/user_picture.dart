@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/user.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
 
 class UserPicture extends StatelessWidget {
-  final String user = 'msakac';
-
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<Users>(context);
-    final userData = users.findByUsername(user);
+    final userData = Provider.of<Users>(context).getUser();
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -37,7 +35,7 @@ class UserPicture extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: userData.userImage == null
+                    image: userData.userImage == ""
                         ? const AssetImage('assets/images/default_user.png')
                         : NetworkImage(userData.userImage),
                   ),
@@ -47,7 +45,7 @@ class UserPicture extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                userData.username,
+                userData.username.toString(),
                 style: Theme.of(context).textTheme.headline6,
               )
             ],

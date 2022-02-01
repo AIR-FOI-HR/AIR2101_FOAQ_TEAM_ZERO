@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/museums.dart';
 import '../../providers/users.dart';
 
+import '../../models/user.dart';
+
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_configuration/ticket_configuration.dart';
@@ -25,10 +27,11 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
       thickness: 2,
       color: Theme.of(context).primaryColor,
     );
+    User appUser = Provider.of<Users>(context).getUser();
     final color = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
-        appBar('Museum configuration', context, color.primaryColor);
+        appBar('Museum configuration', context, color.primaryColor, appUser);
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),

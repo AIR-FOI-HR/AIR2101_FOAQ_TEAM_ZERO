@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
 import 'package:museum_app/widgets/login/user_login_title.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import '../../providers/users.dart';
 import '../login/box_decoration_property.dart';
 import '../login/check_box.dart';
 import '../../screens/login/login_screen.dart';
+import '../utils.dart';
 
 class RegistrationInputDesign extends StatefulWidget {
   @override
@@ -30,6 +32,31 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
   bool nameBool = false;
   bool surnameBool = false;
   bool passwordBool = false;
+  bool _isLoading = false;
+
+  void registerUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await AuthMethods().registerUser(
+      username: usernameControler.text,
+      email: emailControler.text,
+      name: nameControler.text,
+      surname: surnameControler.text,
+      password: passwordOneControler.text,
+    );
+    if (result == "Success") {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(context, result);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,23 +217,22 @@ class _RegistrationInputDesignState extends State<RegistrationInputDesign> {
                                     !nameBool &&
                                     !surnameBool &&
                                     !passwordBool) {
-                                  userProvider.addNewUser(
-                                    usernameControler.text,
-                                    emailControler.text,
-                                    nameControler.text,
-                                    surnameControler.text,
-                                    passwordOneControler.text,
-                                  );
-
-                                  Navigator.of(context).pushReplacementNamed(
-                                      LoginScreen.routeName);
+                                  registerUser();
                                 }
                               },
                               child: FittedBox(
-                                child: Text(
-                                  'Register',
-                                  style: color.textTheme.headline1,
-                                ),
+                                child: _isLoading
+                                    ? SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: CircularProgressIndicator(
+                                            strokeWidth: 3,
+                                            color: color.primaryColor),
+                                      )
+                                    : Text(
+                                        'Register',
+                                        style: color.textTheme.headline1,
+                                      ),
                               ),
                             ),
                           ),

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "27674535071",
+    "firebase_url": "https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "museumapp-3725f",
+    "storage_bucket": "museumapp-3725f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27674535071:android:c4c8e47bbe097390c02eaa",
+        "android_client_info": {
+          "package_name": "com.example.museum_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27674535071-8m892vvu4a06ugtrrpet9ehhqo186k3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1X7M6zGtSL_h4Joo-1hPxJ2JX4ifJTJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27674535071-8m892vvu4a06ugtrrpet9ehhqo186k3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

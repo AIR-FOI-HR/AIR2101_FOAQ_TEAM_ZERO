@@ -5,10 +5,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/app_bar.dart';
 import '../widgets/museumDetails/artworks_grid.dart';
-
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
 import '../providers/museums.dart';
 
 import 'ticket_purchase/buy_ticket_screen.dart';
+import '../screens/buy_ticket_screen.dart';
+import '../screens/login/login_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
   static const routeName =
@@ -23,12 +27,14 @@ class MuseumDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
     final museumId = ModalRoute.of(context).settings.arguments
         as String; //get id when routed to  museum detail screen
     final museum = Provider.of<Museums>(context)
         .getById(museumId); //get museum by id from Museums provider
     return Scaffold(
-      appBar: appBar(museum.name, context, Theme.of(context).highlightColor),
+      appBar: appBar(
+          museum.name, context, Theme.of(context).highlightColor, appUser),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -190,7 +196,9 @@ class MuseumDetailScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
         onPressed: () {
-          Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
+          appUser == null
+              ? Navigator.of(context).pushNamed(LoginScreen.routeName)
+              : Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
         },
         child: IconButton(
           icon: Icon(

@@ -3,14 +3,19 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/login/display_logo.dart';
 import '../../widgets/login/login_input_design.dart';
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/userLogin';
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
+
     final appBarProperty =
-        appBar('Login', context, Theme.of(context).primaryColor);
+        appBar('Login', context, Theme.of(context).primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: appBarProperty,

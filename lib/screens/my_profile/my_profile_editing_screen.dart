@@ -69,8 +69,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     if (_isInit) {
       final username = ModalRoute.of(context).settings.arguments as String;
       if (username != null) {
-        _editedUser =
-            Provider.of<Users>(context, listen: false).findByUsername(username);
+        _editedUser = Provider.of<Users>(context, listen: false).getUser();
         _initValues = {
           'name': _editedUser.name,
           'surname': _editedUser.surname,
