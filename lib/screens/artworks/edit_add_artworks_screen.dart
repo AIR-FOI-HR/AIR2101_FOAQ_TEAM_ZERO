@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
@@ -365,8 +366,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     } else {
       try {
         print(_artwork.imageUrl);
-        await Provider.of<Artworks>(context, listen: false)
-            .addArtwork(_artwork);
+        await DBCaller.addArtwork(_artwork);
       } catch (error) {
         await showErrorDialog(context);
       }
