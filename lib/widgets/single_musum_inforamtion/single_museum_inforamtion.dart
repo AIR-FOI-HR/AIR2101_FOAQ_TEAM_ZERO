@@ -20,6 +20,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
   final _museumAddress = FocusNode();
   final _museumDescription = FocusNode();
   final _museumImageUrl = FocusNode();
+  final _museumCapacity = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   var _editedMuseumInformation = Museum(
@@ -30,6 +31,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     imageUrl: '',
     location: '',
     tourDuration: 0,
+    capacity: 0,
   );
 
   @override
@@ -37,6 +39,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     _museumAddress.dispose();
     _museumDescription.dispose();
     _museumImageUrl.dispose();
+    _museumCapacity.dispose();
     super.dispose();
   }
 
@@ -44,6 +47,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     'name': '',
     'address': '',
     'description': '',
+    'capacity': 0,
     'imageUrl': '',
   };
 
@@ -60,6 +64,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
           'name': _editedMuseumInformation.name,
           'address': _editedMuseumInformation.address,
           'description': _editedMuseumInformation.description,
+          'capacity': _editedMuseumInformation.capacity,
           'imageUrl': _editedMuseumInformation.imageUrl ?? '',
         };
       }
@@ -121,6 +126,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                             imageUrl: _editedMuseumInformation.imageUrl,
                             location: _editedMuseumInformation.location,
                             tourDuration: _editedMuseumInformation.tourDuration,
+                            capacity: _editedMuseumInformation.capacity,
                           );
                         },
                         validator: (value) {
@@ -149,6 +155,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                             imageUrl: _editedMuseumInformation.imageUrl,
                             location: _editedMuseumInformation.location,
                             tourDuration: _editedMuseumInformation.tourDuration,
+                            capacity: _editedMuseumInformation.capacity,
                           );
                         },
                         validator: (value) {
@@ -175,6 +182,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                             imageUrl: _editedMuseumInformation.imageUrl,
                             location: _editedMuseumInformation.location,
                             tourDuration: _editedMuseumInformation.tourDuration,
+                            capacity: _editedMuseumInformation.capacity,
                           );
                         },
                         validator: (value) {
@@ -190,7 +198,7 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                             labelText: 'Museum imageUrl:'),
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          _saveForm();
+                          FocusScope.of(context).requestFocus(_museumCapacity);
                         },
                         keyboardType: TextInputType.multiline,
                         onSaved: (value) {
@@ -202,7 +210,40 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
                             imageUrl: value,
                             location: _editedMuseumInformation.location,
                             tourDuration: _editedMuseumInformation.tourDuration,
+                            capacity: _editedMuseumInformation.capacity,
                           );
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _initValues['capacity'].toString(),
+                        decoration: const InputDecoration(
+                            labelText: 'Museum capacity:'),
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        focusNode: _museumCapacity,
+                        onFieldSubmitted: (_) {
+                          _saveForm();
+                        },
+                        onSaved: (value) {
+                          _editedMuseumInformation = Museum(
+                            id: _editedMuseumInformation.id,
+                            name: _editedMuseumInformation.name,
+                            address: _editedMuseumInformation.address,
+                            description: _editedMuseumInformation.description,
+                            imageUrl: _editedMuseumInformation.imageUrl,
+                            location: _editedMuseumInformation.location,
+                            tourDuration: _editedMuseumInformation.tourDuration,
+                            capacity: int.parse(value),
+                          );
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please provide a Museum capacity';
+                          }
+                          if (int.parse(value) <= 0) {
+                            return 'Please provide a Museum capacity greater than 0';
+                          }
+                          return null;
                         },
                       ),
                     ],
