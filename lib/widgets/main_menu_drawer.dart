@@ -90,43 +90,6 @@ class MainMenuDrawer extends StatelessWidget {
             Icons.map_outlined,
             () {},
           ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'My Profile',
-            Icons.supervised_user_circle,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(MyProfileScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Museum configuration',
-            Icons.edit_outlined,
-            () {
-              Navigator.of(context).pushReplacementNamed(
-                  SingleMuseumConfigurationScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Ticket',
-            Icons.panorama_horizontal,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(TicketPurchaseScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'About us',
-            Icons.quick_contacts_mail_outlined,
-            () {},
-          ),
           if (user != null)
             if (int.parse(user.userRole) > 0) ...[
               //Obicni korisnik
@@ -138,6 +101,16 @@ class MainMenuDrawer extends StatelessWidget {
                 () {
                   Navigator.of(context)
                       .pushReplacementNamed(MyProfileScreen.routeName);
+                },
+              ),
+              createDivider,
+              createDrawerTile(
+                context,
+                'Ticket',
+                Icons.panorama_horizontal,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(TicketPurchaseScreen.routeName);
                 },
               ),
               if (int.parse(user.userRole) > 2) ...[
