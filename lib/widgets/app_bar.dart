@@ -8,7 +8,7 @@ void logOut() async {
 }
 
 AppBar appBar(String title, BuildContext ctx, Color color, User user) {
-  print(user);
+  print("Korisnik id: " + user.toString());
   return AppBar(
     title: Text(title),
     backgroundColor: color,
