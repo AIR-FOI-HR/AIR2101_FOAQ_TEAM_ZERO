@@ -42,50 +42,18 @@ class Artworks with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAndSetArtworks() async {
-    try {
-      final response = await http.get(urlArtworks);
-      final extracedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Artwork> loadedArtworks = [];
-      extracedData.forEach((id, artwork) {
-        print('Dohvacam artwork');
-        loadedArtworks.add(Artwork(
-            id: id,
-            category: artwork['category'],
-            imageUrl: artwork['imageUrl'],
-            museum: artwork['museum'],
-            name: artwork['name'],
-            author: artwork['author'],
-            description: artwork['description'],
-            isFavorite: false));
-      });
-      _artworks = loadedArtworks;
-    } catch (error) {
-      throw (error);
-    }
-  }
-
   List<Artwork> getByMuseumId(String id) {
-    try {
-      fetchAndSetArtworks();
-    } catch (error) {
-      throw (error);
-    }
     return _artworks.where((artwork) => artwork.museum == id).toList();
   }
 
   List<Artwork> getByCategory(String categoryId) {
+    print("Artworki: " + _artworks.length.toString());
     return _artworks
         .where((artwork) => artwork.category == categoryId)
         .toList();
   }
 
   Artwork getById(String id) {
-    try {
-      fetchAndSetArtworks();
-    } catch (error) {
-      throw (error);
-    }
     return _artworks.firstWhere((artwork) => artwork.id == id);
   }
 
