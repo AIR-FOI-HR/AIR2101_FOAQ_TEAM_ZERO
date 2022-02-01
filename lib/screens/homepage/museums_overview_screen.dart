@@ -64,9 +64,9 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   void searchMuseumByCategory(String categoryId) {
     setState(() {
       this.category = categoryId;
-      this.mainMuseumList = Provider.of<Museums>(context, listen: false)
+      this.museumsForWidget = Provider.of<Museums>(context, listen: false)
           .filterMusemsByCategory(categoryId);
-      museumsForWidget = mainMuseumList;
+      //museumsForWidget = mainMuseumList;
     });
   }
 
