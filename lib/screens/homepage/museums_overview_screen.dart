@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/providers/artworks.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/homepage/museums_grid.dart';
 import '../../widgets/homepage/search_bar.dart';
@@ -83,6 +84,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   Future<void> _fetchMuseums() async {
     //While waiting for data from database we wait 0.5 seconds. This is for better UX and smoothness
     Provider.of<Museums>(context, listen: false).fetchMuseums();
+    Provider.of<Artworks>(context, listen: false).fetchArtworks();
     await Future.delayed(Duration(milliseconds: 700));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     museumsForWidget = mainMuseumList;
@@ -90,6 +92,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
 
   Future<void> _refresh() async {
     Provider.of<Museums>(context, listen: false).fetchMuseums();
+    Provider.of<Artworks>(context, listen: false).fetchArtworks();
     await Future.delayed(Duration(milliseconds: 1300));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     setState(() {
