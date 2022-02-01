@@ -6,127 +6,12 @@ import 'dart:convert';
 import '../models/artwork.dart';
 import '../models/museum.dart';
 import '../providers/museums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Artworks with ChangeNotifier {
-  // final Museums museums = Museums();
-  // final List<Museum> museumsList = null;
-
-  // Artworks(){
-  //   final List<Museum> museumsList = museums.getMuseums;
-  // }
-
-  List<Artwork> _artworks = [
-    Artwork(
-        id: '1',
-        name:
-            'Mystic Marriage of St Catherine with the Young Baptist and other Saints',
-        description:
-            'The attribution to the great Sienese artist has never been doubted, and indeed the panel’s high quality confirms it. The refined and dreamlike chromatic modulations are typical of the artist, and this work is generally dated to between 1528 and 1535. The magnificent painting has retained its beautiful Renaissance frame. The panel was in the Aldobrandini collection by 1603 and Olimpia Aldobrandini brought it as part of her dowry when she married Prince Camillo Pamphilj.',
-        author: 'DOMENICO BECCAFUMI',
-        imageUrl:
-            'https://www.doriapamphilj.it/wp-content/uploads/2019/01/ADP-Fc-672-Ph-Alessandro-Vasari.jpg',
-        museum: '2',
-        category: 'c10'),
-    Artwork(
-        id: '2',
-        name: 'Landscape with Ford',
-        description: '',
-        author: 'DOMENICHINO',
-        imageUrl:
-            'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-domenichino-paesaggio-con-guado-big.jpg',
-        museum: '2',
-        category: 'c11'),
-    Artwork(
-        id: '3',
-        name: 'Dido',
-        description: '',
-        author: 'DOSSO DOSSI',
-        imageUrl:
-            'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-didone-big.jpg',
-        museum: '2',
-        category: 'c11'),
-    Artwork(
-        id: '4',
-        name: 'The Birth of the Virgin',
-        description: '',
-        author: 'GIOVANNI DI PAOLO DI GRAZIA',
-        imageUrl:
-            'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-nascita-della-vergine-big.jpg',
-        museum: '2',
-        category: 'c11'),
-    Artwork(
-        id: '5',
-        name: 'Self-portrait',
-        description:
-            'In overall good condition, the painting probably has a funereal theme, suggested by the finger pointing to the ring. ',
-        author: 'LORENZO LOTTO',
-        imageUrl:
-            'https://www.doriapamphilj.it/wp-content/uploads/2019/01/palazzo-doria-pamphilj-lotto-lorenzo-autoritratto-big2.jpg',
-        museum: '2',
-        category: 'c11'),
-    Artwork(
-        id: '6',
-        name: 'Lamentation over the Dead Christ',
-        description:
-            'The most convincing hypothesis, despite the uncertainties stemming from the existence of several variants of the same subject, identifies the painting in Brera with the “foreshortened Christ” found in Mantegna’s studio at the time of his death, sold by his son Ludovico to Cardinal Sigismondo Gonzaga and inventoried among the property of the lords of Mantua in 1627.',
-        author: 'Andrea Mantegna',
-        imageUrl:
-            'https://pinacotecabrera.org/wp-content/uploads/2014/10/Mantegna-Cristo-Morto-600x498.jpg',
-        museum: '5',
-        category: 'c11'),
-    Artwork(
-        id: '7',
-        name: 'St. Mark Preaching in Alexandria',
-        description:
-            'The huge canvas adorned the reception room of the Scuola Grande di San Marco in Venice, one of the city’s most prestigious and powerful confraternities. It was commissioned from Gentile Bellini in 1504 but was left incomplete on the death of the artist in 1507.',
-        author: 'Gentile Bellini and Giovanni Bellini',
-        imageUrl:
-            'https://pinacotecabrera.org/wp-content/uploads/2014/09/Gio-GeBellini-Predica-san-marco-piazza-egitto-600x273.jpg',
-        museum: '5',
-        category: 'c11'),
-    Artwork(
-        id: '8',
-        name: 'The Marriage of the Virgin',
-        description:
-            'he painting, dating from 1504, was moved from the Church of San Francesco in Città di Castello to the Pinacoteca in 1805. Raphael painted the Marriage of the Virgin having in mind the altarpiece with the same subject by Perugino, which is conserved at the Musée des Beaux-Arts in Caen. Raphael took inspiration from it, using its composition structure and iconography to obtain a result of incredible and unachievable perfection.',
-        author: 'Raffaello Sanzio (Raphael)',
-        imageUrl:
-            'https://pinacotecabrera.org/wp-content/uploads/2014/09/82_Raffaello_Spozalizio_-418x600.jpg',
-        museum: '5',
-        category: 'c11'),
-    Artwork(
-        id: '9',
-        name: 'Figurine of Ahmose-Nefertari',
-        description:
-            'Figurine of Ahmose-Nefertari. The name and titles of this deified queen were likely inscribed on the base, which is missing. Deir el-Medina. New Kingdom, 18th–20th dynasties (1539–1076 BCE).',
-        author: 'Unknown',
-        imageUrl:
-            'https://www.historymuseum.ca/wp-content/uploads/2021/03/ahmose-nefertari-museo-egizio.jpg',
-        museum: '6',
-        category: 'c6'),
-    Artwork(
-        id: '10',
-        name: 'The Sphinx',
-        description: '',
-        author: 'Unknown',
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Museo_Egizio_di_Torino-631_o.jpg/1280px-Museo_Egizio_di_Torino-631_o.jpg',
-        museum: '6',
-        category: 'c6'),
-    Artwork(
-        id: '11',
-        name: 'Egyptian dancer',
-        description: '',
-        author: 'Unknown',
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Female_topless_egyption_dancer_on_ancient_ostrakon.jpg/1024px-Female_topless_egyption_dancer_on_ancient_ostrakon.jpg',
-        museum: '6',
-        category: 'c6'),
-  ];
+  List<Artwork> _artworks = [];
   final urlArtworks = Uri.parse(
       'https://museumapp-3725f-default-rtdb.europe-west1.firebasedatabase.app/artworks.json');
-
-  //List<Artwork> _artworks = [];
 
   List getCategoryFromMuseum(String museumId) {
     var _categoryList = [];
@@ -142,6 +27,19 @@ class Artworks with ChangeNotifier {
 
   List<Artwork> get getArtworks {
     return [..._artworks];
+  }
+
+  Future<void> fetchArtworks() async {
+    List<Artwork> loadedArtworks = [];
+    _artworks.clear();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("artworks").get();
+
+    for (var doc in querySnapshot.docs) {
+      loadedArtworks.add(Artwork.fromSnap(doc));
+    }
+    _artworks = loadedArtworks;
+    notifyListeners();
   }
 
   Future<void> fetchAndSetArtworks() async {
