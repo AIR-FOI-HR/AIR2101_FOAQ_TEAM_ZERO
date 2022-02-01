@@ -19,11 +19,7 @@ class Categories with ChangeNotifier {
         await FirebaseFirestore.instance.collection("categories").get();
 
     for (var doc in querySnapshot.docs) {
-      Map<String, dynamic> data = doc.data();
-      loadedCategories.add(CategoryArtwork(
-        id: doc.id,
-        name: data["name"],
-      ));
+      loadedCategories.add(CategoryArtwork.fromSnap(doc));
     }
     _categories = loadedCategories;
     notifyListeners();

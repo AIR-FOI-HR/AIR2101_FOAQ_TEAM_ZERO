@@ -83,17 +83,9 @@ class Museums with ChangeNotifier {
         await FirebaseFirestore.instance.collection("museums").get();
 
     for (var doc in querySnapshot.docs) {
-      Map<String, dynamic> data = doc.data();
-      loadedMuseums.add(Museum(
-        id: doc.id,
-        name: data["name"],
-        address: data["address"],
-        description: data["description"],
-        imageUrl: data["imageUrl"],
-        location: data["location"],
-        tourDuration: data["tourDuration"],
-      ));
+      loadedMuseums.add(Museum.fromSnap(doc));
     }
+    print(loadedMuseums);
     _museums = loadedMuseums;
     notifyListeners();
   }
