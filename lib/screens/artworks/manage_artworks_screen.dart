@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/main.dart';
 import 'package:museum_app/widgets/homepage/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -23,34 +24,9 @@ class ManageArtworksScreen extends StatefulWidget {
 }
 
 class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
-  bool _isLoading = false;
-
-  //-for search-//
-  List<Artwork> artworksForWidget;
-  List<Artwork> mainArtworksList;
+  List<Artwork> artworksForWidget = [];
+  List<Artwork> mainArtworksList = [];
   String query = '';
-  //-----------//
-
-  @override
-  void didChangeDependencies() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await Provider.of<Artworks>(context)
-        .fetchAndSetArtworks()
-        .catchError((error) {
-      showErrorDialog(context);
-    }).then((_) {
-      mainArtworksList =
-          Provider.of<Artworks>(context, listen: false).getArtworks;
-      artworksForWidget = mainArtworksList;
-      setState(() {
-        _isLoading = false;
-      });
-    });
-
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,61 +37,67 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
     return Scaffold(
         appBar: appBar(
             'Artworks', context, Theme.of(context).primaryColor, appUser),
-        body: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SearchBar(searchArtworks),
-                    artworksForWidget.isNotEmpty
-                        ? GroupedListView<Artwork, String>(
-                            shrinkWrap: true,
-                            elements: artworksForWidget,
-                            groupBy: (artwork) => artwork.museum,
-                            groupSeparatorBuilder: (String groupByValue) =>
-                                (Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+        body: FutureBuilder(
+            future: mainArtworksList.isEmpty ? _fetchArtworks() : null,
+            builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done ||
+                  mainArtworksList.isNotEmpty) {
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SearchBar(searchArtworks),
+                      artworksForWidget.isNotEmpty
+                          ? GroupedListView<Artwork, String>(
+                              shrinkWrap: true,
+                              elements: artworksForWidget,
+                              groupBy: (artwork) => artwork.museum,
+                              groupSeparatorBuilder: (String groupByValue) =>
+                                  (Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      museums.getById(groupByValue).name,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: color.primaryColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+                                      color: color.highlightColor,
+                                    ),
+                                  ],
+                                ),
+                              )),
+                              itemBuilder: (_, artwork) => Column(
                                 children: [
-                                  Text(
-                                    museums.getById(groupByValue).name,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: color.primaryColor,
-                                        fontWeight: FontWeight.bold),
+                                  ManageArtworkItem(
+                                    artwork.id,
+                                    artwork.name,
+                                    artwork.imageUrl,
                                   ),
                                   Divider(
-                                    thickness: 2,
-                                    color: color.highlightColor,
-                                  ),
+                                    thickness: 0.2,
+                                    color: Colors.black,
+                                  )
                                 ],
                               ),
-                            )),
-                            itemBuilder: (_, artwork) => Column(
-                              children: [
-                                ManageArtworkItem(
-                                  artwork.id,
-                                  artwork.name,
-                                  artwork.imageUrl,
-                                ),
-                                Divider(
-                                  thickness: 0.2,
-                                  color: Colors.black,
-                                )
-                              ],
+                            )
+                          : Image.asset(
+                              'assets/images/NoArtworks.png',
+                              fit: BoxFit.fill,
                             ),
-                          )
-                        : Image.asset(
-                            'assets/images/NoArtworks.png',
-                            fit: BoxFit.fill,
-                          ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: color.highlightColor,
           child: IconButton(
@@ -140,5 +122,13 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
         return titleLower.contains(searchLower);
       }).toList();
     });
+  }
+
+  Future<void> _fetchArtworks() async {
+    Provider.of<Artworks>(context, listen: false).fetchArtworks();
+    await Future.delayed(Duration(milliseconds: 1000));
+    mainArtworksList =
+        Provider.of<Artworks>(context, listen: false).getArtworks;
+    artworksForWidget = mainArtworksList;
   }
 }
