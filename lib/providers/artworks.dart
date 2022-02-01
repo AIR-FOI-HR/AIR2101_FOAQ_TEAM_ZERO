@@ -39,6 +39,7 @@ class Artworks with ChangeNotifier {
       loadedArtworks.add(Artwork.fromSnap(doc));
     }
     _artworks = loadedArtworks;
+    print("Artworki: " + _artworks.length.toString());
     notifyListeners();
   }
 
@@ -47,7 +48,7 @@ class Artworks with ChangeNotifier {
   }
 
   List<Artwork> getByCategory(String categoryId) {
-    print("Artworki: " + _artworks.length.toString());
+    print("Artworki getByCategory: " + _artworks.length.toString());
     return _artworks
         .where((artwork) => artwork.category == categoryId)
         .toList();

@@ -117,7 +117,8 @@ class Museums with ChangeNotifier {
       return _museums;
     }
     List<Artwork> categoryArtworks = artworks.getByCategory(categoryId);
-    print('Broj artworka: ' + categoryArtworks.length.toString());
+    print('Artworki filterMuseumsByCategory: ' +
+        categoryArtworks.length.toString());
     List<Museum> museumsFilter = [];
     for (Artwork artwork in categoryArtworks) {
       // print(artwork.name+'\n');

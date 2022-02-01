@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:collection/collection.dart';
+import 'package:museum_app/models/artwork.dart';
 import 'package:museum_app/providers/artworks.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/homepage/museums_grid.dart';
@@ -20,6 +22,7 @@ class MuseumsOverviewScreen extends StatefulWidget {
 class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   List<Museum> museumsForWidget = [];
   List<Museum> mainMuseumList = [];
+  List<Museum> museumsSearchSelectedCategory;
   String query = '';
   String category = 'c0';
 
@@ -63,17 +66,31 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
 
   void searchMuseumByCategory(String categoryId) {
     setState(() {
-      this.category = categoryId;
-      this.museumsForWidget = Provider.of<Museums>(context, listen: false)
-          .filterMusemsByCategory(categoryId);
-      //museumsForWidget = mainMuseumList;
+      category = categoryId;
+      if (categoryId != 'c0') {
+        List<Artwork> categoryArtworks =
+            Provider.of<Artworks>(context, listen: false)
+                .getByCategory(categoryId);
+        List<Museum> museumsFilter = [];
+        for (Artwork artwork in categoryArtworks) {
+          museumsFilter.add(
+              mainMuseumList.firstWhereOrNull((el) => el.id == artwork.museum));
+        }
+        museumsForWidget = museumsFilter.toSet().toList();
+        museumsSearchSelectedCategory = museumsForWidget;
+      } else {
+        museumsForWidget = mainMuseumList;
+        museumsSearchSelectedCategory = null;
+      }
     });
   }
 
-  void searchMuseum(String query) {
+  void searchMuseum(String queryText) {
     setState(() {
-      this.query = query;
-      this.museumsForWidget = mainMuseumList.where((museum) {
+      List<Museum> searchMuseum =
+          museumsSearchSelectedCategory ?? mainMuseumList;
+      query = queryText;
+      museumsForWidget = searchMuseum.where((museum) {
         final titleLower = museum.name.toLowerCase();
         final searchLower = query.toLowerCase();
         return titleLower.contains(searchLower);
