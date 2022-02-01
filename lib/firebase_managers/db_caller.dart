@@ -47,6 +47,14 @@ class DBCaller {
         .catchError((_) => print("Error while updating"));
   }
 
+  //----------Artworks----------//
+  static Future<void> addArtwork(Artwork artwork) async {
+    return await artworks
+        .add(artwork.toJson())
+        .then((_) => print("Artowrk added"))
+        .catchError((_) => print("Failed to add artwork"));
+  }
+
   //----------Museums----------//
 
   static Future<void> addMuseum(Museum museum) async {
