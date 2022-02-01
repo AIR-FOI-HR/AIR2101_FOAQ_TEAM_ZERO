@@ -25,10 +25,12 @@ class BillDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Bill billData = ModalRoute.of(context).settings.arguments as Bill;
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
 
     final color = Theme.of(context);
     final textTheme = color.textTheme.headline4;
-    final appBarProperty = appBar('Bill details', context, color.primaryColor);
+    final appBarProperty =
+        appBar('Bill details', context, color.primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
     final DateFormat date = DateFormat('dd.MM.yyyy.');
 

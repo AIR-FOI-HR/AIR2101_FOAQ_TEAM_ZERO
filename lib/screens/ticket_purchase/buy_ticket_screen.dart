@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/models/bill.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -111,9 +113,11 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     final museumId = ModalRoute.of(context).settings.arguments as String;
     final color = Theme.of(context);
-    final appBarProperty = appBar('Buy tickets', context, color.primaryColor);
+    final appBarProperty =
+        appBar('Buy tickets', context, color.primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
 
     List artworkProv =
