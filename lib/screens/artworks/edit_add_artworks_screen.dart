@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 
@@ -84,6 +86,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     ThemeData color = Theme.of(context);
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
@@ -98,11 +101,8 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
         .forEach((category) => categoryMap[category.id] = category.name);
 
     return Scaffold(
-      appBar: appBar(
-        _artwork.id != null ? _artwork.name : 'Add artwork',
-        context,
-        color.primaryColor,
-      ),
+      appBar: appBar(_artwork.id != null ? _artwork.name : 'Add artwork',
+          context, color.primaryColor, appUser),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
