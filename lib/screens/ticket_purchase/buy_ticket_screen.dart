@@ -154,74 +154,76 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.all(5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  museumData.name,
-                  style: color.textTheme.headline5,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: [
-                          MuseumColumnData(museumData.address),
-                          const SizedBox(height: 10),
-                          MuseumColumnData('Categories: $categoryNames'),
-                          const SizedBox(height: 5),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: ElevatedButtonMyReservation(
-                                'Select date', () => _selectDate(context)),
-                          ),
-                          const SizedBox(height: 5),
-                          MuseumColumnData(
-                              'Selected date:\n${date.format(selectedDate.toLocal())}'),
-                          const SizedBox(height: 10),
-                          MuseumColumnData(workTimeData.timeFrom == null ||
-                                  workTimeData.timeTo == null
-                              ? 'Work time:\nClosed'
-                              : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
-                        ],
-                      ),
-                    ),
-                    if (workTimeSections.isNotEmpty)
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    museumData.name,
+                    style: color.textTheme.headline5,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Column(
                           children: [
-                            Text(
-                              'Please select time:',
-                              style: color.textTheme.headline4,
+                            MuseumColumnData(museumData.address),
+                            const SizedBox(height: 10),
+                            MuseumColumnData('Categories: $categoryNames'),
+                            const SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: ElevatedButtonMyReservation(
+                                  'Select date', () => _selectDate(context)),
                             ),
-                            SizedBox(
-                              height: (mediaQuery.size.height -
-                                      appBarProperty.preferredSize.height -
-                                      mediaQuery.padding.top) *
-                                  0.3,
-                              child: GridView.builder(
-                                padding: const EdgeInsets.all(10),
-                                itemCount: workTimeSections.length,
-                                itemBuilder: (ctx, i) =>
-                                    WorkTimeItem(workTimeSections[i]),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 8 / 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                ),
-                              ),
-                            ),
+                            const SizedBox(height: 5),
+                            MuseumColumnData(
+                                'Selected date:\n${date.format(selectedDate.toLocal())}'),
+                            const SizedBox(height: 10),
+                            MuseumColumnData(workTimeData.timeFrom == null ||
+                                    workTimeData.timeTo == null
+                                ? 'Work time:\nClosed'
+                                : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
                           ],
                         ),
-                      )
-                  ],
-                ),
-              ],
+                      ),
+                      if (workTimeSections.isNotEmpty)
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Please select time:',
+                                style: color.textTheme.headline4,
+                              ),
+                              SizedBox(
+                                height: (mediaQuery.size.height -
+                                        appBarProperty.preferredSize.height -
+                                        mediaQuery.padding.top) *
+                                    0.3,
+                                child: GridView.builder(
+                                  padding: const EdgeInsets.all(10),
+                                  itemCount: workTimeSections.length,
+                                  itemBuilder: (ctx, i) =>
+                                      WorkTimeItem(workTimeSections[i]),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    childAspectRatio: 8 / 2,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
@@ -235,59 +237,63 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.all(5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Tickets',
-                  style: color.textTheme.headline5,
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: ticketData.length,
-                    itemBuilder: (_, i) {
-                      return Column(
-                        children: [
-                          TicketDataRow(ticketData[i], i, newBillId),
-                          const Divider(thickness: 1),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 25),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'Total: ${totalAmount.toStringAsFixed(2)} €',
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tickets',
                     style: color.textTheme.headline5,
                   ),
-                ),
-                const SizedBox(height: 10),
-                Center(
-                  child: ElevatedButtonMyReservation('Proceed to checkout', () {
-                    if (totalAmount == 0.0 ||
-                        billProv.getSelectedTime() == null) {
-                      showAlertDialog(context);
-                    } else {
-                      Bill newBill = Bill(
-                        id: newBillId,
-                        date: DateTime.now(),
-                        totalCost: totalAmount,
-                        userId: logedUserId,
-                        museumTime: billProv.getSelectedTime(),
-                      );
-                      billProv.addNewBill(newBill);
-                      Provider.of<UserTickets>(context, listen: false)
-                          .addNewUserTicket();
-                      Navigator.of(context).pop();
-                    }
-                  }),
-                ),
-              ],
+                  const SizedBox(height: 15),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: ticketData.length,
+                      itemBuilder: (_, i) {
+                        return Column(
+                          children: [
+                            TicketDataRow(ticketData[i], i, newBillId),
+                            const Divider(thickness: 1),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Total: ${totalAmount.toStringAsFixed(2)} €',
+                      style: color.textTheme.headline5,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child:
+                        ElevatedButtonMyReservation('Proceed to checkout', () {
+                      if (totalAmount == 0.0 ||
+                          billProv.getSelectedTime() == null) {
+                        showAlertDialog(context);
+                      } else {
+                        Bill newBill = Bill(
+                          id: newBillId,
+                          date: selectedDate,
+                          totalCost: totalAmount,
+                          userId: logedUserId,
+                          isCanceled: false,
+                          museumTime: billProv.getSelectedTime(),
+                        );
+                        billProv.addNewBill(newBill);
+                        Provider.of<UserTickets>(context, listen: false)
+                            .addNewUserTicket();
+                        Navigator.of(context).pop();
+                      }
+                    }),
+                  ),
+                ],
+              ),
             ),
           )
         ],
