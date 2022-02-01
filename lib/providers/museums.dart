@@ -85,13 +85,12 @@ class Museums with ChangeNotifier {
     for (var doc in querySnapshot.docs) {
       loadedMuseums.add(Museum.fromSnap(doc));
     }
-    print(loadedMuseums);
     _museums = loadedMuseums;
     notifyListeners();
   }
 
   List<Museum> get getMuseums {
-    print(_museums.length);
+    print("Broj muzeja: " + _museums.length.toString());
     return [..._museums];
   }
 
@@ -117,9 +116,8 @@ class Museums with ChangeNotifier {
     if (categoryId == 'c0') {
       return _museums;
     }
-    artworks.fetchAndSetArtworks();
     List<Artwork> categoryArtworks = artworks.getByCategory(categoryId);
-    //print('Broj artworka: '+ categoryArtworks.length.toString());
+    print('Broj artworka: ' + categoryArtworks.length.toString());
     List<Museum> museumsFilter = [];
     for (Artwork artwork in categoryArtworks) {
       // print(artwork.name+'\n');
