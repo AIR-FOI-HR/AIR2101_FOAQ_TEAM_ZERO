@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
+import 'package:museum_app/screens/artworks/manage_artworks_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 
@@ -357,8 +358,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     });
     if (_artwork.id != null) {
       try {
-        await Provider.of<Artworks>(context, listen: false)
-            .updateArtwork(_artwork.id, _artwork);
+        await DBCaller.updateArtwork(_artwork);
       } catch (error) {
         print(error);
         await showErrorDialog(context);
@@ -374,7 +374,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    Navigator.of(context).popAndPushNamed(ManageArtworksScreen.routeName);
   }
 
   void _updateImageUrl() {

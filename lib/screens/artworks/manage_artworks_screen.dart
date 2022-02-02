@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/main.dart';
+import 'package:museum_app/providers/categories.dart';
 import 'package:museum_app/widgets/homepage/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -74,11 +75,8 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
                               )),
                               itemBuilder: (_, artwork) => Column(
                                 children: [
-                                  ManageArtworkItem(
-                                    artwork.id,
-                                    artwork.name,
-                                    artwork.imageUrl,
-                                  ),
+                                  ManageArtworkItem(artwork.id, artwork.name,
+                                      artwork.imageUrl, refreshArtworks),
                                   Divider(
                                     thickness: 0.2,
                                     color: Colors.black,
@@ -113,10 +111,10 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
         drawer: MainMenuDrawer());
   }
 
-  void searchArtworks(String query) {
+  void searchArtworks(String queryy) {
     setState(() {
-      this.query = query;
-      this.artworksForWidget = mainArtworksList.where((artwork) {
+      query = queryy;
+      artworksForWidget = mainArtworksList.where((artwork) {
         final titleLower = artwork.name.toLowerCase();
         final searchLower = query.toLowerCase();
         return titleLower.contains(searchLower);
@@ -126,9 +124,17 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
 
   Future<void> _fetchArtworks() async {
     Provider.of<Artworks>(context, listen: false).fetchArtworks();
+    Provider.of<Categories>(context, listen: false).fetchCategories();
     await Future.delayed(Duration(milliseconds: 1000));
     mainArtworksList =
         Provider.of<Artworks>(context, listen: false).getArtworks;
     artworksForWidget = mainArtworksList;
+  }
+
+  void refreshArtworks(String callback) {
+    mainArtworksList.removeWhere((artwork) => artwork.id == callback);
+    setState(() {
+      artworksForWidget = mainArtworksList;
+    });
   }
 }
