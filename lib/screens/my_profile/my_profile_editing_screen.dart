@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/screens/my_profile/my_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
@@ -99,17 +101,18 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     }
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState.save();
     if (_editedUser.id != null) {
-      Provider.of<Users>(context, listen: false)
-          .updateUser(_editedUser.id, _editedUser);
+      DBCaller.updateUser(_editedUser);
+      Users _userProvider = Provider.of<Users>(context, listen: false);
+      await _userProvider.refreshUser();
     }
-    Navigator.of(context).pop();
+    Navigator.of(context).popAndPushNamed(MyProfileScreen.routeName);
   }
 
   @override
@@ -221,6 +224,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
               ),
               TextFormField(
                 initialValue: _initValues['email'],
+                enabled: false,
                 decoration: const InputDecoration(labelText: 'E-mail:'),
                 textInputAction: TextInputAction.next,
                 focusNode: _emailFocusNode,
@@ -372,11 +376,11 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                               !value.startsWith('https')) {
                             return 'Please enter a valid URL';
                           }
-                          if (!value.endsWith('.png') &&
-                              !value.endsWith('.jpg') &&
-                              !value.endsWith('.jpeg')) {
-                            return 'Please enter a valid image URL';
-                          }
+                          // if (!value.endsWith('.png') &&
+                          //     !value.endsWith('.jpg') &&
+                          //     !value.endsWith('.jpeg')) {
+                          //   return 'Please enter a valid image URL';
+                          // }
                         }
                         return null;
                       },
