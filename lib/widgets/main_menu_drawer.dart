@@ -113,7 +113,33 @@ class MainMenuDrawer extends StatelessWidget {
                       .pushReplacementNamed(TicketPurchaseScreen.routeName);
                 },
               ),
-              if (int.parse(user.userRole) > 2) ...[
+              if (int.parse(user.userRole) == 2 && user.museumId != "") ...[
+                //Moderator muzeja
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum configuration',
+                  Icons.edit_outlined,
+                  () {
+                    Navigator.of(context).pushReplacementNamed(
+                        SingleMuseumConfigurationScreen.routeName);
+                  },
+                ),
+              ],
+              if (int.parse(user.userRole) > 2 && user.museumId != "") ...[
+                //Vlasnik muzeja
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum configuration',
+                  Icons.edit_outlined,
+                  () {
+                    Navigator.of(context).pushReplacementNamed(
+                        SingleMuseumConfigurationScreen.routeName);
+                  },
+                ),
+              ],
+              if (int.parse(user.userRole) > 2 && user.museumId == "") ...[
                 //Admin
                 createDivider,
                 createDrawerTile(
@@ -123,16 +149,6 @@ class MainMenuDrawer extends StatelessWidget {
                   () {
                     Navigator.of(context)
                         .pushReplacementNamed(ManageArtworksScreen.routeName);
-                  },
-                ),
-                createDivider,
-                createDrawerTile(
-                  context,
-                  'Museum configuration',
-                  Icons.edit_outlined,
-                  () {
-                    Navigator.of(context).pushReplacementNamed(
-                        SingleMuseumConfigurationScreen.routeName);
                   },
                 ),
               ]
