@@ -95,7 +95,61 @@ class CategoryArtworkEditingScreen extends StatelessWidget {
               if (categoryItemId != null)
                 CrudElevatedButton(
                   'Delete',
-                  () => deleteCategory(categoryItemId),
+                  () => showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text(
+                        'Are you sure?',
+                        style: TextStyle(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                        ),
+                      ),
+                      content: Container(
+                        height: 70,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Do you want to remove category: '),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '${categoryItemData.name}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ]),
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text(
+                            'No',
+                            style: TextStyle(
+                              backgroundColor: Colors.white,
+                              color: Colors.black,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(ctx).pop(false);
+                          },
+                        ),
+                        TextButton(
+                          child: const Text(
+                            'Yes',
+                            style: TextStyle(
+                              backgroundColor: Colors.white,
+                              color: Colors.black,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(ctx).pop(true);
+                            deleteCategory(categoryItemData.id);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               CrudElevatedButton(
                 'Save',
