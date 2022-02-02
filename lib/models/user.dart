@@ -28,31 +28,29 @@ class User {
     this.museumId,
   });
 
-  static User fromSnap(DocumentSnapshot snap){
+  static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return User(
-      id: snapshot["id"],
-      username: snapshot["username"],
-      name: snapshot["name"],
-      surname: snapshot["surname"],
-      email: snapshot["email"],
-      phoneNumber: snapshot["phoneNumber"],
-      userImage: snapshot["userImage"],
-      userRole: snapshot["userRole"],
-      museumId: snapshot["museumId"]
-      
-    );
+        id: snap.id,
+        username: snapshot["username"],
+        name: snapshot["name"],
+        surname: snapshot["surname"],
+        email: snapshot["email"],
+        phoneNumber: snapshot["phoneNumber"],
+        userImage: snapshot["userImage"],
+        userRole: snapshot["userRole"],
+        museumId: snapshot["museumId"]);
   }
 
-  Map<String, dynamic> toJson() =>{
-    "id": id,
-    "username": username,
-    "name": name,
-    "surname": surname,
-    "email": email,
-    "phoneNumber": phoneNumber,
-    "userImage": userImage,
-    "userRole": userRole,
-    "museumId": museumId
-  };
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "username": username,
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "userImage": userImage,
+        "userRole": userRole,
+        "museumId": museumId
+      };
 }
