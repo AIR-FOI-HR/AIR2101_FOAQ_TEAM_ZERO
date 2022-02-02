@@ -41,7 +41,7 @@ class MuseumDetailScreen extends StatelessWidget {
             Container(
               height: 150,
               width: double.infinity,
-              child: Image.asset(
+              child: Image.network(
                 museum.imageUrl,
                 fit: BoxFit.cover,
               ),
