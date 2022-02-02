@@ -31,10 +31,7 @@ import './screens/ticket_purchase/bill_details_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
- 
-  
-  runApp(MyApp());
+  await Firebase.initializeApp().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
