@@ -23,6 +23,14 @@ class DBCaller {
     users.doc(id).set(user.toJson());
   }
 
+  static void updateUser(User user) async {
+    return await users
+        .doc(user.id)
+        .update(user.toJson())
+        .then((_) => print("User update"))
+        .catchError((error) => print("Failed to update user"));
+  }
+
   //----------Categories----------//
   static Future<void> addCategory(CategoryArtwork category) async {
     return await categories
