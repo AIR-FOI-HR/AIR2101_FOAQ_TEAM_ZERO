@@ -100,16 +100,16 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
 
   Future<void> _fetchMuseums() async {
     //While waiting for data from database we wait 0.5 seconds. This is for better UX and smoothness
-    Provider.of<Museums>(context, listen: false).fetchMuseums();
-    Provider.of<Artworks>(context, listen: false).fetchArtworks();
+    await Provider.of<Museums>(context, listen: false).fetchMuseums();
+    await Provider.of<Artworks>(context, listen: false).fetchArtworks();
     await Future.delayed(Duration(milliseconds: 700));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     museumsForWidget = mainMuseumList;
   }
 
   Future<void> _refresh() async {
-    Provider.of<Museums>(context, listen: false).fetchMuseums();
-    Provider.of<Artworks>(context, listen: false).fetchArtworks();
+    await Provider.of<Museums>(context, listen: false).fetchMuseums();
+    await Provider.of<Artworks>(context, listen: false).fetchArtworks();
     await Future.delayed(Duration(milliseconds: 1300));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     setState(() {
