@@ -32,6 +32,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     password: '',
     salt: '',
     userRole: '',
+    museumId: '',
   );
 
   @override
@@ -62,6 +63,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     'email': '',
     'password': '',
     'imageUrl': '',
+    'museumId': '',
   };
 
   var _isInit = true;
@@ -80,6 +82,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
           'email': _editedUser.email,
           'password': _editedUser.password,
           'imageUrl': '',
+          'museumId': _editedUser.museumId
         };
         _imageUrlController.text = _editedUser.userImage;
       }
@@ -108,6 +111,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     }
     _formKey.currentState.save();
     if (_editedUser.id != null) {
+      print(_editedUser.museumId);
       DBCaller.updateUser(_editedUser);
       Users _userProvider = Provider.of<Users>(context, listen: false);
       await _userProvider.refreshUser();
@@ -148,16 +152,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: value,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: value,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -176,16 +180,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: value,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: value,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -204,16 +208,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: value,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: value,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -233,16 +237,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: value,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: value,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -264,17 +268,17 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    phoneNumber: value,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      phoneNumber: value,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      salt: _editedUser.salt,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId);
                 },
                 validator: (value) {
                   if (value.isNotEmpty) {
@@ -298,17 +302,17 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 onSaved: (value) {
                   if (value.isEmpty) {
                     _editedUser = User(
-                      id: _editedUser.id,
-                      name: _editedUser.name,
-                      surname: _editedUser.surname,
-                      username: _editedUser.username,
-                      email: _editedUser.email,
-                      phoneNumber: _editedUser.phoneNumber,
-                      password: _editedUser.password,
-                      userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
-                      userImage: _editedUser.userImage,
-                    );
+                        id: _editedUser.id,
+                        name: _editedUser.name,
+                        surname: _editedUser.surname,
+                        username: _editedUser.username,
+                        email: _editedUser.email,
+                        phoneNumber: _editedUser.phoneNumber,
+                        password: _editedUser.password,
+                        userRole: _editedUser.userRole,
+                        salt: _editedUser.salt,
+                        userImage: _editedUser.userImage,
+                        museumId: _editedUser.museumId);
                   } else {
                     _editedUser = User(
                       id: _editedUser.id,
@@ -395,6 +399,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                           password: _editedUser.password,
                           userRole: _editedUser.userRole,
                           salt: _editedUser.salt,
+                          museumId: _editedUser.museumId,
                           userImage: value.isEmpty ? null : value,
                         );
                       },
