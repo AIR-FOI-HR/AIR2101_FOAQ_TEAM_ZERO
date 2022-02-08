@@ -29,6 +29,18 @@ class Tickets with ChangeNotifier {
       cost: '25.00',
       museumId: '1',
     ),
+    Ticket(
+      id: '5',
+      name: 'Adult',
+      cost: '10.00',
+      museumId: '2',
+    ),
+    Ticket(
+      id: '6',
+      name: 'Students',
+      cost: '5.00',
+      museumId: '2',
+    ),
   ];
 
   List<Ticket> getTickets(String museumId) {
@@ -69,5 +81,15 @@ class Tickets with ChangeNotifier {
       _tickets[prodIndex] = newTicket;
       notifyListeners();
     }
+  }
+
+  List getMuseumIds(List ticketIds) {
+    var museumIds = [];
+    for (var i = 0; i < ticketIds.length; i++) {
+      museumIds.add(_tickets
+          .firstWhere((ticketData) => ticketData.id == ticketIds[i])
+          .museumId);
+    }
+    return museumIds.toSet().toList();
   }
 }
