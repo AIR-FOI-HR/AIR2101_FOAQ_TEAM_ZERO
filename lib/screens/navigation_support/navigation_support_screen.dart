@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
 
 import '../../widgets/navigation_support/nav_supp_museum_button.dart';
 
+import '../../providers/users.dart';
+import '../../providers/bills.dart';
+import '../../providers/user_tickets.dart';
+import '../../providers/tickets.dart';
+
 class NavigationSupportScreen extends StatelessWidget {
   static const routeName = '/navigationSupport';
+  final String username = 'ttomiek';
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context);
@@ -14,6 +22,14 @@ class NavigationSupportScreen extends StatelessWidget {
         appBar('Naviagtion support', context, color.primaryColor);
     final mediaQuery = MediaQuery.of(context);
 
+    final User userData = Provider.of<Users>(context).findByUsername(username);
+    final billIds = Provider.of<Bills>(context).getBillIds(userData.id);
+    final ticketIds = Provider.of<UserTickets>(context).getTicketIds(billIds);
+    var museumIds = Provider.of<Tickets>(context).getMuseumIds(ticketIds);
+
+    if (userData.userRole == '1' && userData.museumId != null) {
+      museumIds = [userData.museumId];
+    }
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
@@ -23,10 +39,6 @@ class NavigationSupportScreen extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              height: (mediaQuery.size.height -
-                      appBarProperty.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.4,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -34,8 +46,17 @@ class NavigationSupportScreen extends StatelessWidget {
                     'Choose:',
                     style: color.textTheme.headline5,
                   ),
-                  NavSuppMuseumButton('1'),
-                  NavSuppMuseumButton('1'),
+                  SizedBox(
+                    height: (mediaQuery.size.height -
+                            appBarProperty.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.4,
+                    child: ListView.builder(
+                        itemCount: museumIds.length,
+                        itemBuilder: (_, i) {
+                          return NavSuppMuseumButton(museumIds[i]);
+                        }),
+                  )
                 ],
               ),
             )
