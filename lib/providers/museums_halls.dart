@@ -15,7 +15,7 @@ class MuseumsHalls with ChangeNotifier {
     MuseumHalls(
       id: '1',
       name: 'Painting artwork',
-      order: 1,
+      order: 2,
       museumId: '2',
       categoryId: 'c11',
     ),
