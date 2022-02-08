@@ -44,14 +44,12 @@ class UserTickets with ChangeNotifier {
         (userTicket.billId == newUserTicket.billId &&
             userTicket.ticketId == newUserTicket.ticketId));
     if (index == -1) {
-      print(newUserTicket.billId + ' : ' + newUserTicket.ticketId);
       _newUserTickets.add(newUserTicket);
     } else if (newUserTicket.quantity == 0) {
       _newUserTickets.removeAt(index);
     } else {
       _newUserTickets[index] = newUserTicket;
     }
-    print(_newUserTickets.length);
     notifyListeners();
   }
 

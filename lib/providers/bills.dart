@@ -7,14 +7,14 @@ class Bills with ChangeNotifier {
   List<Bill> _bills = [
     Bill(
       id: '1',
-      date: DateTime.parse('2022-01-14 20:18:04Z'),
+      date: DateTime.parse('2022-03-14 20:18:04Z'),
       totalCost: 20.00,
       userId: 'u1',
       museumTime: const TimeOfDay(hour: 14, minute: 0),
     ),
     Bill(
       id: '2',
-      date: DateTime.parse('2022-01-16 12:38:04Z'),
+      date: DateTime.parse('2022-03-16 12:38:04Z'),
       totalCost: 25.00,
       userId: 'u1',
       museumTime: const TimeOfDay(hour: 10, minute: 0),
@@ -84,8 +84,6 @@ class Bills with ChangeNotifier {
     final Bill billData =
         _bills.firstWhere((billData) => billData.id == billId);
     int index = _bills.indexWhere((billData) => billData.id == billId);
-
-    print('ID JE: $billId');
 
     _bills[index] = Bill(
       id: billData.id,
