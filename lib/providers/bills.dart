@@ -21,7 +21,7 @@ class Bills with ChangeNotifier {
     ),
     Bill(
       id: '3',
-      date: DateTime.parse('2022-01-21 09:30:09Z'),
+      date: DateTime.parse('2022-02-21 09:30:09Z'),
       totalCost: 5.00,
       userId: 'u1',
       museumTime: const TimeOfDay(hour: 15, minute: 30),
@@ -122,5 +122,17 @@ class Bills with ChangeNotifier {
   void deleteBill(String billId) {
     _bills.removeWhere((billData) => billData.id == billId);
     notifyListeners();
+  }
+
+  List getBillIds(String userId) {
+    var billIds = [];
+    List<Bill> allUsersBills =
+        _bills.where((billData) => billData.userId == userId).toList();
+    for (var i = 0; i < allUsersBills.length; i++) {
+      if (allUsersBills[i].date.compareTo(DateTime.now()) > 0) {
+        billIds.add(allUsersBills[i].id);
+      }
+    }
+    return billIds;
   }
 }
