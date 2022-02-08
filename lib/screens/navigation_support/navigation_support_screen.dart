@@ -37,7 +37,7 @@ class NavigationSupportScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class NavigationSupportScreen extends StatelessWidget {
                     height: (mediaQuery.size.height -
                             appBarProperty.preferredSize.height -
                             mediaQuery.padding.top) *
-                        0.4,
+                        0.3,
                     child: ListView.builder(
                         itemCount: museumIds.length,
                         itemBuilder: (_, i) {
