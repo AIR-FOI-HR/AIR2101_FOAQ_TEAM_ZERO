@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../models/museum.dart';
 import '../../providers/museums.dart';
 
+import '../../screens/navigation_support/museum_nav_supp_screen.dart';
+
 class NavSuppMuseumButton extends StatelessWidget {
   final String museumId;
 
@@ -26,7 +28,10 @@ class NavSuppMuseumButton extends StatelessWidget {
             museumData.name,
             style: Theme.of(context).textTheme.headline5,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(MuseumNavSuppScreen.routeName,
+                arguments: museumData.id);
+          },
         ));
   }
 }
