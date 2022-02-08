@@ -22,7 +22,7 @@ class UserTickets with ChangeNotifier {
     ),
     UserTicket(
       billId: '3',
-      ticketId: '2',
+      ticketId: '6',
       quantity: 1,
     ),
     UserTicket(
@@ -85,5 +85,15 @@ class UserTickets with ChangeNotifier {
   void deleteUserTicket(String billId) {
     _userTickets
         .removeWhere((userTicketData) => userTicketData.billId == billId);
+  }
+
+  List getTicketIds(List billIds) {
+    var ticketIds = [];
+    for (var i = 0; i < billIds.length; i++) {
+      ticketIds.add(_userTickets
+          .firstWhere((userTicketData) => userTicketData.billId == billIds[i])
+          .ticketId);
+    }
+    return ticketIds;
   }
 }
