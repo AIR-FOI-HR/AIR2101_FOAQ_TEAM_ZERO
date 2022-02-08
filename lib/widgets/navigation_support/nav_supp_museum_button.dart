@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/museum.dart';
+import '../../providers/museums.dart';
 
 class NavSuppMuseumButton extends StatelessWidget {
-  final String idBill;
+  final String museumId;
 
-  NavSuppMuseumButton(this.idBill);
+  NavSuppMuseumButton(this.museumId);
 
   @override
   Widget build(BuildContext context) {
+    final Museum museumData = Provider.of<Museums>(context).getById(museumId);
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         height: 30,
@@ -18,7 +23,7 @@ class NavSuppMuseumButton extends StatelessWidget {
         ),
         child: FlatButton(
           child: Text(
-            'Museum one',
+            museumData.name,
             style: Theme.of(context).textTheme.headline5,
           ),
           onPressed: () {},
