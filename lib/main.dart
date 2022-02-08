@@ -10,6 +10,7 @@ import './providers/tickets.dart';
 import './providers/work_times.dart';
 import './providers/bills.dart';
 import './providers/user_tickets.dart';
+import './providers/museums_halls.dart';
 
 import './screens/homepage/museums_overview_screen.dart';
 import './screens/museum_detail_screen.dart';
@@ -59,6 +60,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => UserTickets(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => MuseumsHalls(),
         ),
       ],
       child: MaterialApp(
