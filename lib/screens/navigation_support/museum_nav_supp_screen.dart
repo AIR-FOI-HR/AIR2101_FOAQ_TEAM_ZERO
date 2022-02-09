@@ -30,7 +30,8 @@ class MuseumNavSuppScreen extends StatelessWidget {
     final loggedUserData =
         Provider.of<Users>(context).findByUsername(loggedUsername);
     final bool admin =
-        loggedUserData.userRole == '1' && loggedUserData.museumId != null
+        (loggedUserData.userRole == '1' || loggedUserData.userRole == '2') &&
+                loggedUserData.museumId != null
             ? true
             : false;
     return Scaffold(
