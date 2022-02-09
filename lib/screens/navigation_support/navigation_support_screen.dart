@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/models/user.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/main_menu_drawer.dart';
-
 import '../../widgets/navigation_support/nav_supp_museum_button.dart';
+
+import '../../models/user.dart';
 
 import '../../providers/users.dart';
 import '../../providers/bills.dart';
@@ -22,10 +22,14 @@ class NavigationSupportScreen extends StatelessWidget {
         appBar('Naviagtion support', context, color.primaryColor);
     final mediaQuery = MediaQuery.of(context);
 
-    final User userData = Provider.of<Users>(context).findByUsername(username);
-    final billIds = Provider.of<Bills>(context).getBillIds(userData.id);
-    final ticketIds = Provider.of<UserTickets>(context).getTicketIds(billIds);
-    var museumIds = Provider.of<Tickets>(context).getMuseumIds(ticketIds);
+    final User userData =
+        Provider.of<Users>(context, listen: false).findByUsername(username);
+    final billIds =
+        Provider.of<Bills>(context, listen: false).getBillIds(userData.id);
+    final ticketIds =
+        Provider.of<UserTickets>(context, listen: false).getTicketIds(billIds);
+    var museumIds =
+        Provider.of<Tickets>(context, listen: false).getMuseumIds(ticketIds);
 
     if (userData.userRole == '1' && userData.museumId != null) {
       museumIds = [userData.museumId];
@@ -52,10 +56,11 @@ class NavigationSupportScreen extends StatelessWidget {
                             mediaQuery.padding.top) *
                         0.3,
                     child: ListView.builder(
-                        itemCount: museumIds.length,
-                        itemBuilder: (_, i) {
-                          return NavSuppMuseumButton(museumIds[i]);
-                        }),
+                      itemCount: museumIds.length,
+                      itemBuilder: (_, i) {
+                        return NavSuppMuseumButton(museumIds[i]);
+                      },
+                    ),
                   )
                 ],
               ),
