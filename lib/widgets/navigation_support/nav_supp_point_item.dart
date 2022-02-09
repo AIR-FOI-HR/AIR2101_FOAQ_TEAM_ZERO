@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../widgets/my_reservations/elevated_button_my_reservation.dart';
 import './fhoto_gallery.dart';
+import '../../screens/navigation_support/museum_nav_supp_crud_screen.dart';
 
 import '../../models/museum_halls.dart';
 import '../../models/user.dart';
@@ -19,13 +20,12 @@ class NavSuppPointItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context);
-    final artworkList = Provider.of<Artworks>(context)
+    final artworkList = Provider.of<Artworks>(context, listen: false)
         .getArtworksByMuseumIdAndCategory(
             categoryId: museumHallsData.categoryId,
             museumId: museumHallsData.museumId);
-    final User loggedUserData =
-        Provider.of<Users>(context).findByUsername(loggedUsername);
+    final User loggedUserData = Provider.of<Users>(context, listen: false)
+        .findByUsername(loggedUsername);
     final bool admin =
         (loggedUserData.userRole == '1' || loggedUserData.userRole == '2') &&
                 loggedUserData.museumId != null
@@ -44,7 +44,13 @@ class NavSuppPointItem extends StatelessWidget {
             if (admin)
               SizedBox(
                 height: 30,
-                child: ElevatedButtonMyReservation('Edit', () {}),
+                child: ElevatedButtonMyReservation('Edit', () {
+                  Navigator.of(context)
+                      .pushNamed(MuseumNavSuppCrudScreen.routeName, arguments: {
+                    'museumId': museumHallsData.museumId,
+                    'museumHallId': museumHallsData.id,
+                  });
+                }),
               ),
           ],
         ),
