@@ -66,7 +66,7 @@ class NavSuppPointItem extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 5),
-        ComplicatedImageDemo(artworkList),
+        if (artworkList.isNotEmpty) ComplicatedImageDemo(artworkList),
       ],
     );
   }
