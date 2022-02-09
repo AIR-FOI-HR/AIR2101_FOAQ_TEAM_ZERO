@@ -67,4 +67,10 @@ class MuseumsHalls with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void delete(String museumHallId) {
+    _museumsHalls
+        .removeWhere((museumHallData) => museumHallData.id == museumHallId);
+    notifyListeners();
+  }
 }
