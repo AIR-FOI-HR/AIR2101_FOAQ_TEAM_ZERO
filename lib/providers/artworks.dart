@@ -128,6 +128,15 @@ class Artworks with ChangeNotifier {
 
   //List<Artwork> _artworks = [];
 
+  List<Artwork> getArtworksByMuseumIdAndCategory(
+      {String museumId, String categoryId}) {
+    return _artworks
+        .where((artworkData) =>
+            artworkData.museum == museumId &&
+            artworkData.category == categoryId)
+        .toList();
+  }
+
   List getCategoryFromMuseum(String museumId) {
     var _categoryList = [];
     List<Artwork> _museumAllArtworks = _artworks
