@@ -65,7 +65,7 @@ class Artworks with ChangeNotifier {
         museum: '2',
         category: 'c11'),
     Artwork(
-        id: '6',
+        id: '1',
         name: 'Lamentation over the Dead Christ',
         description:
             'The most convincing hypothesis, despite the uncertainties stemming from the existence of several variants of the same subject, identifies the painting in Brera with the “foreshortened Christ” found in Mantegna’s studio at the time of his death, sold by his son Ludovico to Cardinal Sigismondo Gonzaga and inventoried among the property of the lords of Mantua in 1627.',
@@ -102,7 +102,7 @@ class Artworks with ChangeNotifier {
         author: 'Unknown',
         imageUrl:
             'https://www.historymuseum.ca/wp-content/uploads/2021/03/ahmose-nefertari-museo-egizio.jpg',
-        museum: '6',
+        museum: '1',
         category: 'c6'),
     Artwork(
         id: '10',
@@ -111,7 +111,7 @@ class Artworks with ChangeNotifier {
         author: 'Unknown',
         imageUrl:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Museo_Egizio_di_Torino-631_o.jpg/1280px-Museo_Egizio_di_Torino-631_o.jpg',
-        museum: '6',
+        museum: '1',
         category: 'c6'),
     Artwork(
         id: '11',
@@ -120,7 +120,7 @@ class Artworks with ChangeNotifier {
         author: 'Unknown',
         imageUrl:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Female_topless_egyption_dancer_on_ancient_ostrakon.jpg/1024px-Female_topless_egyption_dancer_on_ancient_ostrakon.jpg',
-        museum: '6',
+        museum: '1',
         category: 'c6'),
   ];
   final urlArtworks = Uri.parse(
