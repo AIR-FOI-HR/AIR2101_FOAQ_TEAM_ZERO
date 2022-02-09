@@ -68,15 +68,13 @@ class _ComplicatedImageDemoState extends State<ComplicatedImageDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CarouselSlider(
-        options: CarouselOptions(
-          autoPlay: true,
-          aspectRatio: 2.0,
-          enlargeCenterPage: true,
-        ),
-        items: imageSlider(),
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        aspectRatio: 2.0,
+        enlargeCenterPage: true,
       ),
+      items: imageSlider(),
     );
   }
 }
