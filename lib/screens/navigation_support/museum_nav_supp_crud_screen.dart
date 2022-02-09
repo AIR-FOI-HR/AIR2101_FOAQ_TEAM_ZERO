@@ -117,126 +117,129 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              DropDownField(
-                value: _initValues['categoryId'] != ''
-                    ? categoryMap[_initValues['categoryId']].toString()
-                    : null,
-                textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                labelStyle: TextStyle(fontSize: 16, color: color.primaryColor),
-                labelText: 'Category',
-                required: true,
-                enabled: true,
-                items: categoryMap.values.toList(),
-                setter: (value) {
-                  _editedMuseumHall = MuseumHalls(
-                    id: _editedMuseumHall.id,
-                    name: _editedMuseumHall.name,
-                    order: _editedMuseumHall.order,
-                    museumId: _editedMuseumHall.museumId,
-                    categoryId: categoryMap.keys
-                        .firstWhere((key) => categoryMap[key] == value),
-                    description: _editedMuseumHall.description,
-                  );
-                },
-                onValueChanged: (value) {
-                  setState(() {
-                    category = categoryMap.keys
-                        .firstWhere((key) => categoryMap[key] == value);
-                  });
-                },
-              ),
-              TextFormField(
-                initialValue: _initValues['description'],
-                decoration:
-                    const InputDecoration(labelText: 'Enter a description'),
-                textInputAction: TextInputAction.next,
-                maxLines: 3,
-                keyboardType: TextInputType.multiline,
-                onSaved: (value) {
-                  _editedMuseumHall = MuseumHalls(
-                    id: _editedMuseumHall.id,
-                    name: _editedMuseumHall.name,
-                    order: _editedMuseumHall.order,
-                    museumId: _editedMuseumHall.museumId,
-                    categoryId: _editedMuseumHall.categoryId,
-                    description: value,
-                  );
-                },
-              ),
-              TextFormField(
-                initialValue: _initValues['name'],
-                decoration: const InputDecoration(
-                    labelText: 'Enter the name of the hall'),
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_orderFocusNode);
-                },
-                onSaved: (value) {
-                  _editedMuseumHall = MuseumHalls(
-                    id: _editedMuseumHall.id,
-                    name: value,
-                    order: _editedMuseumHall.order,
-                    museumId: _editedMuseumHall.museumId,
-                    categoryId: _editedMuseumHall.categoryId,
-                    description: _editedMuseumHall.description,
-                  );
-                },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please provide a valid museum hall name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                initialValue: _initValues['order'].toString(),
-                decoration: const InputDecoration(
-                    labelText: 'Enter the museum hall order'),
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                focusNode: _orderFocusNode,
-                onFieldSubmitted: (_) {
-                  _saveForm();
-                },
-                onSaved: (value) {
-                  _editedMuseumHall = MuseumHalls(
-                    id: _editedMuseumHall.id,
-                    name: _editedMuseumHall.name,
-                    order: int.parse(value),
-                    museumId: _editedMuseumHall.museumId,
-                    categoryId: _editedMuseumHall.categoryId,
-                    description: _editedMuseumHall.description,
-                  );
-                },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please provide a valid museum hall order';
-                  } else if (int.parse(value) <= 0) {
-                    return 'Please provide a museum hall order grater than zero';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButtonMyReservation('Cancel', () {
-                    Navigator.of(context).pop();
-                  }),
-                  if (_editedMuseumHall.id != null)
-                    ElevatedButtonMyReservation('Delete', () {
-                      museumHallsProv.delete(_editedMuseumHall.id);
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                DropDownField(
+                  value: _initValues['categoryId'] != ''
+                      ? categoryMap[_initValues['categoryId']].toString()
+                      : null,
+                  textStyle: TextStyle(fontSize: 16, color: color.primaryColor),
+                  labelStyle:
+                      TextStyle(fontSize: 16, color: color.primaryColor),
+                  labelText: 'Category',
+                  required: true,
+                  enabled: true,
+                  items: categoryMap.values.toList(),
+                  setter: (value) {
+                    _editedMuseumHall = MuseumHalls(
+                      id: _editedMuseumHall.id,
+                      name: _editedMuseumHall.name,
+                      order: _editedMuseumHall.order,
+                      museumId: _editedMuseumHall.museumId,
+                      categoryId: categoryMap.keys
+                          .firstWhere((key) => categoryMap[key] == value),
+                      description: _editedMuseumHall.description,
+                    );
+                  },
+                  onValueChanged: (value) {
+                    setState(() {
+                      category = categoryMap.keys
+                          .firstWhere((key) => categoryMap[key] == value);
+                    });
+                  },
+                ),
+                TextFormField(
+                  initialValue: _initValues['description'],
+                  decoration:
+                      const InputDecoration(labelText: 'Enter a description'),
+                  textInputAction: TextInputAction.next,
+                  maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  onSaved: (value) {
+                    _editedMuseumHall = MuseumHalls(
+                      id: _editedMuseumHall.id,
+                      name: _editedMuseumHall.name,
+                      order: _editedMuseumHall.order,
+                      museumId: _editedMuseumHall.museumId,
+                      categoryId: _editedMuseumHall.categoryId,
+                      description: value,
+                    );
+                  },
+                ),
+                TextFormField(
+                  initialValue: _initValues['name'],
+                  decoration: const InputDecoration(
+                      labelText: 'Enter the name of the hall'),
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_orderFocusNode);
+                  },
+                  onSaved: (value) {
+                    _editedMuseumHall = MuseumHalls(
+                      id: _editedMuseumHall.id,
+                      name: value,
+                      order: _editedMuseumHall.order,
+                      museumId: _editedMuseumHall.museumId,
+                      categoryId: _editedMuseumHall.categoryId,
+                      description: _editedMuseumHall.description,
+                    );
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please provide a valid museum hall name';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  initialValue: _initValues['order'].toString(),
+                  decoration: const InputDecoration(
+                      labelText: 'Enter the museum hall order'),
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  focusNode: _orderFocusNode,
+                  onFieldSubmitted: (_) {
+                    _saveForm();
+                  },
+                  onSaved: (value) {
+                    _editedMuseumHall = MuseumHalls(
+                      id: _editedMuseumHall.id,
+                      name: _editedMuseumHall.name,
+                      order: int.parse(value),
+                      museumId: _editedMuseumHall.museumId,
+                      categoryId: _editedMuseumHall.categoryId,
+                      description: _editedMuseumHall.description,
+                    );
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please provide a valid museum hall order';
+                    } else if (int.parse(value) <= 0) {
+                      return 'Please provide a museum hall order grater than zero';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButtonMyReservation('Cancel', () {
                       Navigator.of(context).pop();
                     }),
-                  ElevatedButtonMyReservation('Save', () {
-                    _saveForm();
-                  }),
-                ],
-              )
-            ],
+                    if (_editedMuseumHall.id != null)
+                      ElevatedButtonMyReservation('Delete', () {
+                        museumHallsProv.delete(_editedMuseumHall.id);
+                        Navigator.of(context).pop();
+                      }),
+                    ElevatedButtonMyReservation('Save', () {
+                      _saveForm();
+                    }),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
