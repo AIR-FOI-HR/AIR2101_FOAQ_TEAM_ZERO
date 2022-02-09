@@ -30,6 +30,7 @@ import './screens/ticket_purchase/ticket_purchase_screen.dart';
 import './screens/ticket_purchase/bill_details_screen.dart';
 import './screens/navigation_support/navigation_support_screen.dart';
 import './screens/navigation_support/museum_nav_supp_screen.dart';
+import './screens/navigation_support/museum_nav_supp_crud_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -138,6 +139,7 @@ class MyApp extends StatelessWidget {
           BillDetailsScreen.routeName: (ctx) => BillDetailsScreen(),
           NavigationSupportScreen.routeName: (ctx) => NavigationSupportScreen(),
           MuseumNavSuppScreen.routeName: (ctx) => MuseumNavSuppScreen(),
+          MuseumNavSuppCrudScreen.routeName: (ctx) => MuseumNavSuppCrudScreen(),
         },
       ),
     );
