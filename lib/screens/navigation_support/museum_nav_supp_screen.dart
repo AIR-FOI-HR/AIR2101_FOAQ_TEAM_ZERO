@@ -7,11 +7,13 @@ import '../../widgets/my_reservations/elevated_button_my_reservation.dart';
 
 import '../../providers/museums_halls.dart';
 import '../../providers/museums.dart';
+import '../../providers/users.dart';
 import '../../models/museum_halls.dart';
 import '../../models/museum.dart';
 
 class MuseumNavSuppScreen extends StatelessWidget {
   static const routeName = '/museumNavSupp';
+  final String loggedUsername = 'ttomiek';
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,17 @@ class MuseumNavSuppScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
         appBar('Navigation support', context, color.primaryColor);
+
     final Museum museumData = Provider.of<Museums>(context).getById(museumId);
     final List<MuseumHalls> museumHallsData =
         Provider.of<MuseumsHalls>(context, listen: false)
             .getMuseumHallsById(museumId);
+    final loggedUserData =
+        Provider.of<Users>(context).findByUsername(loggedUsername);
+    final bool admin =
+        loggedUserData.userRole == '1' && loggedUserData.museumId != null
+            ? true
+            : false;
     return Scaffold(
       appBar: appBarProperty,
       body: Padding(
@@ -48,29 +57,42 @@ class MuseumNavSuppScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
             SizedBox(
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.91,
+                  (admin ? 0.80 : 0.88),
               child: ListView.builder(
                 itemCount: museumHallsData.length,
                 itemBuilder: (_, i) {
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 10),
-                      Text(
-                        '${museumHallsData[i].order}. point - ${museumHallsData[i].name}',
-                        style: color.textTheme.headline4,
-                      ),
-                      const SizedBox(height: 4),
                       NavSuppPointItem(museumHallsData[i]),
+                      const SizedBox(height: 10),
                     ],
                   );
                 },
               ),
             ),
+            if (admin)
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: color.buttonColor,
+                  child: IconButton(
+                    color: color.shadowColor,
+                    highlightColor: color.buttonColor,
+                    splashRadius: 30,
+                    iconSize: 35,
+                    icon: const Icon(
+                      Icons.add,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
           ],
         ),
       ),
