@@ -13,7 +13,8 @@ class NavSuppMuseumButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Museum museumData = Provider.of<Museums>(context).getById(museumId);
+    final Museum museumData =
+        Provider.of<Museums>(context, listen: false).getById(museumId);
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         height: 30,
@@ -29,7 +30,8 @@ class NavSuppMuseumButton extends StatelessWidget {
             style: Theme.of(context).textTheme.headline5,
           ),
           onPressed: () {
-            Navigator.of(context).pushNamed(MuseumNavSuppScreen.routeName,
+            Navigator.of(context).pushReplacementNamed(
+                MuseumNavSuppScreen.routeName,
                 arguments: museumData.id);
           },
         ));
