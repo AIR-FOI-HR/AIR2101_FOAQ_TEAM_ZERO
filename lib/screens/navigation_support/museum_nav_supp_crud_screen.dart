@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/widgets/my_reservations/elevated_button_my_reservation.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 
@@ -95,6 +96,7 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final museumHallsProv = Provider.of<MuseumsHalls>(context);
     final color = Theme.of(context);
     Map<String, String> categoryMap = {};
     Provider.of<Categories>(context)
@@ -217,6 +219,23 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButtonMyReservation('Cancel', () {
+                    Navigator.of(context).pop();
+                  }),
+                  if (_editedMuseumHall.id != null)
+                    ElevatedButtonMyReservation('Delete', () {
+                      museumHallsProv.delete(_editedMuseumHall.id);
+                      Navigator.of(context).pop();
+                    }),
+                  ElevatedButtonMyReservation('Save', () {
+                    _saveForm();
+                  }),
+                ],
+              )
             ],
           ),
         ),
