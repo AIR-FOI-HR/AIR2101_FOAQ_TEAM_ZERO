@@ -67,6 +67,6 @@ class MyProfileScreen extends StatelessWidget {
 
   void logOut(BuildContext context) async {
     await AuthMethods().signOut();
-    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
   }
 }
