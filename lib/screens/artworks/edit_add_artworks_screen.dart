@@ -93,9 +93,15 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
     Map<String, String> museumsMap = {};
-    Provider.of<Museums>(context)
-        .getMuseums
-        .forEach((museum) => museumsMap[museum.id] = museum.name);
+    if (appUser.museumId != "") {
+      var museum = Provider.of<Museums>(context).getById(appUser.museumId);
+      //.forEach((museum) => museumsMap[museum.id] = museum.name);
+      museumsMap[museum.id] = museum.name;
+    } else {
+      Provider.of<Museums>(context)
+          .getMuseums
+          .forEach((museum) => museumsMap[museum.id] = museum.name);
+    }
 
     Map<String, String> categoryMap = {};
     Provider.of<Categories>(context)
