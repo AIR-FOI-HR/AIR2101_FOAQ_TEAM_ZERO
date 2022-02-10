@@ -67,6 +67,8 @@ class MyProfileScreen extends StatelessWidget {
 
   void logOut(BuildContext context) async {
     await AuthMethods().signOut();
-    Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
+    //We remove everything from stack so user cant go back when he logs out
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.routeName, (Route<dynamic> route) => false);
   }
 }
