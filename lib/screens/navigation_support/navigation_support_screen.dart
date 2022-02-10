@@ -19,7 +19,7 @@ class NavigationSupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context);
     final appBarProperty =
-        appBar('Naviagtion support', context, color.primaryColor);
+        appBar('Navigation support', context, color.primaryColor);
     final mediaQuery = MediaQuery.of(context);
 
     final User userData =
