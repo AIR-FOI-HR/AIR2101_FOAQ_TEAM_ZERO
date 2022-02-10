@@ -113,8 +113,8 @@ class MainMenuDrawer extends StatelessWidget {
                       .pushReplacementNamed(TicketPurchaseScreen.routeName);
                 },
               ),
-              if (int.parse(user.userRole) == 2 && user.museumId != "") ...[
-                //Moderator muzeja
+              if (int.parse(user.userRole) >= 2 && user.museumId != "") ...[
+                //Vlasnik muzeja i moderator vide Museum Configuration
                 createDivider,
                 createDrawerTile(
                   context,
@@ -126,21 +126,11 @@ class MainMenuDrawer extends StatelessWidget {
                   },
                 ),
               ],
-              if (int.parse(user.userRole) > 2 && user.museumId != "") ...[
-                //Vlasnik muzeja
-                createDivider,
-                createDrawerTile(
-                  context,
-                  'Museum configuration',
-                  Icons.edit_outlined,
-                  () {
-                    Navigator.of(context).pushReplacementNamed(
-                        SingleMuseumConfigurationScreen.routeName);
-                  },
-                ),
-              ],
-              if (int.parse(user.userRole) > 2 && user.museumId == "") ...[
-                //Admin
+              if ((int.parse(user.userRole) >= 2 && user.museumId != "") ||
+                  int.parse(user.userRole) == 3) ...[
+                //System admin, vlasnik muzeja i moderator vide Artworks
+                //System admin vidi sve artworke
+                //Mod i Vlasnik vide samo od svojeg muzeja
                 createDivider,
                 createDrawerTile(
                   context,
