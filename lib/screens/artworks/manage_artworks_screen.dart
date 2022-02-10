@@ -39,7 +39,7 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
         appBar: appBar(
             'Artworks', context, Theme.of(context).primaryColor, appUser),
         body: FutureBuilder(
-            future: mainArtworksList.isEmpty ? _fetchArtworks() : null,
+            future: mainArtworksList.isEmpty ? _fetchArtworks(appUser) : null,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.done ||
                   mainArtworksList.isNotEmpty) {
@@ -122,12 +122,20 @@ class _ManageArtworksScreenState extends State<ManageArtworksScreen> {
     });
   }
 
-  Future<void> _fetchArtworks() async {
+  Future<void> _fetchArtworks(User appUser) async {
     Provider.of<Artworks>(context, listen: false).fetchArtworks();
     Provider.of<Categories>(context, listen: false).fetchCategories();
     await Future.delayed(Duration(milliseconds: 1000));
-    mainArtworksList =
-        Provider.of<Artworks>(context, listen: false).getArtworks;
+    if (int.parse(appUser.userRole) == 3 && appUser.museumId == "") {
+      //If user is System Admin
+      mainArtworksList =
+          Provider.of<Artworks>(context, listen: false).getArtworks;
+    } else {
+      //If user is Moderator or Owner
+      mainArtworksList = Provider.of<Artworks>(context, listen: false)
+          .getByMuseumId(appUser.museumId);
+    }
+
     artworksForWidget = mainArtworksList;
   }
 
