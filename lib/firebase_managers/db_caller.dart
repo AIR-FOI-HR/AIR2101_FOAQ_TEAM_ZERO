@@ -24,7 +24,7 @@ class DBCaller {
   static final CollectionReference tickets =
       FirebaseFirestore.instance.collection("tickets");
   static final CollectionReference worktimes =
-      FirebaseFirestore.instance.collection("worktime");
+      FirebaseFirestore.instance.collection("worktimes");
 
   //----------User----------//
   static void createUser(User user, String id) {
