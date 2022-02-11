@@ -2,6 +2,7 @@ import '../models/category_artwork.dart';
 import '../models/user.dart';
 import '../models/museum.dart';
 import '../models/artwork.dart';
+import '../models/ticket.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBCaller {
@@ -17,6 +18,9 @@ class DBCaller {
 
   static final CollectionReference artworks =
       FirebaseFirestore.instance.collection("artworks");
+
+  static final CollectionReference tickets =
+      FirebaseFirestore.instance.collection("tickets");
 
   //----------User----------//
   static void createUser(User user, String id) {
@@ -86,5 +90,14 @@ class DBCaller {
         .add(museum.toJson())
         .then((_) => print("Museum added"))
         .catchError((_) => print("Failed to add museum"));
+  }
+
+  //----------Tickets----------//
+
+  static Future<void> addTicket(Ticket ticket) async {
+    return await tickets
+        .add(ticket.toJson())
+        .then((_) => print("Museum added"))
+        .catchError((_) => print("Failed to add ticket"));
   }
 }
