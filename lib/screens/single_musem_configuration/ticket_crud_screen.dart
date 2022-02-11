@@ -66,9 +66,10 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     }
     _formKey.currentState.save();
     if (_editedTicket.id != null) {
-      ticketProv.updateTicket(_editedTicket);
+      DBCaller.updateTicket(_editedTicket)
+          .then((_) => Navigator.of(context).pop());
     } else {
-      await DBCaller.addTicket(_editedTicket)
+      DBCaller.addTicket(_editedTicket)
           .then((_) => Navigator.of(context).pop());
     }
   }
@@ -157,9 +158,9 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
                   }),
                   if (_editedTicket.id != null)
                     ElevatedButtonSetings('Delete', () {
-                      Provider.of<Tickets>(context, listen: false)
-                          .deleteTicketById(_editedTicket.id);
-                      Navigator.of(context).pop();
+                      DBCaller.deleteTicket(_editedTicket.id).then((_) =>
+                          Navigator.of(context).pushReplacementNamed(
+                              SingleMuseumConfigurationScreen.routeName));
                     }),
                   ElevatedButtonSetings('Save', _saveForm),
                 ],
