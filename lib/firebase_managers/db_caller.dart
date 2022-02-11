@@ -100,4 +100,20 @@ class DBCaller {
         .then((_) => print("Museum added"))
         .catchError((_) => print("Failed to add ticket"));
   }
+
+  static Future<void> deleteTicket(String ticketId) async {
+    return await tickets
+        .doc(ticketId)
+        .delete()
+        .then((_) => print("Ticket ${ticketId} deleted"))
+        .catchError((_) => print("Failed to delete ticket"));
+  }
+
+  static Future<void> updateTicket(Ticket ticket) async {
+    return await tickets
+        .doc(ticket.id)
+        .update(ticket.toJson())
+        .then((_) => print("Ticket updated"))
+        .catchError((_) => print("Error while updating"));
+  }
 }
