@@ -23,7 +23,7 @@ class DBCaller {
 
   static final CollectionReference tickets =
       FirebaseFirestore.instance.collection("tickets");
-  static final CollectionReference worktime =
+  static final CollectionReference worktimes =
       FirebaseFirestore.instance.collection("worktime");
 
   //----------User----------//
@@ -131,5 +131,10 @@ class DBCaller {
 
   //----------Work Time----------//
 
-  static Future<void> addWorkTime(WorkTime worktime) async {}
+  static Future<void> addWorkTime(WorkTime worktime) async {
+    return await worktimes
+        .add(worktime.toJson())
+        .then((_) => print("WorkTime added"))
+        .catchError((_) => print("Failed to add work time"));
+  }
 }
