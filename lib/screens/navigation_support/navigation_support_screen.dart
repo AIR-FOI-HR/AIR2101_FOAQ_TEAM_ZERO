@@ -50,18 +50,27 @@ class NavigationSupportScreen extends StatelessWidget {
                     'Choose:',
                     style: color.textTheme.headline5,
                   ),
-                  SizedBox(
-                    height: (mediaQuery.size.height -
-                            appBarProperty.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.3,
-                    child: ListView.builder(
-                      itemCount: museumIds.length,
-                      itemBuilder: (_, i) {
-                        return NavSuppMuseumButton(museumIds[i]);
-                      },
-                    ),
-                  )
+                  museumIds.isEmpty
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'You do not have any museum tickets reserved, please purchase' +
+                                ' a museum ticket to show the navigation support of a particular museum',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        )
+                      : SizedBox(
+                          height: (mediaQuery.size.height -
+                                  appBarProperty.preferredSize.height -
+                                  mediaQuery.padding.top) *
+                              0.3,
+                          child: ListView.builder(
+                            itemCount: museumIds.length,
+                            itemBuilder: (_, i) {
+                              return NavSuppMuseumButton(museumIds[i]);
+                            },
+                          ),
+                        )
                 ],
               ),
             )
