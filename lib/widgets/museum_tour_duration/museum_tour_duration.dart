@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/museum.dart';
@@ -25,6 +26,7 @@ class _MuseumTourDurationState extends State<MuseumTourDuration> {
     description: '',
     imageUrl: '',
     location: '',
+    capacity: 0,
     tourDuration: 0,
   );
 
@@ -58,10 +60,11 @@ class _MuseumTourDurationState extends State<MuseumTourDuration> {
       return;
     }
     _formKey.currentState.save();
-    Provider.of<Museums>(context, listen: false)
-        .updateMuseum(_editedMuseumInformation);
-    Navigator.of(context)
-        .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    DBCaller.updateMuseum(_editedMuseumInformation).then((_) {
+      Provider.of<Museums>(context, listen: false).fetchMuseums();
+      Navigator.of(context)
+          .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    });
   }
 
   @override
@@ -101,6 +104,7 @@ class _MuseumTourDurationState extends State<MuseumTourDuration> {
                       description: _editedMuseumInformation.description,
                       imageUrl: _editedMuseumInformation.imageUrl,
                       location: _editedMuseumInformation.location,
+                      capacity: _editedMuseumInformation.capacity,
                       tourDuration: double.parse(value),
                     );
                   },
