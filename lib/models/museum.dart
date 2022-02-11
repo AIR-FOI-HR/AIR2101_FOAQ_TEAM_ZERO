@@ -33,6 +33,7 @@ class Museum with ChangeNotifier {
       description: snapshot["description"],
       imageUrl: snapshot["imageUrl"],
       location: snapshot["location"],
+      capacity: snapshot["capacity"],
       tourDuration: snapshot["tourDuration"],
     );
   }
@@ -43,6 +44,7 @@ class Museum with ChangeNotifier {
         "description": description,
         "imageUrl": imageUrl,
         "location": location,
+        "capacity": capacity,
         "tourDuration": tourDuration
       };
 }
