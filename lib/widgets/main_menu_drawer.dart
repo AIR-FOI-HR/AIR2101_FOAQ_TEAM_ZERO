@@ -11,6 +11,7 @@ import '../screens/my_profile/my_profile_screen.dart';
 import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import '../screens/ticket_purchase/ticket_purchase_screen.dart';
 import '../screens/navigation_support/navigation_support_screen.dart';
+import '../screens/museum_staff/museum_staff_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -128,6 +129,16 @@ class MainMenuDrawer extends StatelessWidget {
             () {
               Navigator.of(context)
                   .pushReplacementNamed(NavigationSupportScreen.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Museum staff',
+            Icons.assistant_navigation,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageMuseumStaff.routeName);
             },
           ),
           createDivider,

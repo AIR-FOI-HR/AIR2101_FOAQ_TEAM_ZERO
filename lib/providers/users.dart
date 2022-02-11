@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:museum_app/models/museum.dart';
 
 import '../models/user.dart';
 
@@ -34,11 +35,40 @@ class Users with ChangeNotifier {
       userRole: '1',
       userImage: 'https://i.imgur.com/BoN9kdC.png',
       phoneNumber: '',
+    ),
+    User(
+      id: 'u3',
+      name: 'Borna',
+      surname: 'Rosandić',
+      username: 'brosandic',
+      email: 'brosandic@foi.hr',
+      password:
+          'nenene134',
+      salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
+      userRole: '2',
+      phoneNumber: '',
+      museumId: '2'
+    ),
+    User(
+      id: 'u4',
+      name: 'Ivan',
+      surname: 'Ivanić',
+      username: 'iivanic',
+      email: 'iivanic@foi.hr',
+      password:
+          'dadada234',
+      salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
+      userRole: '2',
+      phoneNumber: '',
+      museumId: '2'
     )
   ];
 
   List<User> get getUsers {
     return [..._users];
+  }
+  int get usersCount {
+    return _users.length;
   }
 
   User findByUsername(String username) {
@@ -46,6 +76,13 @@ class Users with ChangeNotifier {
         orElse: () => null);
   }
 
+  List<User> workInMuseum(String id) {
+     return _users
+        .where((user) => user.museumId == id).where((user) => user.userRole == "2")
+        .toList();
+  }
+
+  
   bool checkUserData(String inputUsername, String inputPassword) {
     var currentUser = findByUsername(inputUsername);
     if (currentUser != null) {
@@ -146,5 +183,14 @@ class Users with ChangeNotifier {
       _users[userIndex] = userData;
       notifyListeners();
     }
+  }
+
+  void deleteStaff(String id){
+    final userIndex =
+        _users.indexWhere((userDataElement) => userDataElement.id == id);
+    User korisnik = _users.firstWhere((data) => data.id == id);
+    if (userIndex >= 0){
+       _users[userIndex] = User(id: korisnik.id , name: korisnik.name, surname: korisnik.surname, username: korisnik.username, email: korisnik.email, password: korisnik.password, salt: korisnik.salt, userRole: korisnik.userRole ,museumId: "");
+    } 
   }
 }
