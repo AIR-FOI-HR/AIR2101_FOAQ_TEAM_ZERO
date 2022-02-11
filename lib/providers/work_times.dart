@@ -178,19 +178,6 @@ class WorkTimes with ChangeNotifier {
   }
 
   List<WorkTime> getWorkTime(String museumId) {
-    // final workTimeList = _workTimes.firstWhere(
-    //     (workTimeData) => workTimeData.museumId == museumId,
-    //     orElse: () => null);
-    // if (workTimeList == null) {
-    //   int theLastId = _workTimes.length;
-    //   for (int i = 0; i < 7; i++) {
-    //     final newWorkTime = WorkTime(
-    //       day: days[i],
-    //       museumId: museumId,
-    //     );
-    //     _workTimes.add(newWorkTime);
-    //   }
-    // }
     return _workTimes
         .where((workTimeData) => workTimeData.museumId == museumId)
         .toList();
