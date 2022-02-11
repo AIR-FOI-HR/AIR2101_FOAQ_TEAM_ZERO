@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import '../models/work_time.dart';
 
 class WorkTimes with ChangeNotifier {
@@ -145,7 +146,7 @@ class WorkTimes with ChangeNotifier {
     'Sunday',
   ];
 
-  Future<void> fetchWorkTimes() async {
+  Future<void> fetchWorkTimes(String museumId) async {
     List<WorkTime> loadedWorktimes = [];
     _workTimes.clear();
     QuerySnapshot querySnapshot =
@@ -153,26 +154,58 @@ class WorkTimes with ChangeNotifier {
     for (var doc in querySnapshot.docs) {
       loadedWorktimes.add(WorkTime.fromSnap(doc));
     }
+    if (museumId != "") {
+      final workTimeExist =
+          loadedWorktimes.firstWhere((element) => element.museumId == museumId);
+      if (workTimeExist == null) {
+        for (int i = 0; i < 7; i++) {
+          final newWorkTime = WorkTime(
+            day: days[i],
+            museumId: museumId,
+          );
+          await DBCaller.addWorkTime(newWorkTime);
+        }
+      }
+    }
+    loadedWorktimes.clear();
+    _workTimes.clear();
+    querySnapshot =
+        await FirebaseFirestore.instance.collection("worktimes").get();
+    for (var doc in querySnapshot.docs) {
+      loadedWorktimes.add(WorkTime.fromSnap(doc));
+    }
+    _workTimes = loadedWorktimes;
   }
 
   List<WorkTime> getWorkTime(String museumId) {
-    final workTimeList = _workTimes.firstWhere(
-        (workTimeData) => workTimeData.museumId == museumId,
-        orElse: () => null);
-    if (workTimeList == null) {
-      int theLastId = _workTimes.length;
-      for (int i = 0; i < 7; i++) {
-        final newWorkTime = WorkTime(
-          id: (theLastId + i).toString(),
-          day: days[i],
-          museumId: museumId,
-        );
-        _workTimes.add(newWorkTime);
-      }
-    }
+    // final workTimeList = _workTimes.firstWhere(
+    //     (workTimeData) => workTimeData.museumId == museumId,
+    //     orElse: () => null);
+    // if (workTimeList == null) {
+    //   int theLastId = _workTimes.length;
+    //   for (int i = 0; i < 7; i++) {
+    //     final newWorkTime = WorkTime(
+    //       day: days[i],
+    //       museumId: museumId,
+    //     );
+    //     _workTimes.add(newWorkTime);
+    //   }
+    // }
     return _workTimes
         .where((workTimeData) => workTimeData.museumId == museumId)
         .toList();
+  }
+
+  String getDayName(String dateTime) {
+    DateTime now;
+    if (dateTime == null) {
+      now = DateTime.now();
+    } else {
+      now = DateTime.parse(dateTime);
+    }
+
+    String formatter = DateFormat('EEEE').format(now);
+    return formatter;
   }
 
   WorkTime todayWorkTimeData(String museumId) {
@@ -197,16 +230,10 @@ class WorkTimes with ChangeNotifier {
     return false;
   }
 
-  String getDayName(String dateTime) {
-    DateTime now;
-    if (dateTime == null) {
-      now = DateTime.now();
-    } else {
-      now = DateTime.parse(dateTime);
-    }
-
-    String formatter = DateFormat('EEEE').format(now);
-    return formatter;
+  TimeOfDay getTimeOfDay(int time) {
+    int timeHours = time ~/ 60;
+    int timeMinuts = time - timeHours * 60;
+    return TimeOfDay(hour: timeHours, minute: timeMinuts);
   }
 
   List getWorkTimeSections(
@@ -237,12 +264,6 @@ class WorkTimes with ChangeNotifier {
     } else {
       return [];
     }
-  }
-
-  TimeOfDay getTimeOfDay(int time) {
-    int timeHours = time ~/ 60;
-    int timeMinuts = time - timeHours * 60;
-    return TimeOfDay(hour: timeHours, minute: timeMinuts);
   }
 
   WorkTime getTheWorkTimeOfSelectedDay(String museumId, DateTime dateTime) {
