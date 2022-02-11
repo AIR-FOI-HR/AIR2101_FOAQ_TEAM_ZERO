@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
 import '../../models/ticket.dart';
 import '../../providers/tickets.dart';
 import '../../widgets/ticket_configuration/elevated_button_settings.dart';
+import '../../providers/users.dart';
+import '../../models/user.dart';
 
 class TicketCrudScreen extends StatefulWidget {
   static const routeName = '/EditTicket';
@@ -14,7 +18,6 @@ class TicketCrudScreen extends StatefulWidget {
 }
 
 class _TicketCrudScreenState extends State<TicketCrudScreen> {
-  final String loggedUserUsername = 'ttomiek';
   final _priceFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -55,7 +58,7 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     super.didChangeDependencies();
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _formKey.currentState.validate();
     final ticketProv = Provider.of<Tickets>(context, listen: false);
     if (!isValid) {
@@ -65,15 +68,15 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     if (_editedTicket.id != null) {
       ticketProv.updateTicket(_editedTicket);
     } else {
-      ticketProv.addNewTicket(_editedTicket);
+      await DBCaller.addTicket(_editedTicket)
+          .then((_) => Navigator.of(context).pop());
     }
-    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final museumId =
-        Provider.of<Users>(context).findByUsername(loggedUserUsername).museumId;
+    User appUser = Provider.of<Users>(context).getUser();
+    final museumId = appUser.museumId;
     final color = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
