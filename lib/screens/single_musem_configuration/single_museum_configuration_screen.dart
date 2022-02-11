@@ -24,10 +24,8 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
 
     Future<void> _fetchMuseumData() async {
       Provider.of<Tickets>(context, listen: false).fetchTickets();
-      Provider.of<Museums>(context, listen: false).fetchMuseums();
       await Future.delayed(Duration(milliseconds: 700));
       _isFetched = true;
-      print("Rebildam Museum Config screen");
     }
 
     final divider = Divider(
