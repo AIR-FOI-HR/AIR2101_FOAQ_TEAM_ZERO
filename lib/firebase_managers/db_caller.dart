@@ -137,4 +137,12 @@ class DBCaller {
         .then((_) => print("WorkTime added"))
         .catchError((_) => print("Failed to add work time"));
   }
+
+  static Future<void> updateWorkTime(WorkTime workTime) async {
+    return await worktimes
+        .doc(workTime.id)
+        .update(workTime.toJson())
+        .then((_) => print("WorkTime updated"))
+        .catchError((_) => print("Error while updating"));
+  }
 }
