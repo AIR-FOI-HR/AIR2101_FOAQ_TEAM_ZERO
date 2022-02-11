@@ -16,7 +16,7 @@ import '../../widgets/museum_tour_duration/museum_tour_duration.dart';
 
 class SingleMuseumConfigurationScreen extends StatelessWidget {
   static const routeName = '/SingleMuseumConfiguration';
-  final logedUserUsername = 'ttomiek';
+  bool _isFetched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,12 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
 
     Future<void> _fetchMuseumData() async {
       Provider.of<Tickets>(context, listen: false).fetchTickets();
+      Provider.of<Museums>(context, listen: false).fetchMuseums();
       await Future.delayed(Duration(milliseconds: 700));
+      _isFetched = true;
+      print("Rebildam Museum Config screen");
     }
 
-    final museumData = Provider.of<Museums>(context).getById(appUser.museumId);
     final divider = Divider(
       thickness: 2,
       color: Theme.of(context).primaryColor,
@@ -41,9 +43,13 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
       body: FutureBuilder(
-          future: _fetchMuseumData(),
+          future: _isFetched ? null : _fetchMuseumData(),
           builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.connectionState == ConnectionState.done ||
+                _isFetched) {
+              //If data is fetched, get the museum and build the widget tree
+              final museumData =
+                  Provider.of<Museums>(context).getById(appUser.museumId);
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,6 +108,7 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
                 ),
               );
             }
+            //while data is fetching show progress indicator
             return const Center(
               child: CircularProgressIndicator(),
             );
