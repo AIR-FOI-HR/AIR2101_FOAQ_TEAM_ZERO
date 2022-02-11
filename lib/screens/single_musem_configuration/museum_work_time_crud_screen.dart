@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/work_time.dart';
@@ -71,11 +73,10 @@ class _MuseumWorkTimeCrudScreenState extends State<MuseumWorkTimeCrudScreen> {
       return;
     }
     _formKey.currentState.save();
-
-    Provider.of<WorkTimes>(context, listen: false)
-        .updateWorkTime(_editedWorkTime);
-
-    Navigator.of(context).pop();
+    DBCaller.updateWorkTime(_editedWorkTime).then((_) {
+      Navigator.of(context)
+          .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    });
   }
 
   TimeOfDay convertStringToTime(String time) {
