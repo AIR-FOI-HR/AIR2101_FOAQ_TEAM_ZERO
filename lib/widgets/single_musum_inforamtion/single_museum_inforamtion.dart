@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/museum.dart';
@@ -79,10 +80,9 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
       return;
     }
     _formKey.currentState.save();
-    Provider.of<Museums>(context, listen: false)
-        .updateMuseum(_editedMuseumInformation);
-    Navigator.of(context)
-        .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    DBCaller.updateMuseum(_editedMuseumInformation).then((_) =>
+        Navigator.of(context)
+            .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName));
   }
 
   @override
