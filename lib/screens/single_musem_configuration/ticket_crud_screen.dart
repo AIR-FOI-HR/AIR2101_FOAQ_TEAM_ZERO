@@ -66,11 +66,11 @@ class _TicketCrudScreenState extends State<TicketCrudScreen> {
     }
     _formKey.currentState.save();
     if (_editedTicket.id != null) {
-      DBCaller.updateTicket(_editedTicket)
-          .then((_) => Navigator.of(context).pop());
+      DBCaller.updateTicket(_editedTicket).then((_) => Navigator.of(context)
+          .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName));
     } else {
-      DBCaller.addTicket(_editedTicket)
-          .then((_) => Navigator.of(context).pop());
+      DBCaller.addTicket(_editedTicket).then((_) => Navigator.of(context)
+          .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName));
     }
   }
 
