@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/providers/work_times.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/museums.dart';
@@ -24,6 +25,8 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
 
     Future<void> _fetchMuseumData() async {
       Provider.of<Tickets>(context, listen: false).fetchTickets();
+      Provider.of<WorkTimes>(context, listen: false)
+          .fetchWorkTimes(appUser.museumId);
       await Future.delayed(Duration(milliseconds: 700));
       _isFetched = true;
     }
