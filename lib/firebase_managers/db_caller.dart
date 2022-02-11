@@ -1,3 +1,5 @@
+import 'package:museum_app/models/work_time.dart';
+
 import '../models/category_artwork.dart';
 import '../models/user.dart';
 import '../models/museum.dart';
@@ -21,6 +23,8 @@ class DBCaller {
 
   static final CollectionReference tickets =
       FirebaseFirestore.instance.collection("tickets");
+  static final CollectionReference worktime =
+      FirebaseFirestore.instance.collection("worktime");
 
   //----------User----------//
   static void createUser(User user, String id) {
@@ -124,4 +128,8 @@ class DBCaller {
         .then((_) => print("Ticket updated"))
         .catchError((_) => print("Error while updating"));
   }
+
+  //----------Work Time----------//
+
+  static Future<void> addWorkTime(WorkTime worktime) async {}
 }
