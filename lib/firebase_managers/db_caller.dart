@@ -92,6 +92,14 @@ class DBCaller {
         .catchError((_) => print("Failed to add museum"));
   }
 
+  static Future<void> updateMuseum(Museum museum) async {
+    return await museums
+        .doc(museum.id)
+        .update(museum.toJson())
+        .then((_) => print("Museum updated"))
+        .catchError((_) => print("Error while updating"));
+  }
+
   //----------Tickets----------//
 
   static Future<void> addTicket(Ticket ticket) async {
