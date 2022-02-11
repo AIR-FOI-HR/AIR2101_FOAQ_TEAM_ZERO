@@ -7,7 +7,7 @@ class MuseumImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
+    return Image.network(
       imageUrl,
       height: 170,
       fit: BoxFit.fill,
