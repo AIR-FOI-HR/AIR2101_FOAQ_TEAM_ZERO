@@ -23,18 +23,22 @@ class WorkTime with ChangeNotifier {
       id: snap.id,
       museumId: snapshot["museum"],
       day: snapshot["day"],
-      timeFrom:
-          TimeOfDay(hour: snapshot["hourFrom"], minute: snapshot["minuteFrom"]),
-      timeTo: TimeOfDay(hour: snapshot["hourTo"], minute: snapshot["minuteTo"]),
+      timeFrom: snapshot["hourFrom"] == -1
+          ? null
+          : TimeOfDay(
+              hour: snapshot["hourFrom"], minute: snapshot["minuteFrom"]),
+      timeTo: snapshot["hourTo"] == -1
+          ? null
+          : TimeOfDay(hour: snapshot["hourTo"], minute: snapshot["minuteTo"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
         "museum": museumId,
         "day": day,
-        "hourFrom": timeFrom.hour,
-        "minuteFrom": timeFrom.minute,
-        "hourTo": timeTo.hour,
-        "minuteTo": timeTo.minute,
+        "hourFrom": timeFrom == null ? -1 : timeFrom.hour,
+        "minuteFrom": timeFrom == null ? -1 : timeFrom.minute,
+        "hourTo": timeTo == null ? -1 : timeTo.hour,
+        "minuteTo": timeTo == null ? -1 : timeTo.minute,
       };
 }
