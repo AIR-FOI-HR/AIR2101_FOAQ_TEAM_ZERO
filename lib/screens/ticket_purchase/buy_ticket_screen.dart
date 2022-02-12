@@ -291,7 +291,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                           await Provider.of<UserTickets>(context, listen: false)
                               .addNewUserTicket(value);
                         });
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacementNamed(
+                            TicketPurchaseScreen.routeName);
                       }
                     }),
                   ),
