@@ -13,23 +13,25 @@ class User {
   final String userImage;
   final String userRole;
   final String museumId;
+  final List<dynamic> favoriteArtworks;
 
-  User({
-    @required this.id,
-    @required this.name,
-    @required this.surname,
-    @required this.username,
-    @required this.email,
-    this.phoneNumber,
-    @required this.password,
-    @required this.salt,
-    this.userImage,
-    @required this.userRole,
-    this.museumId,
-  });
+  User(
+      {@required this.id,
+      @required this.name,
+      @required this.surname,
+      @required this.username,
+      @required this.email,
+      this.phoneNumber,
+      @required this.password,
+      @required this.salt,
+      this.userImage,
+      @required this.userRole,
+      this.museumId,
+      this.favoriteArtworks});
 
   static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
+    print(snapshot["favoriteArtworks"]);
     return User(
         id: snap.id,
         username: snapshot["username"],
@@ -39,7 +41,8 @@ class User {
         phoneNumber: snapshot["phoneNumber"],
         userImage: snapshot["userImage"],
         userRole: snapshot["userRole"],
-        museumId: snapshot["museumId"]);
+        museumId: snapshot["museumId"],
+        favoriteArtworks: snapshot["favoriteArtworks"] ?? []);
   }
 
   Map<String, dynamic> toJson() => {
@@ -51,6 +54,7 @@ class User {
         "phoneNumber": phoneNumber,
         "userImage": userImage,
         "userRole": userRole,
-        "museumId": museumId
+        "museumId": museumId,
+        "favoriteArtworks": favoriteArtworks.isEmpty ? [] : favoriteArtworks
       };
 }
