@@ -1,36 +1,50 @@
 // ignore_for_file: unused_field, prefer_final_fields
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../models/user_ticket.dart';
 
 class UserTickets with ChangeNotifier {
   List<UserTicket> _userTickets = [
-    UserTicket(
-      billId: '1',
-      ticketId: '1',
-      quantity: 2,
-    ),
-    UserTicket(
-      billId: '2',
-      ticketId: '1',
-      quantity: 2,
-    ),
-    UserTicket(
-      billId: '2',
-      ticketId: '2',
-      quantity: 1,
-    ),
-    UserTicket(
-      billId: '3',
-      ticketId: '2',
-      quantity: 1,
-    ),
-    UserTicket(
-      billId: '4',
-      ticketId: '2',
-      quantity: 1,
-    ),
+    // UserTicket(
+    //   billId: '1',
+    //   ticketId: '1',
+    //   quantity: 2,
+    // ),
+    // UserTicket(
+    //   billId: '2',
+    //   ticketId: '1',
+    //   quantity: 2,
+    // ),
+    // UserTicket(
+    //   billId: '2',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
+    // UserTicket(
+    //   billId: '3',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
+    // UserTicket(
+    //   billId: '4',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
   ];
+
+  Future<void> fetchUserTickets() async {
+    List<UserTicket> loadedUserTickets = [];
+    _userTickets.clear();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("userTickets").get();
+    for (var doc in querySnapshot.docs) {
+      loadedUserTickets.add(UserTicket.fromSnap(doc));
+    }
+    _userTickets = loadedUserTickets;
+    print("Loaded user tickets: " + _userTickets.length.toString());
+    notifyListeners();
+  }
 
   List<UserTicket> _newUserTickets = [];
 
