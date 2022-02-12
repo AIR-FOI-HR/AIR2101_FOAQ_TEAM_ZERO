@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/screens/my_profile/my_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/museums.dart';
@@ -6,6 +8,7 @@ import '../../providers/work_times.dart';
 import '../../providers/artworks.dart';
 import '../../providers/categories.dart';
 import '../../providers/tickets.dart';
+import '../../providers/users.dart';
 
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_purchase/buy_ticket.dart';
@@ -16,6 +19,7 @@ class TicketPurchaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<Users>(context, listen: false).getUser();
     Future<void> _refreshAllData() async {
       await Provider.of<Museums>(context, listen: false).fetchMuseums();
       await Provider.of<Artworks>(context, listen: false).fetchArtworks();
@@ -38,6 +42,22 @@ class TicketPurchaseScreen extends StatelessWidget {
           Tab(text: 'My reservations'),
         ],
       ),
+      actions: [
+        IconButton(
+          color: Colors.white,
+          icon: CircleAvatar(
+            backgroundImage: user.userImage == ""
+                ? NetworkImage(
+                    "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg")
+                : NetworkImage(user.userImage),
+          ),
+          iconSize: 45,
+          tooltip: 'Log out',
+          onPressed: () {
+            Navigator.of(context).pushNamed(MyProfileScreen.routeName);
+          },
+        )
+      ],
     );
 
     return DefaultTabController(
