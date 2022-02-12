@@ -154,11 +154,13 @@ class DBCaller {
 
   //----------Bill----------//
 
-  static Future<void> addBill(Bill bill) async {
-    return await bills
+  static Future<String> addBill(Bill bill) async {
+    String id;
+    await bills
         .add(bill.toJson())
-        .then((_) => print("Bill added"))
+        .then((value) => id = value.id)
         .catchError((_) => print("Failed to add bill"));
+    return id;
   }
 
   //----------Bill----------//
