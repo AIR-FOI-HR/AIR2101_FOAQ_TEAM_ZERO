@@ -3,14 +3,16 @@ import 'package:provider/provider.dart';
 
 import '../../screens/ticket_purchase/bill_details_screen.dart';
 import '../../providers/bills.dart';
+import '../../providers/users.dart';
+import '../../models/user.dart';
 import './user_tickets_items.dart';
 
 class MyReservations extends StatelessWidget {
-  final userId = 'u1';
-
   @override
   Widget build(BuildContext context) {
-    final billsProvData = Provider.of<Bills>(context).getBills(userId);
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
+
+    final billsProvData = Provider.of<Bills>(context).getBills(appUser.id);
     return LayoutBuilder(builder: (ctx, constraints) {
       return Padding(
         padding: const EdgeInsets.all(10),
