@@ -50,27 +50,24 @@ class ArtworkGridItem extends StatelessWidget {
           ),
           appUser == null
               ? Container()
-              : Consumer<Artwork>(
-                  builder: (ctx, artwork, child) => IconButton(
-                    onPressed: () async {
-                      artwork.toggleFavorite();
-                      if (appUser.favoriteArtworks.contains(artwork.id)) {
-                        appUser.favoriteArtworks.remove(artwork.id);
-                        await DBCaller.updateUser(appUser);
-                      } else {
-                        appUser.favoriteArtworks.add(artwork.id);
-                        await DBCaller.updateUser(appUser);
-                      }
-                    },
-                    icon: Icon(
-                      appUser.favoriteArtworks.contains(artwork.id)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: color.accentColor,
-                      size: 30,
-                    ),
+              : IconButton(
+                  onPressed: () async {
+                    if (appUser.favoriteArtworks.contains(artwork.id)) {
+                      appUser.favoriteArtworks.remove(artwork.id);
+                      await DBCaller.updateUser(appUser);
+                    } else {
+                      appUser.favoriteArtworks.add(artwork.id);
+                      await DBCaller.updateUser(appUser);
+                    }
+                  },
+                  icon: Icon(
+                    appUser.favoriteArtworks.contains(artwork.id)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: color.accentColor,
+                    size: 30,
                   ),
-                )
+                ),
         ],
       ),
     );
