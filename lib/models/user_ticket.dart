@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserTicket with ChangeNotifier {
   final String ticketId;
-  final String billId;
+  String billId;
   final int quantity;
 
   UserTicket({
