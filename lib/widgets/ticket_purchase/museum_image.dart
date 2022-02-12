@@ -10,7 +10,7 @@ class MuseumImage extends StatelessWidget {
     return Image.network(
       imageUrl,
       height: 170,
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
     );
   }
 }
