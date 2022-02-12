@@ -5,6 +5,8 @@ import '../models/user.dart';
 import '../models/museum.dart';
 import '../models/artwork.dart';
 import '../models/ticket.dart';
+import '../models/bill.dart';
+import '../models/user_ticket.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBCaller {
@@ -25,6 +27,10 @@ class DBCaller {
       FirebaseFirestore.instance.collection("tickets");
   static final CollectionReference worktimes =
       FirebaseFirestore.instance.collection("worktimes");
+  static final CollectionReference bills =
+      FirebaseFirestore.instance.collection("bills");
+  static final CollectionReference userTickets =
+      FirebaseFirestore.instance.collection("userTickets");
 
   //----------User----------//
   static void createUser(User user, String id) {
@@ -144,5 +150,23 @@ class DBCaller {
         .update(workTime.toJson())
         .then((_) => print("WorkTime updated"))
         .catchError((_) => print("Error while updating"));
+  }
+
+  //----------Bill----------//
+
+  static Future<void> addBill(Bill bill) async {
+    return await bills
+        .add(bill.toJson())
+        .then((_) => print("Bill added"))
+        .catchError((_) => print("Failed to add bill"));
+  }
+
+  //----------Bill----------//
+
+  static Future<void> addUserTicket(UserTicket userTicket) async {
+    return await userTickets
+        .add(userTicket.toJson())
+        .then((_) => print("UserTicket added"))
+        .catchError((_) => print("Failed to add userTicket"));
   }
 }
