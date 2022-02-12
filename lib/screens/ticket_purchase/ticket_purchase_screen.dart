@@ -9,6 +9,8 @@ import '../../providers/artworks.dart';
 import '../../providers/categories.dart';
 import '../../providers/tickets.dart';
 import '../../providers/users.dart';
+import '../../providers/bills.dart';
+import '../../providers/user_tickets.dart';
 
 import '../../widgets/main_menu_drawer.dart';
 import '../../widgets/ticket_purchase/buy_ticket.dart';
@@ -26,6 +28,8 @@ class TicketPurchaseScreen extends StatelessWidget {
       await Provider.of<Tickets>(context, listen: false).fetchTickets();
       await Provider.of<Categories>(context, listen: false).fetchCategories();
       await Provider.of<WorkTimes>(context, listen: false).fetchWorkTimes("");
+      await Provider.of<UserTickets>(context, listen: false).fetchUserTickets();
+      await Provider.of<Bills>(context, listen: false).fetchBills();
       await Future.delayed(Duration(milliseconds: 700));
     }
 
