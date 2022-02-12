@@ -25,7 +25,7 @@ class Bill with ChangeNotifier {
     var snapshot = snap.data() as Map<String, dynamic>;
     return Bill(
         id: snap.id,
-        date: snapshot["date"],
+        date: DateTime.parse(snapshot["date"].toDate().toString()),
         totalCost: snapshot["totalCost"],
         userId: snapshot["user"],
         isCanceled: snapshot["isCanceled"],
