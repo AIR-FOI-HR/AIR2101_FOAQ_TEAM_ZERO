@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/ticket_purchase/ticket_purchase_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -197,7 +198,7 @@ class MuseumDetailScreen extends StatelessWidget {
         onPressed: () {
           appUser == null
               ? Navigator.of(context).pushNamed(LoginScreen.routeName)
-              : Navigator.of(context).pushNamed(BuyTicketScreen.routeName);
+              : Navigator.of(context).pushNamed(TicketPurchaseScreen.routeName);
         },
         child: IconButton(
           icon: Icon(
