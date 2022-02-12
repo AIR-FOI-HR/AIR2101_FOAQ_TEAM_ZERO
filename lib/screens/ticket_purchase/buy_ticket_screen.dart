@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:museum_app/models/bill.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
+import 'package:museum_app/screens/ticket_purchase/ticket_purchase_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+
+import '../../firebase_managers/db_caller.dart';
 
 import '../../widgets/buy_tickets/work_time_item.dart';
 import '../../widgets/app_bar.dart';
@@ -30,11 +33,6 @@ class BuyTicketScreen extends StatefulWidget {
 }
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
-  //TREBAM ID LOGIRANOG USERA
-  //VAZNO
-  //HITNO
-  final String logedUserId = 'u1';
-
   var _isInit = true;
   String newBillId;
 
@@ -275,8 +273,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   ),
                   const SizedBox(height: 10),
                   Center(
-                    child:
-                        ElevatedButtonMyReservation('Proceed to checkout', () {
+                    child: ElevatedButtonMyReservation('Proceed to checkout',
+                        () async {
                       if (totalAmount == 0.0 ||
                           billProv.getSelectedTime() == null) {
                         showAlertDialog(context);
@@ -285,13 +283,14 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                           id: newBillId,
                           date: selectedDate,
                           totalCost: totalAmount,
-                          userId: logedUserId,
+                          userId: appUser.id,
                           isCanceled: false,
                           museumTime: billProv.getSelectedTime(),
                         );
-                        billProv.addNewBill(newBill);
-                        Provider.of<UserTickets>(context, listen: false)
-                            .addNewUserTicket();
+                        await DBCaller.addBill(newBill).then((value) async {
+                          await Provider.of<UserTickets>(context, listen: false)
+                              .addNewUserTicket(value);
+                        });
                         Navigator.of(context).pop();
                       }
                     }),
