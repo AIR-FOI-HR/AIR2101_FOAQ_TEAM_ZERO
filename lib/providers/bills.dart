@@ -41,12 +41,12 @@ class Bills with ChangeNotifier {
 
   Future<void> fetchBills() async {
     List<Bill> loadedBills = [];
-    _bills.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("bills").get();
     for (var doc in querySnapshot.docs) {
       loadedBills.add(Bill.fromSnap(doc));
     }
+    _bills.clear();
     _bills = loadedBills;
     print("Loaded bills: " + _bills.length.toString());
     notifyListeners();

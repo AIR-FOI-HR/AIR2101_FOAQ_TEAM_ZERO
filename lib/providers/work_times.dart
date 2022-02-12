@@ -148,7 +148,6 @@ class WorkTimes with ChangeNotifier {
 
   Future<void> fetchWorkTimes(String museumId) async {
     List<WorkTime> loadedWorktimes = [];
-    _workTimes.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("worktimes").get();
     for (var doc in querySnapshot.docs) {
@@ -168,12 +167,12 @@ class WorkTimes with ChangeNotifier {
       }
     }
     loadedWorktimes.clear();
-    _workTimes.clear();
     querySnapshot =
         await FirebaseFirestore.instance.collection("worktimes").get();
     for (var doc in querySnapshot.docs) {
       loadedWorktimes.add(WorkTime.fromSnap(doc));
     }
+    _workTimes.clear();
     _workTimes = loadedWorktimes;
   }
 

@@ -14,13 +14,13 @@ class Categories with ChangeNotifier {
 
   Future<void> fetchCategories() async {
     List<CategoryArtwork> loadedCategories = [];
-    _categories.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("categories").get();
 
     for (var doc in querySnapshot.docs) {
       loadedCategories.add(CategoryArtwork.fromSnap(doc));
     }
+    _categories.clear();
     _categories = loadedCategories;
     notifyListeners();
   }

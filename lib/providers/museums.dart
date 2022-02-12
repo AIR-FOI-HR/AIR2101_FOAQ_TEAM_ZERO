@@ -78,13 +78,13 @@ class Museums with ChangeNotifier {
   ];
   Future<void> fetchMuseums() async {
     List<Museum> loadedMuseums = [];
-    _museums.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("museums").get();
 
     for (var doc in querySnapshot.docs) {
       loadedMuseums.add(Museum.fromSnap(doc));
     }
+    _museums.clear();
     _museums = loadedMuseums;
     notifyListeners();
   }

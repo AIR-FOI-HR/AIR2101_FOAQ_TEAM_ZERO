@@ -31,13 +31,13 @@ class Artworks with ChangeNotifier {
 
   Future<void> fetchArtworks() async {
     List<Artwork> loadedArtworks = [];
-    _artworks.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("artworks").get();
 
     for (var doc in querySnapshot.docs) {
       loadedArtworks.add(Artwork.fromSnap(doc));
     }
+    _artworks.clear();
     _artworks = loadedArtworks;
     print("Artworki: " + _artworks.length.toString());
     notifyListeners();

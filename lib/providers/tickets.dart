@@ -34,12 +34,12 @@ class Tickets with ChangeNotifier {
 
   Future<void> fetchTickets() async {
     List<Ticket> loadedTickets = [];
-    _tickets.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("tickets").get();
     for (var doc in querySnapshot.docs) {
       loadedTickets.add(Ticket.fromSnap(doc));
     }
+    _tickets.clear();
     _tickets = loadedTickets;
     print("Tickets: " + _tickets.length.toString());
     notifyListeners();
