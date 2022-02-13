@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/artworks/favorite_artworks.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/categories.dart';
@@ -96,11 +97,11 @@ class MainMenuDrawer extends StatelessWidget {
               createDivider,
               createDrawerTile(
                 context,
-                'My Profile',
-                Icons.supervised_user_circle,
+                'Favorite artworks',
+                Icons.image,
                 () {
                   Navigator.of(context)
-                      .pushReplacementNamed(MyProfileScreen.routeName);
+                      .pushReplacementNamed(FavoriteArtworks.routeName);
                 },
               ),
               createDivider,
@@ -111,6 +112,16 @@ class MainMenuDrawer extends StatelessWidget {
                 () {
                   Navigator.of(context)
                       .pushReplacementNamed(TicketPurchaseScreen.routeName);
+                },
+              ),
+              createDivider,
+              createDrawerTile(
+                context,
+                'My Profile',
+                Icons.supervised_user_circle,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(MyProfileScreen.routeName);
                 },
               ),
               if (int.parse(user.userRole) >= 2 && user.museumId != "") ...[
