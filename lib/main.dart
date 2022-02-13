@@ -28,6 +28,7 @@ import './screens/single_musem_configuration/museum_work_time_crud_screen.dart';
 import './screens/artworks/edit_add_artworks_screen.dart';
 import './screens/ticket_purchase/ticket_purchase_screen.dart';
 import './screens/ticket_purchase/bill_details_screen.dart';
+import './screens/artworks/favorite_artworks.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
           EditAddArtworksScreen.routeName: (ctx) => EditAddArtworksScreen(),
           TicketPurchaseScreen.routeName: (ctx) => TicketPurchaseScreen(),
           BillDetailsScreen.routeName: (ctx) => BillDetailsScreen(),
+          FavoriteArtworks.routeName: (ctx) => FavoriteArtworks(),
         },
       ),
     );
