@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
+import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -79,6 +80,7 @@ class MuseumStaff extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        
                         Navigator.of(ctx).pop(true);
                         Provider.of<Users>(context, listen: false)
                             .deleteStaff(id);
@@ -89,7 +91,7 @@ class MuseumStaff extends StatelessWidget {
                           ),
   
                         );
-                        
+                        Navigator.of(context).pushNamed(ManageMuseumStaff.routeName);
                       },
                     ),
                   ],
