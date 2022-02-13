@@ -25,16 +25,16 @@ class AuthMethods {
         password: password,
       );
       model.User _user = model.User(
-        email: email,
-        id: cred.user.uid,
-        name: name,
-        surname: surname,
-        userRole: '1',
-        username: username,
-        phoneNumber: "",
-        userImage: "",
-        museumId: "",
-      );
+          email: email,
+          id: cred.user.uid,
+          name: name,
+          surname: surname,
+          userRole: '1',
+          username: username,
+          phoneNumber: "",
+          userImage: "",
+          museumId: "",
+          favoriteArtworks: []);
       await DBCaller.createUser(_user, cred.user.uid);
 
       result = "Success";
@@ -81,15 +81,14 @@ class AuthMethods {
     return result;
   }
 
-Future<bool> isLoggedIn() async{
-  User currentUser = _auth.currentUser;
+  Future<bool> isLoggedIn() async {
+    User currentUser = _auth.currentUser;
     if (currentUser == null) {
       return false;
     } else {
       return true;
     }
-}
-
+  }
 
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser;
