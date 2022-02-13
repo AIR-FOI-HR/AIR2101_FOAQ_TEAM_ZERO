@@ -9,16 +9,16 @@ class Artwork with ChangeNotifier {
   final String author;
   final String museum;
   final String category;
-
-  Artwork({
-    this.id,
-    @required this.name,
-    this.imageUrl,
-    this.description,
-    this.author,
-    @required this.museum,
-    @required this.category,
-  });
+  bool isFavorite;
+  Artwork(
+      {this.id,
+      @required this.name,
+      this.imageUrl,
+      this.description,
+      this.author,
+      @required this.museum,
+      @required this.category,
+      this.isFavorite = false});
 
   static Artwork fromSnap(QueryDocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -41,4 +41,9 @@ class Artwork with ChangeNotifier {
         "description": description,
         "imageUrl": imageUrl
       };
+
+  void toggleFavorite() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }
