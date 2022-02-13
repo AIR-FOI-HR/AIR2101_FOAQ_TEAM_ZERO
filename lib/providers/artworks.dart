@@ -29,6 +29,15 @@ class Artworks with ChangeNotifier {
     return [..._artworks];
   }
 
+  List<Artwork> getUserFavoriteArtworks(List<dynamic> favoriteArtworks) {
+    List<Artwork> artworks = [];
+    for (var i = favoriteArtworks.length - 1; i >= 0; i--) {
+      artworks.add(
+          _artworks.firstWhere((element) => element.id == favoriteArtworks[i]));
+    }
+    return artworks;
+  }
+
   Future<void> fetchArtworks() async {
     List<Artwork> loadedArtworks = [];
     QuerySnapshot querySnapshot =
