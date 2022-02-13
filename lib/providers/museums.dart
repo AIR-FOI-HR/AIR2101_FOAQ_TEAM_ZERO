@@ -97,6 +97,7 @@ class Museums with ChangeNotifier {
 
   Museum getById(String id) {
     return _museums.firstWhere((museum) => museum.id == id);
+    
   }
 
   List<Museum> filterMusemsByCategory(String categoryId) {
@@ -123,5 +124,14 @@ class Museums with ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  void deleteMuseums(String museumId){
+    _museums.removeWhere((data) => data.id == museumId);
+    notifyListeners();
+  }
+
+  void AddMuseums(Museum museum){
+    _museums.add(museum);
   }
 }

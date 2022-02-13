@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_adding_screen.dart';
+import 'package:museum_app/screens/museums_config/museum_config_sceen.dart';
+import 'package:museum_app/screens/museums_config/museums_edit_screen.dart';
 import 'package:provider/provider.dart';
 
 import './providers/museums.dart';
@@ -143,7 +145,9 @@ class MyApp extends StatelessWidget {
           MuseumNavSuppScreen.routeName: (ctx) => MuseumNavSuppScreen(),
           MuseumNavSuppCrudScreen.routeName: (ctx) => MuseumNavSuppCrudScreen(),
           ManageMuseumStaff.routeName: (ctx) => ManageMuseumStaff(),
-          addStaff.routeName: (ctx) => addStaff()
+          addStaff.routeName: (ctx) => addStaff(),
+          ManageMuseums.routeName: (ctx) => ManageMuseums(),
+          EditAddMuseumsScreen.routeName:(ctx) => EditAddMuseumsScreen()
         },
       ),
     );
