@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/about_us.dart';
 import 'package:museum_app/screens/artworks/favorite_artworks.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +83,9 @@ class MainMenuDrawer extends StatelessWidget {
             context,
             'About us',
             Icons.quick_contacts_mail_outlined,
-            () {},
+            () {
+              Navigator.of(context).pushReplacementNamed(AboutUs.routeName);
+            },
           ),
           createDivider,
           createDrawerTile(
