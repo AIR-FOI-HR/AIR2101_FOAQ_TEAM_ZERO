@@ -154,8 +154,9 @@ class WorkTimes with ChangeNotifier {
       loadedWorktimes.add(WorkTime.fromSnap(doc));
     }
     if (museumId != "") {
-      final workTimeExist =
-          loadedWorktimes.firstWhere((element) => element.museumId == museumId);
+      final workTimeExist = loadedWorktimes.firstWhere(
+          (element) => element.museumId == museumId,
+          orElse: () => null);
       if (workTimeExist == null) {
         for (int i = 0; i < 7; i++) {
           final newWorkTime = WorkTime(
