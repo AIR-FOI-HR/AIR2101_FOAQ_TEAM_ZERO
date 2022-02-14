@@ -38,7 +38,7 @@ class AboutUs extends StatelessWidget {
 
   Widget personDetailCard(Person, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
       child: Card(
         color: Theme.of(context).primaryColor,
         child: Padding(
@@ -61,7 +61,10 @@ class AboutUs extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     Person.name,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
                     Person.bio,
