@@ -28,32 +28,39 @@ class _FavoriteArtworksState extends State<FavoriteArtworks> {
     return Scaffold(
       appBar: appBar('Favorite artworks', context,
           Theme.of(context).highlightColor, appUser),
-      body: RefreshIndicator(
-        onRefresh: _fetchArtworks,
-        child: FutureBuilder(
-            future: mainArtworksList.isEmpty ? _fetchArtworks() : null,
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done ||
-                  mainArtworksList.isNotEmpty) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SearchBar(searchArtworks),
-                        ],
-                      ),
-                      FavoriteArtworksGrid(artworksForWidget),
-                    ],
-                  ),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ),
+      body: appUser.favoriteArtworks.isEmpty
+          ? Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Image.asset(
+                'assets/images/NoArtworks.png',
+                fit: BoxFit.fill,
+              ))
+          : RefreshIndicator(
+              onRefresh: _fetchArtworks,
+              child: FutureBuilder(
+                  future: mainArtworksList.isEmpty ? _fetchArtworks() : null,
+                  builder: (ctx, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done ||
+                        mainArtworksList.isNotEmpty) {
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SearchBar(searchArtworks),
+                              ],
+                            ),
+                            FavoriteArtworksGrid(artworksForWidget),
+                          ],
+                        ),
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
+            ),
       drawer: MainMenuDrawer(),
     );
   }
