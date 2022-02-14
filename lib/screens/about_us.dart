@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:museum_app/widgets/app_bar.dart';
+import 'package:museum_app/widgets/main_menu_drawer.dart';
 import 'package:provider/provider.dart';
 
 class Person {
@@ -217,13 +218,10 @@ class AboutUs extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              child: Expanded(
-                flex: 2,
-                child: Column(
-                    children: persons.map((p) {
-                  return personDetailCard(p, context);
-                }).toList()),
-              ),
+              child: Column(
+                  children: persons.map((p) {
+                return personDetailCard(p, context);
+              }).toList()),
             ),
             Container(
               width: double.infinity,
@@ -235,6 +233,7 @@ class AboutUs extends StatelessWidget {
           ],
         ),
       ),
+      drawer: MainMenuDrawer(),
     );
   }
 }
