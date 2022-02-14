@@ -81,15 +81,6 @@ class MainMenuDrawer extends StatelessWidget {
           createDivider,
           createDrawerTile(
             context,
-            'About us',
-            Icons.quick_contacts_mail_outlined,
-            () {
-              Navigator.of(context).pushReplacementNamed(AboutUs.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
             'Map',
             Icons.map_outlined,
             () {},
@@ -155,8 +146,17 @@ class MainMenuDrawer extends StatelessWidget {
                         .pushReplacementNamed(ManageArtworksScreen.routeName);
                   },
                 ),
-              ]
-            ]
+              ],
+            ],
+          createDivider,
+          createDrawerTile(
+            context,
+            'About us',
+            Icons.quick_contacts_mail_outlined,
+            () {
+              Navigator.of(context).pushReplacementNamed(AboutUs.routeName);
+            },
+          ),
         ],
       ),
     );
