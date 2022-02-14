@@ -19,7 +19,7 @@ class Users with ChangeNotifier {
       password:
           'bb880fc496fb66c43cedd293c37a09d1905db468eb57c3f2d698778150065f83',
       salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
-      userRole: '1',
+      userRole: '3',
       phoneNumber: '0951234567',
       museumId: '2',
     ),
@@ -35,6 +35,7 @@ class Users with ChangeNotifier {
       userRole: '1',
       userImage: 'https://i.imgur.com/BoN9kdC.png',
       phoneNumber: '',
+      museumId: '1'
     ),
     User(
       id: 'u3',
@@ -58,9 +59,9 @@ class Users with ChangeNotifier {
       password:
           'dadada234',
       salt: '3d9601254b9e4c5c887d1dee098acbb9cbf3975d47f8246aeb095c520c620463',
-      userRole: '2',
+      userRole: '3',
       phoneNumber: '',
-      museumId: '2'
+      museumId: '1'
     )
   ];
 
@@ -80,6 +81,10 @@ class Users with ChangeNotifier {
      return _users
         .where((user) => user.museumId == id).where((user) => user.userRole == "2")
         .toList();
+  }
+
+  List<User> museumOwners() {
+     return _users.where((user) => user.userRole == "3").toList();
   }
 
   
@@ -191,6 +196,15 @@ class Users with ChangeNotifier {
     User korisnik = _users.firstWhere((data) => data.id == id);
     if (userIndex >= 0){
        _users[userIndex] = User(id: korisnik.id , name: korisnik.name, surname: korisnik.surname, username: korisnik.username, email: korisnik.email, password: korisnik.password, salt: korisnik.salt, userRole: korisnik.userRole ,museumId: "");
+    } 
+  }
+
+  void deleteMuseum(String id){
+    final userIndex =
+        _users.indexWhere((userDataElement) => userDataElement.id == id);
+    User korisnik = _users.firstWhere((data) => data.id == id);
+    if (userIndex >= 0){
+       _users[userIndex] = User(id: korisnik.id , name: korisnik.name, surname: korisnik.surname, username: korisnik.username, email: korisnik.email, password: korisnik.password, salt: korisnik.salt, userRole: "" ,museumId: "");
     } 
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/museum_owner/museum_owner_screen.dart';
 import 'package:museum_app/screens/museums_config/museum_config_sceen.dart';
 import 'package:provider/provider.dart';
 
@@ -150,6 +151,16 @@ class MainMenuDrawer extends StatelessWidget {
             () {
               Navigator.of(context)
                   .pushReplacementNamed(ManageMuseums.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Manage museum owners',
+            Icons.assistant_navigation,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageMuseumOwnersScreen.routeName);
             },
           ),
           createDivider,
