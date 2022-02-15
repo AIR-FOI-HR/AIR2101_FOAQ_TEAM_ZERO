@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:museum_app/screens/about_us.dart';
+import 'package:museum_app/screens/login/password_reset.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -138,6 +139,7 @@ class MyApp extends StatelessWidget {
           BillDetailsScreen.routeName: (ctx) => BillDetailsScreen(),
           FavoriteArtworks.routeName: (ctx) => FavoriteArtworks(),
           AboutUs.routeName: (ctx) => AboutUs(),
+          PasswordReset.routeName: (ctx) => PasswordReset(),
         },
       ),
     );
