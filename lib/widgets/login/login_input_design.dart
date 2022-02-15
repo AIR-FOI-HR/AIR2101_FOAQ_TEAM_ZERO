@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/firebase_managers/auth_methods.dart';
+import 'package:museum_app/screens/login/password_reset.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
@@ -60,7 +61,6 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
     final color = Theme.of(context);
     final userProvider = Provider.of<Users>(context);
 
@@ -166,8 +166,8 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                       child: Column(
                         children: [
                           UserButton('I forgot my password', () {
-                            auth.sendPasswordResetEmail(
-                                email: "msakac98@gmail.com");
+                            Navigator.of(context)
+                                .pushNamed(PasswordReset.routeName);
                           }),
                           SizedBox(height: constraints.maxHeight * 0.01),
                           UserButton('I don\'t have account', () {
