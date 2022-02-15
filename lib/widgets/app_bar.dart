@@ -31,7 +31,12 @@ AppBar appBar(String title, BuildContext ctx, Color color, User user) {
                     iconSize: 45,
                     tooltip: 'Log out',
                     onPressed: () {
-                      Navigator.of(ctx).pushNamed(MyProfileScreen.routeName);
+                      Navigator.pushAndRemoveUntil(
+                        ctx,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfileScreen()),
+                        (Route<dynamic> route) => false,
+                      );
                     },
                   )
           ]
