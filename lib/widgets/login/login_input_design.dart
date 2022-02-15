@@ -10,6 +10,7 @@ import './box_decoration_property.dart';
 import './check_box.dart';
 import './user_login_title.dart';
 import '../utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginInputDesign extends StatefulWidget {
   @override
@@ -25,10 +26,10 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
   bool passwordBool = false;
   bool _isLoading = false;
 
-  void refreshUser() async{
-  Users _userProvider = Provider.of<Users>(context, listen: false);
+  void refreshUser() async {
+    Users _userProvider = Provider.of<Users>(context, listen: false);
     await _userProvider.refreshUser();
-  } 
+  }
 
   @override
   void initState() {
@@ -59,6 +60,7 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = FirebaseAuth.instance;
     final color = Theme.of(context);
     final userProvider = Provider.of<Users>(context);
 
@@ -163,7 +165,10 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                       margin: const EdgeInsets.only(left: 20, right: 20),
                       child: Column(
                         children: [
-                          UserButton('I forgot my password', () {}),
+                          UserButton('I forgot my password', () {
+                            auth.sendPasswordResetEmail(
+                                email: "msakac98@gmail.com");
+                          }),
                           SizedBox(height: constraints.maxHeight * 0.01),
                           UserButton('I don\'t have account', () {
                             Navigator.of(context)

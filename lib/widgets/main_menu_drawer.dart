@@ -114,8 +114,11 @@ class MainMenuDrawer extends StatelessWidget {
                 'My Profile',
                 Icons.supervised_user_circle,
                 () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(MyProfileScreen.routeName);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyProfileScreen()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               if (int.parse(user.userRole) >= 2 && user.museumId != "") ...[
