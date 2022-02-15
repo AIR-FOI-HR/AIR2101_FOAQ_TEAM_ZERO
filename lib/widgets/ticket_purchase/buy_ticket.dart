@@ -1,4 +1,7 @@
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/artwork.dart';
+import 'package:museum_app/providers/artworks.dart';
 import 'package:provider/provider.dart';
 
 import '../homepage/search_bar.dart';
@@ -14,15 +17,18 @@ class BuyTicket extends StatefulWidget {
 }
 
 class _BuyTicketState extends State<BuyTicket> {
-  List<Museum> museumsForWidget;
-  List<Museum> mainMuseumList;
+  List<Museum> museumsForWidget = [];
+  List<Museum> mainMuseumList = [];
+  List<Museum> museumsSearchSelectedCategory;
   String query = '';
   String category = 'c0';
 
-  void searchMuseum(String query) {
+  void searchMuseum(String queryText) {
     setState(() {
-      this.query = query;
-      this.museumsForWidget = mainMuseumList.where((museum) {
+      List<Museum> searchMuseum =
+          museumsSearchSelectedCategory ?? mainMuseumList;
+      query = queryText;
+      museumsForWidget = searchMuseum.where((museum) {
         final titleLower = museum.name.toLowerCase();
         final searchLower = query.toLowerCase();
         return titleLower.contains(searchLower);
@@ -39,10 +45,22 @@ class _BuyTicketState extends State<BuyTicket> {
 
   void searchMuseumByCategory(String categoryId) {
     setState(() {
-      this.category = categoryId;
-      this.mainMuseumList = Provider.of<Museums>(context, listen: false)
-          .filterMusemsByCategory(categoryId);
-      museumsForWidget = mainMuseumList;
+      category = categoryId;
+      if (categoryId != 'c0') {
+        List<Artwork> categoryArtworks =
+            Provider.of<Artworks>(context, listen: false)
+                .getByCategory(categoryId);
+        List<Museum> museumsFilter = [];
+        for (Artwork artwork in categoryArtworks) {
+          museumsFilter.add(
+              mainMuseumList.firstWhereOrNull((el) => el.id == artwork.museum));
+        }
+        museumsForWidget = museumsFilter.toSet().toList();
+        museumsSearchSelectedCategory = museumsForWidget;
+      } else {
+        museumsForWidget = mainMuseumList;
+        museumsSearchSelectedCategory = null;
+      }
     });
   }
 
