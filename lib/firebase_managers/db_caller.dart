@@ -25,10 +25,13 @@ class DBCaller {
 
   static final CollectionReference tickets =
       FirebaseFirestore.instance.collection("tickets");
+
   static final CollectionReference worktimes =
       FirebaseFirestore.instance.collection("worktimes");
+
   static final CollectionReference bills =
       FirebaseFirestore.instance.collection("bills");
+
   static final CollectionReference userTickets =
       FirebaseFirestore.instance.collection("userTickets");
 
@@ -163,12 +166,41 @@ class DBCaller {
     return id;
   }
 
-  //----------Bill----------//
+  static Future<void> updateBill(Bill bill) async {
+    return await bills
+        .doc(bill.id)
+        .update(bill.toJson())
+        .then((_) => print("Bill updated"))
+        .catchError((_) => print("Error while updating"));
+  }
+
+  static Future<void> deleteBill(String billId) async {
+    return await bills
+        .doc(billId)
+        .delete()
+        .then((_) => print("Bill ${billId} deleted"))
+        .catchError((_) => print("Failed to delete bill"));
+  }
+  //----------Biil | User Tickets----------//
 
   static Future<void> addUserTicket(UserTicket userTicket) async {
     return await userTickets
         .add(userTicket.toJson())
         .then((_) => print("UserTicket added"))
         .catchError((_) => print("Failed to add userTicket"));
+  }
+
+  static Future<void> deleteUserTicket(String billId) async {
+    return await userTickets
+        .where("bill", isEqualTo: billId)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        userTickets
+            .doc(element.id)
+            .delete()
+            .then((value) => print("User ticket deleted"));
+      });
+    });
   }
 }
