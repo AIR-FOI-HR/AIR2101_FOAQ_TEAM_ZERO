@@ -15,11 +15,13 @@ import '../../providers/tickets.dart';
 class NavigationSupportScreen extends StatelessWidget {
   static const routeName = '/navigationSupport';
   final String username = 'ttomiek';
+
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     final color = Theme.of(context);
     final appBarProperty =
-        appBar('Navigation support', context, color.primaryColor);
+        appBar('Navigation support', context, color.primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
 
     final User userData =

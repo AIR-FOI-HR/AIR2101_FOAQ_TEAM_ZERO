@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/models/user.dart';
 import 'package:provider/provider.dart';
 
 import './navigation_support_screen.dart';
@@ -20,11 +21,12 @@ class MuseumNavSuppScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     final museumId = ModalRoute.of(context).settings.arguments as String;
     final color = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
-        appBar('Navigation support', context, color.primaryColor);
+        appBar('Navigation support', context, color.primaryColor, appUser);
 
     final Museum museumData =
         Provider.of<Museums>(context, listen: false).getById(museumId);

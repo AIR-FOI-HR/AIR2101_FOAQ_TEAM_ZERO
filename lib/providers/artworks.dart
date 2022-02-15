@@ -52,6 +52,15 @@ class Artworks with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Artwork> getArtworksByMuseumIdAndCategory(
+      {String museumId, String categoryId}) {
+    return _artworks
+        .where((artworkData) =>
+            artworkData.museum == museumId &&
+            artworkData.category == categoryId)
+        .toList();
+  }
+
   List<Artwork> getByMuseumId(String id) {
     return _artworks.where((artwork) => artwork.museum == id).toList();
   }
