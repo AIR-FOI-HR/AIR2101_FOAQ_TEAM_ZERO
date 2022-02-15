@@ -22,18 +22,17 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
   final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _phoneFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
   var _editedUser = User(
-    id: null,
-    name: '',
-    surname: '',
-    username: '',
-    email: '',
-    password: '',
-    salt: '',
-    userRole: '',
-    museumId: '',
-  );
+      id: null,
+      name: '',
+      surname: '',
+      username: '',
+      email: '',
+      password: '',
+      userRole: '',
+      userImage: '',
+      museumId: '',
+      favoriteArtworks: []);
 
   @override
   void initState() {
@@ -50,7 +49,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     _surnameFocusNode.dispose();
     _usernameFocusNode.dispose();
     _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
     _phoneFocusNode.dispose();
     super.dispose();
   }
@@ -64,6 +62,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     'password': '',
     'imageUrl': '',
     'museumId': '',
+    'favoriteArtworks': []
   };
 
   var _isInit = true;
@@ -81,8 +80,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
           'phone': _editedUser.phoneNumber,
           'email': _editedUser.email,
           'password': _editedUser.password,
-          'imageUrl': '',
-          'museumId': _editedUser.museumId
+          'imageUrl': _editedUser.userImage,
+          'museumId': _editedUser.museumId,
+          'favoriteArtworks': _editedUser.favoriteArtworks
         };
         _imageUrlController.text = _editedUser.userImage;
       }
@@ -159,9 +159,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                       email: _editedUser.email,
                       password: _editedUser.password,
                       userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
                       userImage: _editedUser.userImage,
-                      museumId: _editedUser.museumId);
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -187,9 +187,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                       email: _editedUser.email,
                       password: _editedUser.password,
                       userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
                       userImage: _editedUser.userImage,
-                      museumId: _editedUser.museumId);
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -215,9 +215,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                       email: _editedUser.email,
                       password: _editedUser.password,
                       userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
                       userImage: _editedUser.userImage,
-                      museumId: _editedUser.museumId);
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -244,9 +244,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                       email: value,
                       password: _editedUser.password,
                       userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
                       userImage: _editedUser.userImage,
-                      museumId: _editedUser.museumId);
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -264,7 +264,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 textInputAction: TextInputAction.next,
                 focusNode: _phoneFocusNode,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  FocusScope.of(context).unfocus();
                 },
                 onSaved: (value) {
                   _editedUser = User(
@@ -276,9 +276,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                       phoneNumber: value,
                       password: _editedUser.password,
                       userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
                       userImage: _editedUser.userImage,
-                      museumId: _editedUser.museumId);
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isNotEmpty) {
@@ -286,53 +286,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     RegExp regExp = RegExp(pattern);
                     if (!regExp.hasMatch(value)) {
                       return 'Please provide a valid phone number';
-                    }
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'New password:'),
-                textInputAction: TextInputAction.next,
-                focusNode: _passwordFocusNode,
-                obscureText: true,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_imageUrlFocusNode);
-                },
-                onSaved: (value) {
-                  if (value.isEmpty) {
-                    _editedUser = User(
-                        id: _editedUser.id,
-                        name: _editedUser.name,
-                        surname: _editedUser.surname,
-                        username: _editedUser.username,
-                        email: _editedUser.email,
-                        phoneNumber: _editedUser.phoneNumber,
-                        password: _editedUser.password,
-                        userRole: _editedUser.userRole,
-                        salt: _editedUser.salt,
-                        userImage: _editedUser.userImage,
-                        museumId: _editedUser.museumId);
-                  } else {
-                    _editedUser = User(
-                      id: _editedUser.id,
-                      name: _editedUser.name,
-                      surname: _editedUser.surname,
-                      username: _editedUser.username,
-                      email: _editedUser.email,
-                      phoneNumber: _editedUser.phoneNumber,
-                      password:
-                          userDataProvider.useHash(value + _editedUser.salt),
-                      userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
-                      userImage: _editedUser.userImage,
-                    );
-                  }
-                },
-                validator: (value) {
-                  if (value.isNotEmpty) {
-                    if (value.length <= 5) {
-                      return 'Please enter a password length greater than 5 characters';
                     }
                   }
                   return null;
@@ -398,9 +351,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                           phoneNumber: _editedUser.phoneNumber,
                           password: _editedUser.password,
                           userRole: _editedUser.userRole,
-                          salt: _editedUser.salt,
                           museumId: _editedUser.museumId,
-                          userImage: value.isEmpty ? null : value,
+                          favoriteArtworks: _editedUser.favoriteArtworks,
+                          userImage: value.isEmpty ? "" : value,
                         );
                       },
                     ),

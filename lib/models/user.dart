@@ -9,7 +9,6 @@ class User {
   final String email;
   final String phoneNumber;
   final String password;
-  final String salt;
   final String userImage;
   final String userRole;
   final String museumId;
@@ -23,7 +22,6 @@ class User {
       @required this.email,
       this.phoneNumber,
       @required this.password,
-      @required this.salt,
       this.userImage,
       @required this.userRole,
       this.museumId,
