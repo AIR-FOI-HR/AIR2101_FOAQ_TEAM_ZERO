@@ -48,66 +48,73 @@ class SingleMuseumConfigurationScreen extends StatelessWidget {
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.done ||
                 _isFetched) {
+              //Added checks because of retarded errors that I cant fix :)
+              var museumData;
               //If data is fetched, get the museum and build the widget tree
-              final museumData =
-                  Provider.of<Museums>(context).getById(appUser.museumId);
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: color.primaryColor,
-                      ),
-                      width: double.infinity,
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            museumData.name,
-                            style: color.textTheme.headline1,
+              appUser != null
+                  ? museumData =
+                      Provider.of<Museums>(context).getById(appUser.museumId)
+                  : null;
+
+              return museumData == null
+                  ? null
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: color.primaryColor,
+                            ),
+                            width: double.infinity,
+                            child: Center(
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  museumData.name,
+                                  style: color.textTheme.headline1,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: (mediaQuery.size.height -
+                                    appBarProperty.preferredSize.height -
+                                    mediaQuery.padding.top) *
+                                0.50,
+                            child: TicketConfiguration(museumData.id),
+                          ),
+                          divider,
+                          SizedBox(
+                            height: (mediaQuery.size.height -
+                                    appBarProperty.preferredSize.height -
+                                    mediaQuery.padding.top) *
+                                0.50,
+                            child: MuseumWorkTime(museumData.id),
+                          ),
+                          divider,
+                          SizedBox(
+                            height: (mediaQuery.size.height -
+                                    appBarProperty.preferredSize.height -
+                                    mediaQuery.padding.top) *
+                                0.7,
+                            child: SingleMuseumInformation(museumData.id),
+                          ),
+                          divider,
+                          SizedBox(
+                            height: (mediaQuery.size.height -
+                                    appBarProperty.preferredSize.height -
+                                    mediaQuery.padding.top) *
+                                0.3,
+                            child: MuseumTourDuration(museumData.id),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBarProperty.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.50,
-                      child: TicketConfiguration(museumData.id),
-                    ),
-                    divider,
-                    SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBarProperty.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.50,
-                      child: MuseumWorkTime(museumData.id),
-                    ),
-                    divider,
-                    SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBarProperty.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                      child: SingleMuseumInformation(museumData.id),
-                    ),
-                    divider,
-                    SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBarProperty.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.3,
-                      child: MuseumTourDuration(museumData.id),
-                    ),
-                  ],
-                ),
-              );
+                    );
             }
             //while data is fetching show progress indicator
             return const Center(
