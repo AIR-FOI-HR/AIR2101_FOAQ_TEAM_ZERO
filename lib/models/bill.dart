@@ -8,7 +8,7 @@ class Bill with ChangeNotifier {
   final String qrCode;
   final double totalCost;
   final String userId;
-  final bool isCanceled;
+  bool isCanceled;
   final TimeOfDay museumTime;
 
   Bill({
