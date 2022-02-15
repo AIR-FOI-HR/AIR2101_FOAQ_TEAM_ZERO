@@ -22,6 +22,7 @@ class TicketPurchaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<Users>(context, listen: false).getUser();
+    int tabIndex = ModalRoute.of(context).settings.arguments;
     Future<void> _refreshAllData() async {
       await Provider.of<Museums>(context, listen: false).fetchMuseums();
       await Provider.of<Artworks>(context, listen: false).fetchArtworks();
@@ -65,6 +66,7 @@ class TicketPurchaseScreen extends StatelessWidget {
     );
 
     return DefaultTabController(
+      initialIndex: tabIndex ?? 0,
       length: 2,
       child: Scaffold(
         appBar: appBarProperty,

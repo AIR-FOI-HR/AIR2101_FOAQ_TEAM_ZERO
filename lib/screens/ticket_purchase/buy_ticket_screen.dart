@@ -292,7 +292,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                               .addNewUserTicket(value);
                         });
                         Navigator.of(context).pushReplacementNamed(
-                            TicketPurchaseScreen.routeName);
+                            TicketPurchaseScreen.routeName,
+                            arguments: 1);
                       }
                     }),
                   ),
