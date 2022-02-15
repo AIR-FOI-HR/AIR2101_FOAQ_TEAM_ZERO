@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
+import 'package:museum_app/screens/login/password_reset.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/users.dart';
@@ -8,6 +10,8 @@ import './user_button.dart';
 import './box_decoration_property.dart';
 import './check_box.dart';
 import './user_login_title.dart';
+import '../utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginInputDesign extends StatefulWidget {
   @override
@@ -15,12 +19,45 @@ class LoginInputDesign extends StatefulWidget {
 }
 
 class _LoginInputDesignState extends State<LoginInputDesign> {
-  TextEditingController usernameControler = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordControler = TextEditingController();
 
   bool isChecked = false;
   bool usernameBool = false;
   bool passwordBool = false;
+  bool _isLoading = false;
+
+  void refreshUser() async {
+    Users _userProvider = Provider.of<Users>(context, listen: false);
+    await _userProvider.refreshUser();
+  }
+
+  @override
+  void initState() {
+    refreshUser();
+    super.initState();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await AuthMethods().loginUser(
+        email: emailController.text, password: passwordControler.text);
+    if (result == "Success") {
+      Users _userProvider = Provider.of<Users>(context, listen: false);
+      await _userProvider.refreshUser();
+      Navigator.of(context).pushReplacementNamed('/');
+      setState(() {
+        _isLoading = true;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(context, result);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +88,9 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                       decoration: boxDecoration(context,
                           usernameBool ? Colors.red[100] : Colors.white),
                       child: TextField(
-                        controller: usernameControler,
+                        controller: emailController,
                         decoration: const InputDecoration(
-                          hintText: 'Username',
+                          hintText: 'E-mail',
                           border: InputBorder.none,
                         ),
                       ),
@@ -104,37 +141,20 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              userProvider.findByUsername(
-                                          usernameControler.text) ==
-                                      null
-                                  ? {
-                                      usernameBool = true,
-                                    }
-                                  : {
-                                      usernameBool = false,
-                                    };
-                              userProvider.checkUserData(
-                                usernameControler.text,
-                                passwordControler.text,
-                              )
-                                  ? {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed('/'),
-                                      passwordBool = false,
-                                    }
-                                  : passwordBool = true;
-
-                              setState(() {
-                                usernameBool;
-                                passwordBool;
-                              });
-                            },
+                            onPressed: () => loginUser(),
                             child: FittedBox(
-                              child: Text(
-                                'Login',
-                                style: color.textTheme.headline1,
-                              ),
+                              child: _isLoading
+                                  ? SizedBox(
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 3,
+                                          color: color.primaryColor),
+                                    )
+                                  : Text(
+                                      'Login',
+                                      style: color.textTheme.headline1,
+                                    ),
                             ),
                           ),
                         ),
@@ -145,7 +165,10 @@ class _LoginInputDesignState extends State<LoginInputDesign> {
                       margin: const EdgeInsets.only(left: 20, right: 20),
                       child: Column(
                         children: [
-                          UserButton('I forgot my password', () {}),
+                          UserButton('I forgot my password', () {
+                            Navigator.of(context)
+                                .pushNamed(PasswordReset.routeName);
+                          }),
                           SizedBox(height: constraints.maxHeight * 0.01),
                           UserButton('I don\'t have account', () {
                             Navigator.of(context)

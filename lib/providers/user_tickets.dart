@@ -1,36 +1,52 @@
 // ignore_for_file: unused_field, prefer_final_fields
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../firebase_managers/db_caller.dart';
 import '../models/user_ticket.dart';
 
 class UserTickets with ChangeNotifier {
   List<UserTicket> _userTickets = [
-    UserTicket(
-      billId: '1',
-      ticketId: '1',
-      quantity: 2,
-    ),
-    UserTicket(
-      billId: '2',
-      ticketId: '1',
-      quantity: 2,
-    ),
-    UserTicket(
-      billId: '2',
-      ticketId: '2',
-      quantity: 1,
-    ),
-    UserTicket(
-      billId: '3',
-      ticketId: '6',
-      quantity: 1,
-    ),
-    UserTicket(
-      billId: '4',
-      ticketId: '2',
-      quantity: 1,
-    ),
+    // UserTicket(
+    //   billId: '1',
+    //   ticketId: '1',
+    //   quantity: 2,
+    // ),
+    // UserTicket(
+    //   billId: '2',
+    //   ticketId: '1',
+    //   quantity: 2,
+    // ),
+    // UserTicket(
+    //   billId: '2',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
+    // UserTicket(
+    //   billId: '3',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
+    // UserTicket(
+    //   billId: '4',
+    //   ticketId: '2',
+    //   quantity: 1,
+    // ),
   ];
+
+  Future<void> fetchUserTickets() async {
+    List<UserTicket> loadedUserTickets = [];
+
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("userTickets").get();
+    for (var doc in querySnapshot.docs) {
+      loadedUserTickets.add(UserTicket.fromSnap(doc));
+    }
+    _userTickets.clear();
+    _userTickets = loadedUserTickets;
+    print("Loaded user tickets: " + _userTickets.length.toString());
+    notifyListeners();
+  }
 
   List<UserTicket> _newUserTickets = [];
 
@@ -72,11 +88,12 @@ class UserTickets with ChangeNotifier {
         .toList();
   }
 
-  void addNewUserTicket() {
+  Future<void> addNewUserTicket(String billId) async {
     int newUserTicketsLenght = _newUserTickets.length;
 
     for (int i = 0; i < newUserTicketsLenght; i++) {
-      _userTickets.add(_newUserTickets[i]);
+      _newUserTickets[i].billId = billId;
+      await DBCaller.addUserTicket(_newUserTickets[i]);
     }
     clearNewTickets();
     notifyListeners();

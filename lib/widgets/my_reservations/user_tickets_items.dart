@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -86,12 +87,16 @@ class UserTicketsItems extends StatelessWidget {
                       '${billData.totalCost} €',
                       style: textTheme,
                     ),
-                    ElevatedButtonMyReservation(buttonData, () {
+                    ElevatedButtonMyReservation(buttonData, () async {
                       if (buttonData == 'Delete') {
                         userTicketProv.deleteUserTicket(billData.id);
                         billProv.deleteBill(billData.id);
+                        await DBCaller.deleteBill(billData.id);
+                        await DBCaller.deleteUserTicket(billData.id);
                       } else {
                         billProv.calcelBill(billData.id);
+                        billData.isCanceled = true;
+                        await DBCaller.updateBill(billData);
                       }
                     })
                   ],

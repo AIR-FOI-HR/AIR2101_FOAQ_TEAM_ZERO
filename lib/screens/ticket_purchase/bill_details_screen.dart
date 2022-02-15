@@ -19,18 +19,19 @@ import '../../widgets/ticket_purchase/bill_details_row_data.dart';
 import '../../widgets/ticket_purchase/text_for_row.dart';
 
 class BillDetailsScreen extends StatelessWidget {
-  String username = 'ttomiek';
-
   static const routeName = "/billDetails";
   @override
   Widget build(BuildContext context) {
     Bill billData = ModalRoute.of(context).settings.arguments as Bill;
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
 
     final color = Theme.of(context);
     final textTheme = color.textTheme.headline4;
-    final appBarProperty = appBar('Bill details', context, color.primaryColor);
+    final appBarProperty =
+        appBar('Bill details', context, color.primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
     final DateFormat date = DateFormat('dd.MM.yyyy.');
+    final DateFormat time = DateFormat('HH:mm');
 
     final userTicketProv = Provider.of<UserTickets>(context, listen: false);
     final ticketsData = userTicketProv.getUserTicket(billData.id);
@@ -40,7 +41,6 @@ class BillDetailsScreen extends StatelessWidget {
         .getMuseumIdByTicketId(ticketId);
     final Museum museumData =
         Provider.of<Museums>(context, listen: false).getById(museumId);
-    final User userData = Provider.of<Users>(context).findByUsername(username);
     return Scaffold(
       appBar: appBarProperty,
       body: Container(
@@ -62,7 +62,7 @@ class BillDetailsScreen extends StatelessWidget {
                     onTap: () => Navigator.of(context).pushNamed(
                         MuseumDetailScreen.routeName,
                         arguments: museumId),
-                    child: Image.asset(
+                    child: Image.network(
                       museumData.imageUrl,
                       fit: BoxFit.cover,
                       height: 200,
@@ -156,17 +156,14 @@ class BillDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                userData.name,
+                                appUser.name + "\n" + appUser.surname,
                                 style: textTheme,
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                userData.surname,
-                                style: textTheme,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                'Time of purchase if we dont forgot to add hehehe',
+                                date.format(billData.purchaseDateTime) +
+                                    "\n" +
+                                    time.format(billData.purchaseDateTime),
                                 maxLines: 2,
                                 style: textTheme,
                               ),

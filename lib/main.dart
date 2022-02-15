@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/about_us.dart';
+import 'package:museum_app/screens/login/password_reset.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import './providers/museums.dart';
 import './providers/categories.dart';
@@ -31,8 +34,12 @@ import './screens/ticket_purchase/bill_details_screen.dart';
 import './screens/navigation_support/navigation_support_screen.dart';
 import './screens/navigation_support/museum_nav_supp_screen.dart';
 import './screens/navigation_support/museum_nav_supp_crud_screen.dart';
+import './screens/artworks/favorite_artworks.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp().then((_) => runApp(MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -140,6 +147,9 @@ class MyApp extends StatelessWidget {
           NavigationSupportScreen.routeName: (ctx) => NavigationSupportScreen(),
           MuseumNavSuppScreen.routeName: (ctx) => MuseumNavSuppScreen(),
           MuseumNavSuppCrudScreen.routeName: (ctx) => MuseumNavSuppCrudScreen(),
+          FavoriteArtworks.routeName: (ctx) => FavoriteArtworks(),
+          AboutUs.routeName: (ctx) => AboutUs(),
+          PasswordReset.routeName: (ctx) => PasswordReset(),
         },
       ),
     );

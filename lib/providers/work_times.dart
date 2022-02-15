@@ -1,137 +1,139 @@
 // ignore_for_file: prefer_final_fields, avoid_init_to_null
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import '../models/work_time.dart';
 
 class WorkTimes with ChangeNotifier {
   List<WorkTime> _workTimes = [
-    WorkTime(
-      id: '0',
-      day: 'Monday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '1',
-      day: 'Tuesday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '2',
-      day: 'Wednesday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '3',
-      day: 'Thursday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '4',
-      day: 'Friday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '5',
-      day: 'Saturday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '6',
-      day: 'Sunday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '1',
-    ),
-    WorkTime(
-      id: '0',
-      day: 'Monday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '2',
-      day: 'Tuesday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '2',
-      day: 'Wednesday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '3',
-      day: 'Thursday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 16, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '4',
-      day: 'Friday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '5',
-      day: 'Saturday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '6',
-      day: 'Sunday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '2',
-    ),
-    WorkTime(
-      id: '7',
-      day: 'Thursday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '3',
-    ),
-    WorkTime(
-      id: '8',
-      day: 'Thursday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '4',
-    ),
-    WorkTime(
-      id: '9',
-      day: 'Friday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '3',
-    ),
-    WorkTime(
-      id: '10',
-      day: 'Friday',
-      timeFrom: const TimeOfDay(hour: 8, minute: 0),
-      timeTo: const TimeOfDay(hour: 20, minute: 0),
-      museumId: '4',
-    ),
+    // WorkTime(
+    //   id: '0',
+    //   day: 'Monday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '1',
+    //   day: 'Tuesday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '2',
+    //   day: 'Wednesday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '3',
+    //   day: 'Thursday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '4',
+    //   day: 'Friday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '5',
+    //   day: 'Saturday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '6',
+    //   day: 'Sunday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '1',
+    // ),
+    // WorkTime(
+    //   id: '0',
+    //   day: 'Monday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '2',
+    //   day: 'Tuesday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '2',
+    //   day: 'Wednesday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '3',
+    //   day: 'Thursday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 16, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '4',
+    //   day: 'Friday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '5',
+    //   day: 'Saturday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '6',
+    //   day: 'Sunday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '2',
+    // ),
+    // WorkTime(
+    //   id: '7',
+    //   day: 'Thursday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '3',
+    // ),
+    // WorkTime(
+    //   id: '8',
+    //   day: 'Thursday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '4',
+    // ),
+    // WorkTime(
+    //   id: '9',
+    //   day: 'Friday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '3',
+    // ),
+    // WorkTime(
+    //   id: '10',
+    //   day: 'Friday',
+    //   timeFrom: const TimeOfDay(hour: 8, minute: 0),
+    //   timeTo: const TimeOfDay(hour: 20, minute: 0),
+    //   museumId: '4',
+    // ),
   ];
 
   List days = [
@@ -144,24 +146,53 @@ class WorkTimes with ChangeNotifier {
     'Sunday',
   ];
 
-  List<WorkTime> getWorkTime(String museumId) {
-    final workTimeList = _workTimes.firstWhere(
-        (workTimeData) => workTimeData.museumId == museumId,
-        orElse: () => null);
-    if (workTimeList == null) {
-      int theLastId = _workTimes.length;
-      for (int i = 0; i < 7; i++) {
-        final newWorkTime = WorkTime(
-          id: (theLastId + i).toString(),
-          day: days[i],
-          museumId: museumId,
-        );
-        _workTimes.add(newWorkTime);
+  Future<void> fetchWorkTimes(String museumId) async {
+    List<WorkTime> loadedWorktimes = [];
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("worktimes").get();
+    for (var doc in querySnapshot.docs) {
+      loadedWorktimes.add(WorkTime.fromSnap(doc));
+    }
+    if (museumId != "") {
+      final workTimeExist = loadedWorktimes.firstWhere(
+          (element) => element.museumId == museumId,
+          orElse: () => null);
+      if (workTimeExist == null) {
+        for (int i = 0; i < 7; i++) {
+          final newWorkTime = WorkTime(
+            day: days[i],
+            museumId: museumId,
+          );
+          await DBCaller.addWorkTime(newWorkTime);
+        }
       }
     }
+    loadedWorktimes.clear();
+    querySnapshot =
+        await FirebaseFirestore.instance.collection("worktimes").get();
+    for (var doc in querySnapshot.docs) {
+      loadedWorktimes.add(WorkTime.fromSnap(doc));
+    }
+    _workTimes.clear();
+    _workTimes = loadedWorktimes;
+  }
+
+  List<WorkTime> getWorkTime(String museumId) {
     return _workTimes
         .where((workTimeData) => workTimeData.museumId == museumId)
         .toList();
+  }
+
+  String getDayName(String dateTime) {
+    DateTime now;
+    if (dateTime == null) {
+      now = DateTime.now();
+    } else {
+      now = DateTime.parse(dateTime);
+    }
+
+    String formatter = DateFormat('EEEE').format(now);
+    return formatter;
   }
 
   WorkTime todayWorkTimeData(String museumId) {
@@ -186,16 +217,10 @@ class WorkTimes with ChangeNotifier {
     return false;
   }
 
-  String getDayName(String dateTime) {
-    DateTime now;
-    if (dateTime == null) {
-      now = DateTime.now();
-    } else {
-      now = DateTime.parse(dateTime);
-    }
-
-    String formatter = DateFormat('EEEE').format(now);
-    return formatter;
+  TimeOfDay getTimeOfDay(int time) {
+    int timeHours = time ~/ 60;
+    int timeMinuts = time - timeHours * 60;
+    return TimeOfDay(hour: timeHours, minute: timeMinuts);
   }
 
   List getWorkTimeSections(
@@ -226,12 +251,6 @@ class WorkTimes with ChangeNotifier {
     } else {
       return [];
     }
-  }
-
-  TimeOfDay getTimeOfDay(int time) {
-    int timeHours = time ~/ 60;
-    int timeMinuts = time - timeHours * 60;
-    return TimeOfDay(hour: timeHours, minute: timeMinuts);
   }
 
   WorkTime getTheWorkTimeOfSelectedDay(String museumId, DateTime dateTime) {

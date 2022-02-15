@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter/services.dart';
 import '../../models/museum.dart';
 import '../../providers/museums.dart';
 import '../../widgets/ticket_configuration/elevated_button_settings.dart';
@@ -73,16 +74,17 @@ class _SingleMuseumInformationState extends State<SingleMuseumInformation> {
     super.didChangeDependencies();
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState.save();
-    Provider.of<Museums>(context, listen: false)
-        .updateMuseum(_editedMuseumInformation);
-    Navigator.of(context)
-        .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    DBCaller.updateMuseum(_editedMuseumInformation).then((_) {
+      Provider.of<Museums>(context, listen: false).fetchMuseums();
+      Navigator.of(context)
+          .pushReplacementNamed(SingleMuseumConfigurationScreen.routeName);
+    });
   }
 
   @override

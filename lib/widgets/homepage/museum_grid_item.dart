@@ -22,7 +22,7 @@ class MuseumGridItem extends StatelessWidget {
                 .pushNamed(MuseumDetailScreen.routeName, arguments: museum.id);
             //on tap we navigate to museum detail and pass museum id as argument
           },
-          child: Image.asset(museum.imageUrl, fit: BoxFit.cover),
+          child: Image.network(museum.imageUrl, fit: BoxFit.cover),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,

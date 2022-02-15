@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:museum_app/screens/about_us.dart';
+import 'package:museum_app/screens/artworks/favorite_artworks.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/categories.dart';
@@ -11,11 +13,15 @@ import '../screens/my_profile/my_profile_screen.dart';
 import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import '../screens/ticket_purchase/ticket_purchase_screen.dart';
 import '../screens/navigation_support/navigation_support_screen.dart';
+import '../../models/user.dart';
+import '../../providers/users.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryData = Provider.of<Categories>(context);
+    User user = Provider.of<Users>(context).getUser();
+    //print(user.userRole);
     return Drawer(
       backgroundColor: Theme.of(context).primaryColorDark,
       child: ListView(
@@ -76,50 +82,76 @@ class MainMenuDrawer extends StatelessWidget {
           createDivider,
           createDrawerTile(
             context,
-            'Artworks',
-            Icons.settings_system_daydream,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ManageArtworksScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
             'Map',
             Icons.map_outlined,
             () {},
           ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'My Profile',
-            Icons.supervised_user_circle,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(MyProfileScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Museum configuration',
-            Icons.edit_outlined,
-            () {
-              Navigator.of(context).pushReplacementNamed(
-                  SingleMuseumConfigurationScreen.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Ticket',
-            Icons.panorama_horizontal,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(TicketPurchaseScreen.routeName);
-            },
-          ),
+          if (user != null)
+            if (int.parse(user.userRole) > 0) ...[
+              //Obicni korisnik
+              createDivider,
+              createDrawerTile(
+                context,
+                'Favorite artworks',
+                Icons.image,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(FavoriteArtworks.routeName);
+                },
+              ),
+              createDivider,
+              createDrawerTile(
+                context,
+                'Ticket',
+                Icons.panorama_horizontal,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(TicketPurchaseScreen.routeName);
+                },
+              ),
+              createDivider,
+              createDrawerTile(
+                context,
+                'My Profile',
+                Icons.supervised_user_circle,
+                () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyProfileScreen()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
+              if (int.parse(user.userRole) >= 2 && user.museumId != "") ...[
+                //Vlasnik muzeja i moderator vide Museum Configuration
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum configuration',
+                  Icons.edit_outlined,
+                  () {
+                    Navigator.of(context).pushReplacementNamed(
+                        SingleMuseumConfigurationScreen.routeName);
+                  },
+                ),
+              ],
+              if ((int.parse(user.userRole) >= 2 && user.museumId != "") ||
+                  int.parse(user.userRole) == 3) ...[
+                //System admin, vlasnik muzeja i moderator vide Artworks
+                //System admin vidi sve artworke
+                //Mod i Vlasnik vide samo od svojeg muzeja
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Artworks',
+                  Icons.settings_system_daydream,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ManageArtworksScreen.routeName);
+                  },
+                ),
+              ],
+            ],
           createDivider,
           createDrawerTile(
             context,
@@ -135,7 +167,9 @@ class MainMenuDrawer extends StatelessWidget {
             context,
             'About us',
             Icons.quick_contacts_mail_outlined,
-            () {},
+            () {
+              Navigator.of(context).pushReplacementNamed(AboutUs.routeName);
+            },
           ),
         ],
       ),
@@ -169,7 +203,6 @@ class MainMenuDrawer extends StatelessWidget {
           ),
         ),
         onTap: drawerTileFunction,
-        //() {          Navigator.of(ctx).pushReplacementNamed(routeName);        },
       ),
     );
   }

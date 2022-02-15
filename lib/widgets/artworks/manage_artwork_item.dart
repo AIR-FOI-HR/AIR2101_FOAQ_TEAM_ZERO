@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:provider/provider.dart';
 import '../../screens/artworks/edit_add_artworks_screen.dart';
 import '../../providers/artworks.dart';
 
-class ManageArtworkItem extends StatelessWidget {
+class ManageArtworkItem extends StatefulWidget {
   final String id;
   final String title;
   final String imageUrl;
+  final ValueChanged<String> onChanged;
 
-  ManageArtworkItem(this.id, this.title, this.imageUrl);
+  ManageArtworkItem(this.id, this.title, this.imageUrl, this.onChanged);
 
+  @override
+  State<ManageArtworkItem> createState() => _ManageArtworkItemState();
+}
+
+class _ManageArtworkItemState extends State<ManageArtworkItem> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title),
+      title: Text(widget.title),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl != ''
-            ? imageUrl
+        backgroundImage: NetworkImage(widget.imageUrl != ''
+            ? widget.imageUrl
             : 'https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png'),
         radius: 35,
       ),
@@ -29,7 +36,7 @@ class ManageArtworkItem extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                       EditAddArtworksScreen.routeName,
-                      arguments: id);
+                      arguments: widget.id);
                 }),
             IconButton(
               icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
@@ -53,7 +60,7 @@ class ManageArtworkItem extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            '${title}',
+                            '${widget.title}',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ]),
@@ -81,11 +88,12 @@ class ManageArtworkItem extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.of(ctx).pop(true);
-                        Provider.of<Artworks>(context, listen: false)
-                            .deleteArtwork(id);
+                        DBCaller.deleteArtwork(widget.id);
+                        widget.onChanged(widget.id);
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Deleted Artwork: ' + title),
+                            content: Text('Deleted Artwork: ' + widget.title),
                             duration: Duration(seconds: 3),
                           ),
                         );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/screens/my_profile/my_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
@@ -20,17 +22,17 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
   final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _phoneFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
   var _editedUser = User(
-    id: null,
-    name: '',
-    surname: '',
-    username: '',
-    email: '',
-    password: '',
-    salt: '',
-    userRole: '',
-  );
+      id: null,
+      name: '',
+      surname: '',
+      username: '',
+      email: '',
+      password: '',
+      userRole: '',
+      userImage: '',
+      museumId: '',
+      favoriteArtworks: []);
 
   @override
   void initState() {
@@ -47,7 +49,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     _surnameFocusNode.dispose();
     _usernameFocusNode.dispose();
     _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
     _phoneFocusNode.dispose();
     super.dispose();
   }
@@ -60,6 +61,8 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     'email': '',
     'password': '',
     'imageUrl': '',
+    'museumId': '',
+    'favoriteArtworks': []
   };
 
   var _isInit = true;
@@ -69,8 +72,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     if (_isInit) {
       final username = ModalRoute.of(context).settings.arguments as String;
       if (username != null) {
-        _editedUser =
-            Provider.of<Users>(context, listen: false).findByUsername(username);
+        _editedUser = Provider.of<Users>(context, listen: false).getUser();
         _initValues = {
           'name': _editedUser.name,
           'surname': _editedUser.surname,
@@ -78,7 +80,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
           'phone': _editedUser.phoneNumber,
           'email': _editedUser.email,
           'password': _editedUser.password,
-          'imageUrl': '',
+          'imageUrl': _editedUser.userImage,
+          'museumId': _editedUser.museumId,
+          'favoriteArtworks': _editedUser.favoriteArtworks
         };
         _imageUrlController.text = _editedUser.userImage;
       }
@@ -100,17 +104,19 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
     }
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState.save();
     if (_editedUser.id != null) {
-      Provider.of<Users>(context, listen: false)
-          .updateUser(_editedUser.id, _editedUser);
+      print(_editedUser.museumId);
+      DBCaller.updateUser(_editedUser);
+      Users _userProvider = Provider.of<Users>(context, listen: false);
+      await _userProvider.refreshUser();
     }
-    Navigator.of(context).pop();
+    Navigator.of(context).popAndPushNamed(MyProfileScreen.routeName);
   }
 
   @override
@@ -146,16 +152,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: value,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: value,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -174,16 +180,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: value,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: value,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -202,16 +208,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: value,
-                    email: _editedUser.email,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: value,
+                      email: _editedUser.email,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -222,6 +228,7 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
               ),
               TextFormField(
                 initialValue: _initValues['email'],
+                enabled: false,
                 decoration: const InputDecoration(labelText: 'E-mail:'),
                 textInputAction: TextInputAction.next,
                 focusNode: _emailFocusNode,
@@ -230,16 +237,16 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: value,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: value,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -257,21 +264,21 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                 textInputAction: TextInputAction.next,
                 focusNode: _phoneFocusNode,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  FocusScope.of(context).unfocus();
                 },
                 onSaved: (value) {
                   _editedUser = User(
-                    id: _editedUser.id,
-                    name: _editedUser.name,
-                    surname: _editedUser.surname,
-                    username: _editedUser.username,
-                    email: _editedUser.email,
-                    phoneNumber: value,
-                    password: _editedUser.password,
-                    userRole: _editedUser.userRole,
-                    salt: _editedUser.salt,
-                    userImage: _editedUser.userImage,
-                  );
+                      id: _editedUser.id,
+                      name: _editedUser.name,
+                      surname: _editedUser.surname,
+                      username: _editedUser.username,
+                      email: _editedUser.email,
+                      phoneNumber: value,
+                      password: _editedUser.password,
+                      userRole: _editedUser.userRole,
+                      userImage: _editedUser.userImage,
+                      museumId: _editedUser.museumId,
+                      favoriteArtworks: _editedUser.favoriteArtworks);
                 },
                 validator: (value) {
                   if (value.isNotEmpty) {
@@ -279,53 +286,6 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                     RegExp regExp = RegExp(pattern);
                     if (!regExp.hasMatch(value)) {
                       return 'Please provide a valid phone number';
-                    }
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'New password:'),
-                textInputAction: TextInputAction.next,
-                focusNode: _passwordFocusNode,
-                obscureText: true,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_imageUrlFocusNode);
-                },
-                onSaved: (value) {
-                  if (value.isEmpty) {
-                    _editedUser = User(
-                      id: _editedUser.id,
-                      name: _editedUser.name,
-                      surname: _editedUser.surname,
-                      username: _editedUser.username,
-                      email: _editedUser.email,
-                      phoneNumber: _editedUser.phoneNumber,
-                      password: _editedUser.password,
-                      userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
-                      userImage: _editedUser.userImage,
-                    );
-                  } else {
-                    _editedUser = User(
-                      id: _editedUser.id,
-                      name: _editedUser.name,
-                      surname: _editedUser.surname,
-                      username: _editedUser.username,
-                      email: _editedUser.email,
-                      phoneNumber: _editedUser.phoneNumber,
-                      password:
-                          userDataProvider.useHash(value + _editedUser.salt),
-                      userRole: _editedUser.userRole,
-                      salt: _editedUser.salt,
-                      userImage: _editedUser.userImage,
-                    );
-                  }
-                },
-                validator: (value) {
-                  if (value.isNotEmpty) {
-                    if (value.length <= 5) {
-                      return 'Please enter a password length greater than 5 characters';
                     }
                   }
                   return null;
@@ -373,11 +333,11 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                               !value.startsWith('https')) {
                             return 'Please enter a valid URL';
                           }
-                          if (!value.endsWith('.png') &&
-                              !value.endsWith('.jpg') &&
-                              !value.endsWith('.jpeg')) {
-                            return 'Please enter a valid image URL';
-                          }
+                          // if (!value.endsWith('.png') &&
+                          //     !value.endsWith('.jpg') &&
+                          //     !value.endsWith('.jpeg')) {
+                          //   return 'Please enter a valid image URL';
+                          // }
                         }
                         return null;
                       },
@@ -391,8 +351,9 @@ class _MyProfileEditingScreenState extends State<MyProfileEditingScreen> {
                           phoneNumber: _editedUser.phoneNumber,
                           password: _editedUser.password,
                           userRole: _editedUser.userRole,
-                          salt: _editedUser.salt,
-                          userImage: value.isEmpty ? null : value,
+                          museumId: _editedUser.museumId,
+                          favoriteArtworks: _editedUser.favoriteArtworks,
+                          userImage: value.isEmpty ? "" : value,
                         );
                       },
                     ),

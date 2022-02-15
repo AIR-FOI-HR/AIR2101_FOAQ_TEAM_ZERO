@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/users.dart';
+import 'package:museum_app/screens/artworks/manage_artworks_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 
@@ -84,13 +88,20 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     ThemeData color = Theme.of(context);
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
     Map<String, String> museumsMap = {};
-    Provider.of<Museums>(context)
-        .getMuseums
-        .forEach((museum) => museumsMap[museum.id] = museum.name);
+    if (appUser.museumId != "") {
+      var museum = Provider.of<Museums>(context).getById(appUser.museumId);
+      //.forEach((museum) => museumsMap[museum.id] = museum.name);
+      museumsMap[museum.id] = museum.name;
+    } else {
+      Provider.of<Museums>(context)
+          .getMuseums
+          .forEach((museum) => museumsMap[museum.id] = museum.name);
+    }
 
     Map<String, String> categoryMap = {};
     Provider.of<Categories>(context)
@@ -98,11 +109,8 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
         .forEach((category) => categoryMap[category.id] = category.name);
 
     return Scaffold(
-      appBar: appBar(
-        _artwork.id != null ? _artwork.name : 'Add artwork',
-        context,
-        color.primaryColor,
-      ),
+      appBar: appBar(_artwork.id != null ? _artwork.name : 'Add artwork',
+          context, color.primaryColor, appUser),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
@@ -356,8 +364,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     });
     if (_artwork.id != null) {
       try {
-        await Provider.of<Artworks>(context, listen: false)
-            .updateArtwork(_artwork.id, _artwork);
+        await DBCaller.updateArtwork(_artwork);
       } catch (error) {
         print(error);
         await showErrorDialog(context);
@@ -365,8 +372,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     } else {
       try {
         print(_artwork.imageUrl);
-        await Provider.of<Artworks>(context, listen: false)
-            .addArtwork(_artwork);
+        await DBCaller.addArtwork(_artwork);
       } catch (error) {
         await showErrorDialog(context);
       }
@@ -374,7 +380,7 @@ class _EditAddArtworksScreenState extends State<EditAddArtworksScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    Navigator.of(context).popAndPushNamed(ManageArtworksScreen.routeName);
   }
 
   void _updateImageUrl() {

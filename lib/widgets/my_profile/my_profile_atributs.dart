@@ -10,6 +10,7 @@ class MyProfileAtributs extends StatelessWidget {
     return Text(
       title,
       style: Theme.of(context).textTheme.headline5,
+      overflow: TextOverflow.clip,
     );
   }
 
@@ -19,9 +20,16 @@ class MyProfileAtributs extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          textStyle(context, title),
-          textStyle(context, userData),
+          Expanded(
+            child: textStyle(context, title),
+            flex: 2,
+          ),
+          Expanded(
+            child: textStyle(context, userData),
+            flex: 5,
+          ),
         ],
       ),
     );

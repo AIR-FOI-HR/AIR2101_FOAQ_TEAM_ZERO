@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import '../../widgets/login/display_logo.dart';
 import '../../widgets/registration/registration_input_design.dart';
 import '../../widgets/app_bar.dart';
+import '../../providers/users.dart';
+import '../../models/user.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const routeName = '/userRegistration';
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
     final color = Theme.of(context);
-    final appBarProperty = appBar('Registration', context, color.primaryColor);
+    final appBarProperty = appBar('Registration', context, color.primaryColor,appUser);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: appBarProperty,

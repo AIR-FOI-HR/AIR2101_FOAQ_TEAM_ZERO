@@ -2,36 +2,46 @@
 
 import 'package:flutter/material.dart';
 import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/models/artwork.dart';
+import 'package:museum_app/models/museum.dart';
 import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/artwork.dart';
+import '../../screens/museum_detail_screen.dart';
 
-class ArtworkGridItem extends StatelessWidget {
+class FavoriteArtoworksGriddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context);
     User appUser = Provider.of<Users>(context, listen: false).getUser();
-
     final artwork = Provider.of<Artwork>(context, listen: false);
+    final museum =
+        Provider.of<Museums>(context, listen: false).getById(artwork.museum);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: GridTile(
-        child: Image.network(
-            artwork.imageUrl != ''
-                ? artwork.imageUrl
-                : 'https://bitsofco.de/content/images/2018/12/broken-1.png',
-            fit: BoxFit.cover),
-        header: buildHeader(context, artwork, color, appUser),
-        footer: buildFooter(context, artwork, color),
+      child: Container(
+        color: Colors.black.withOpacity(0.7),
+        child: GridTile(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(MuseumDetailScreen.routeName,
+                  arguments: museum.id);
+              //on tap we navigate to museum detail and pass museum id as argument
+            },
+            child: Image.network(artwork.imageUrl, fit: BoxFit.contain),
+          ),
+          footer: buildFooter(context, artwork, color),
+          header: buildHeader(context, artwork, color, appUser, museum),
+        ),
       ),
     );
   }
 
-  Widget buildHeader(
-      BuildContext context, Artwork artwork, ThemeData color, User appUser) {
+  Widget buildHeader(BuildContext context, Artwork artwork, ThemeData color,
+      User appUser, Museum museum) {
     return Container(
       //maybe have another screen where we display artwork info
       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -39,13 +49,13 @@ class ArtworkGridItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            artwork.author,
+            museum.name,
             softWrap: true,
             style: TextStyle(
               color: color.highlightColor,
-              backgroundColor: Colors.black87,
+              backgroundColor: Colors.black.withOpacity(0.5),
               fontWeight: FontWeight.bold,
-              fontSize: 13,
+              fontSize: 15,
             ),
           ),
           appUser == null
@@ -87,7 +97,7 @@ class ArtworkGridItem extends StatelessWidget {
               artwork.name,
               softWrap: true,
               style: TextStyle(
-                color: color.highlightColor,
+                color: color.accentColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
