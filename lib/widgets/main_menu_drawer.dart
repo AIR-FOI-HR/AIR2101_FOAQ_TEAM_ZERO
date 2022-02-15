@@ -112,6 +112,16 @@ class MainMenuDrawer extends StatelessWidget {
               createDivider,
               createDrawerTile(
                 context,
+                'Navigation support',
+                Icons.assistant_navigation,
+                () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(NavigationSupportScreen.routeName);
+                },
+              ),
+              createDivider,
+              createDrawerTile(
+                context,
                 'My Profile',
                 Icons.supervised_user_circle,
                 () {
@@ -152,16 +162,6 @@ class MainMenuDrawer extends StatelessWidget {
                 ),
               ],
             ],
-          createDivider,
-          createDrawerTile(
-            context,
-            'Navigation support',
-            Icons.assistant_navigation,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(NavigationSupportScreen.routeName);
-            },
-          ),
           createDivider,
           createDrawerTile(
             context,
