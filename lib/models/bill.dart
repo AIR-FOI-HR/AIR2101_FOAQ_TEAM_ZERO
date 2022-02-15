@@ -10,6 +10,7 @@ class Bill with ChangeNotifier {
   final String userId;
   bool isCanceled;
   final TimeOfDay museumTime;
+  final DateTime purchaseDateTime;
 
   Bill({
     this.id,
@@ -19,6 +20,7 @@ class Bill with ChangeNotifier {
     @required this.userId,
     this.isCanceled = false,
     this.museumTime,
+    this.purchaseDateTime,
   });
 
   static Bill fromSnap(QueryDocumentSnapshot snap) {
@@ -32,7 +34,9 @@ class Bill with ChangeNotifier {
         museumTime: TimeOfDay(
             hour: snapshot["museumTimeHour"],
             minute: snapshot["museumTimeMinute"]),
-        qrCode: snapshot["qrCode"]);
+        qrCode: snapshot["qrCode"],
+        purchaseDateTime:
+            DateTime.parse(snapshot["purchaseDateTime"].toDate().toString()));
   }
 
   Map<String, dynamic> toJson() => {
@@ -42,6 +46,7 @@ class Bill with ChangeNotifier {
         "isCanceled": isCanceled,
         "qrCode": qrCode,
         "museumTimeHour": museumTime.hour,
-        "museumTimeMinute": museumTime.minute
+        "museumTimeMinute": museumTime.minute,
+        "purchaseDateTime": purchaseDateTime
       };
 }

@@ -31,6 +31,7 @@ class BillDetailsScreen extends StatelessWidget {
         appBar('Bill details', context, color.primaryColor, appUser);
     final mediaQuery = MediaQuery.of(context);
     final DateFormat date = DateFormat('dd.MM.yyyy.');
+    final DateFormat time = DateFormat('HH:mm');
 
     final userTicketProv = Provider.of<UserTickets>(context, listen: false);
     final ticketsData = userTicketProv.getUserTicket(billData.id);
@@ -155,17 +156,14 @@ class BillDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                appUser.name,
+                                appUser.name + "\n" + appUser.surname,
                                 style: textTheme,
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                appUser.surname,
-                                style: textTheme,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                'Time of purchase if we dont forgot to add hehehe',
+                                date.format(billData.purchaseDateTime) +
+                                    "\n" +
+                                    time.format(billData.purchaseDateTime),
                                 maxLines: 2,
                                 style: textTheme,
                               ),
