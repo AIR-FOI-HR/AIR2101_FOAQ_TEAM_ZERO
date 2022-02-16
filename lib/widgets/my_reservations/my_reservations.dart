@@ -18,34 +18,48 @@ class MyReservations extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: SizedBox(
           height: constraints.maxHeight * 0.82,
-          child: ListView.builder(
-            itemCount: billsProvData.length,
-            itemBuilder: (_, i) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Column(
+          child: billsProvData.isEmpty
+              ? Column(
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                              BillDetailsScreen.routeName,
-                              arguments: billsProvData[i]);
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                        ),
-                        child: UserTicketsItems(billsProvData[i].id)),
-                    if (i != billsProvData.length - 1)
-                      Divider(
-                        thickness: 3,
-                        color: Theme.of(context).primaryColor,
-                      )
+                    Text(
+                      'You have not bought any museum tickets, please buy your tickets to see your reservations.',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    Image.asset(
+                      'assets/images/NoArtworks.png',
+                      fit: BoxFit.contain,
+                    )
                   ],
+                )
+              : ListView.builder(
+                  itemCount: billsProvData.length,
+                  itemBuilder: (_, i) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                    BillDetailsScreen.routeName,
+                                    arguments: billsProvData[i]);
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                              ),
+                              child: UserTicketsItems(billsProvData[i].id)),
+                          if (i != billsProvData.length - 1)
+                            Divider(
+                              thickness: 3,
+                              color: Theme.of(context).primaryColor,
+                            )
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         ),
       );
     });
