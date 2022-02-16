@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/widgets/my_reservations/elevated_button_my_reservation.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -76,7 +77,7 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
     super.didChangeDependencies();
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
@@ -87,8 +88,10 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
 
     if (_editedMuseumHall.id != null) {
       museumsHallsProv.updateMuseumHall(_editedMuseumHall, context);
+      await DBCaller.updateMuseumHall(_editedMuseumHall);
     } else {
       museumsHallsProv.addNewMuseumHall(_editedMuseumHall);
+      await DBCaller.addMuseumHall(_editedMuseumHall);
     }
     Navigator.of(context).pushReplacementNamed(MuseumNavSuppScreen.routeName,
         arguments: _editedMuseumHall.museumId);
@@ -229,7 +232,8 @@ class _MuseumNavSuppCrudScreenState extends State<MuseumNavSuppCrudScreen> {
                       Navigator.of(context).pop();
                     }),
                     if (_editedMuseumHall.id != null)
-                      ElevatedButtonMyReservation('Delete', () {
+                      ElevatedButtonMyReservation('Delete', () async {
+                        await DBCaller.deleteMuseumHall(_editedMuseumHall.id);
                         museumHallsProv.delete(_editedMuseumHall.id);
                         Navigator.of(context).pop();
                       }),
