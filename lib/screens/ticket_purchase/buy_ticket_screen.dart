@@ -285,6 +285,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                             totalCost: totalAmount,
                             userId: appUser.id,
                             isCanceled: false,
+                            isUsed: false,
                             museumTime: billProv.getSelectedTime(),
                             purchaseDateTime: DateTime.now());
                         await DBCaller.addBill(newBill).then((value) async {

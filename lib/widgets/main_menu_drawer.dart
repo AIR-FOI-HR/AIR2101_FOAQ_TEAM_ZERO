@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/screens/about_us.dart';
 import 'package:museum_app/screens/artworks/favorite_artworks.dart';
+import 'package:museum_app/screens/single_musem_configuration/ticket_crud_screen.dart';
+import 'package:museum_app/screens/ticket_validation/ticked_validation_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/categories.dart';
@@ -104,8 +106,8 @@ class MainMenuDrawer extends StatelessWidget {
               createDivider,
               createDrawerTile(
                 context,
-                'Ticket',
-                Icons.panorama_horizontal,
+                'My Tickets',
+                Icons.receipt_long_outlined,
                 () {
                   Navigator.of(context)
                       .pushReplacementNamed(TicketPurchaseScreen.routeName);
@@ -125,7 +127,7 @@ class MainMenuDrawer extends StatelessWidget {
               createDrawerTile(
                 context,
                 'My Profile',
-                Icons.supervised_user_circle,
+                Icons.person_rounded,
                 () {
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -140,10 +142,20 @@ class MainMenuDrawer extends StatelessWidget {
                 createDrawerTile(
                   context,
                   'Museum configuration',
-                  Icons.edit_outlined,
+                  Icons.museum_outlined,
                   () {
                     Navigator.of(context).pushReplacementNamed(
                         SingleMuseumConfigurationScreen.routeName);
+                  },
+                ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Ticket validation',
+                  Icons.qr_code_scanner,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(TicketValidationScreen.routeName);
                   },
                 ),
               ],

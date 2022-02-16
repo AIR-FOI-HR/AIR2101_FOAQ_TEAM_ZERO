@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field, prefer_final_fields
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
@@ -12,6 +13,19 @@ class Users with ChangeNotifier {
   List<User> _users = [];
   User _user;
   final AuthMethods _authMethods = AuthMethods();
+
+  Future<void> fetchUsers() async {
+    List<User> loadedUsers = [];
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("users").get();
+    for (var doc in querySnapshot.docs) {
+      loadedUsers.add(User.fromSnap(doc));
+    }
+    _users.clear();
+    _users = loadedUsers;
+    print("Tickets: " + _users.length.toString());
+    notifyListeners();
+  }
 
   User getUser() {
     if (_user == null) {
@@ -33,6 +47,11 @@ class Users with ChangeNotifier {
 
   User findByUsername(String username) {
     return _users.firstWhere((userData) => userData.username == username,
+        orElse: () => null);
+  }
+
+  User findById(String id) {
+    return _users.firstWhere((userData) => userData.id == id,
         orElse: () => null);
   }
 

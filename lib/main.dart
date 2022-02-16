@@ -34,6 +34,7 @@ import './screens/ticket_purchase/bill_details_screen.dart';
 import './screens/navigation_support/navigation_support_screen.dart';
 import './screens/navigation_support/museum_nav_supp_screen.dart';
 import './screens/navigation_support/museum_nav_supp_crud_screen.dart';
+import './screens/ticket_validation/ticked_validation_screen.dart';
 import './screens/artworks/favorite_artworks.dart';
 import './screens/map_screen.dart';
 
@@ -152,6 +153,7 @@ class MyApp extends StatelessWidget {
           AboutUs.routeName: (ctx) => AboutUs(),
           PasswordReset.routeName: (ctx) => PasswordReset(),
           MapScreen.routeName: (ctx) => MapScreen(),
+          TicketValidationScreen.routeName: (ctx) => TicketValidationScreen(),
         },
       ),
     );
