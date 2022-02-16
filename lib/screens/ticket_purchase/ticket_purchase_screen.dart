@@ -18,6 +18,7 @@ import '../../widgets/my_reservations/my_reservations.dart';
 
 class TicketPurchaseScreen extends StatelessWidget {
   static const routeName = '/TicketPurchase';
+  bool _isFetched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class TicketPurchaseScreen extends StatelessWidget {
       await Provider.of<UserTickets>(context, listen: false).fetchUserTickets();
       await Provider.of<Bills>(context, listen: false).fetchBills();
       await Future.delayed(Duration(milliseconds: 700));
+      _isFetched = true;
     }
 
     final color = Theme.of(context);
@@ -72,9 +74,10 @@ class TicketPurchaseScreen extends StatelessWidget {
         appBar: appBarProperty,
         drawer: MainMenuDrawer(),
         body: FutureBuilder(
-            future: _refreshAllData(),
+            future: _isFetched ? null : _refreshAllData(),
             builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.connectionState == ConnectionState.done ||
+                  _isFetched) {
                 return TabBarView(
                   children: [
                     BuyTicket(),
