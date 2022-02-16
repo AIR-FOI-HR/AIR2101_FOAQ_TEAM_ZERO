@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 import '../providers/categories.dart';
 import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/categories/category_artwork_screen.dart';
-import '../screens/artworks/manage_artworks_screen.dart';
 import '../screens/my_profile/my_profile_screen.dart';
 import '../screens/single_musem_configuration/single_museum_configuration_screen.dart';
 import '../screens/ticket_purchase/ticket_purchase_screen.dart';
 import '../screens/navigation_support/navigation_support_screen.dart';
+import '../screens/map_screen.dart';
 import '../../models/user.dart';
 import '../../providers/users.dart';
 
@@ -84,7 +84,9 @@ class MainMenuDrawer extends StatelessWidget {
             context,
             'Map',
             Icons.map_outlined,
-            () {},
+            () {
+              Navigator.of(context).pushReplacementNamed(MapScreen.routeName);
+            },
           ),
           if (user != null)
             if (int.parse(user.userRole) > 0) ...[
