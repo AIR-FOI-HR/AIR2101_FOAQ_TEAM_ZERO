@@ -21,7 +21,7 @@ class Users with ChangeNotifier {
       salt: 'd367a4d778f157a872bc8e2ebcd332b784137777fef6a8438b9d0f9c9ed6532a',
       userRole: '3',
       phoneNumber: '0951234567',
-      museumId: '2',
+      museumId: '3',
     ),
     User(
       id: 'u2',
@@ -84,7 +84,7 @@ class Users with ChangeNotifier {
   }
 
   List<User> museumOwners() {
-     return _users.where((user) => user.userRole == "3").toList();
+     return _users.where((user) => user.userRole == "3" && user.museumId !='0').toList();
   }
 
   
@@ -177,6 +177,60 @@ class Users with ChangeNotifier {
         password: password,
         salt: salt,
         userRole: '0',
+      ),
+    );
+  }
+
+  void addNewStaff(
+    String username,
+    String email,
+    String name,
+    String surname,
+    String pass,
+    String museum
+  ) {
+    var newId = (_users.length + 1).toString();
+    var salt = useHash(username);
+    var password = useHash(pass + salt);
+    _users.insert(
+      0,
+      User(
+        id: newId,
+        name: name,
+        surname: surname,
+        username: username,
+        email: email,
+        password: password,
+        salt: salt,
+        userRole: '2',
+        museumId: museum
+      ),
+    );
+  }
+
+  void addNewOwner(
+    String username,
+    String email,
+    String name,
+    String surname,
+    String pass,
+    String museum
+  ) {
+    var newId = (_users.length + 1).toString();
+    var salt = useHash(username);
+    var password = useHash(pass + salt);
+    _users.insert(
+      0,
+      User(
+        id: newId,
+        name: name,
+        surname: surname,
+        username: username,
+        email: email,
+        password: password,
+        salt: salt,
+        userRole: '3',
+        museumId: museum
       ),
     );
   }

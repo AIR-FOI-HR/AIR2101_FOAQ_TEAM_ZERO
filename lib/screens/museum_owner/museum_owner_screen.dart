@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/providers/users.dart';
+import 'package:museum_app/screens/museum_owner/add_owner_screen.dart';
 import 'package:museum_app/widgets/homepage/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -101,7 +102,7 @@ class _ManageMuseumOwnersScreen extends State<ManageMuseumOwnersScreen> {
           backgroundColor: color.highlightColor,
           child: IconButton(
             onPressed: () {
-              
+              Navigator.of(context).pushNamed(addMuseumOwnerscreen.routeName);
             },
             icon: Icon(
               Icons.add,
