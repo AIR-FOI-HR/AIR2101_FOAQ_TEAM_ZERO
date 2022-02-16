@@ -2,12 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import '../models/museum.dart';
-import '../models/category_artwork.dart';
 import '../models/artwork.dart';
-import '../providers/categories.dart';
 import '../providers/artworks.dart';
 
 class Museums with ChangeNotifier {
@@ -92,6 +89,13 @@ class Museums with ChangeNotifier {
   List<Museum> get getMuseums {
     print("Broj muzeja: " + _museums.length.toString());
     return [..._museums];
+  }
+
+  List<Museum> get getMuseumAndLocation {
+    return _museums
+        .where((museumData) =>
+            museumData.location != null && museumData.location != '')
+        .toList();
   }
 
   List<Museum> searchMuseums(String query) {
