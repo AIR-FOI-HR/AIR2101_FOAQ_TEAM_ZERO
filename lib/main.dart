@@ -35,6 +35,7 @@ import './screens/navigation_support/navigation_support_screen.dart';
 import './screens/navigation_support/museum_nav_supp_screen.dart';
 import './screens/navigation_support/museum_nav_supp_crud_screen.dart';
 import './screens/artworks/favorite_artworks.dart';
+import './screens/map_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -150,6 +151,7 @@ class MyApp extends StatelessWidget {
           FavoriteArtworks.routeName: (ctx) => FavoriteArtworks(),
           AboutUs.routeName: (ctx) => AboutUs(),
           PasswordReset.routeName: (ctx) => PasswordReset(),
+          MapScreen.routeName: (ctx) => MapScreen(),
         },
       ),
     );
