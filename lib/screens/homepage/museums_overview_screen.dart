@@ -55,7 +55,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
                   ),
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }),
@@ -102,7 +102,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
     //While waiting for data from database we wait 0.5 seconds. This is for better UX and smoothness
     await Provider.of<Museums>(context, listen: false).fetchMuseums();
     await Provider.of<Artworks>(context, listen: false).fetchArtworks();
-    await Future.delayed(Duration(milliseconds: 700));
+    await Future.delayed(const Duration(milliseconds: 700));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     museumsForWidget = mainMuseumList;
   }
@@ -110,7 +110,7 @@ class _MuseumsOverviewScreenState extends State<MuseumsOverviewScreen> {
   Future<void> _refresh() async {
     await Provider.of<Museums>(context, listen: false).fetchMuseums();
     await Provider.of<Artworks>(context, listen: false).fetchArtworks();
-    await Future.delayed(Duration(milliseconds: 1300));
+    await Future.delayed(const Duration(milliseconds: 1300));
     mainMuseumList = Provider.of<Museums>(context, listen: false).getMuseums;
     setState(() {
       museumsForWidget = mainMuseumList;
