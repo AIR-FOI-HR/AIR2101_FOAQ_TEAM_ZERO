@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:museum_app/screens/ticket_purchase/ticket_purchase_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/app_bar.dart';
 import '../widgets/museumDetails/artworks_grid.dart';
-import '../../providers/users.dart';
-import '../../models/user.dart';
-import 'package:provider/provider.dart';
-import '../providers/museums.dart';
 
-import 'ticket_purchase/buy_ticket_screen.dart';
+import '../../models/user.dart';
+import '../providers/museums.dart';
+import '../../providers/users.dart';
+
 import '../screens/login/login_screen.dart';
 
 class MuseumDetailScreen extends StatelessWidget {
@@ -39,7 +37,7 @@ class MuseumDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             //top image
-            Container(
+            SizedBox(
               height: 150,
               width: double.infinity,
               child: Image.network(
@@ -57,10 +55,11 @@ class MuseumDetailScreen extends StatelessWidget {
             //about 'museum' text
             Container(
               width: double.infinity,
-              padding: EdgeInsets.only(left: 15, bottom: 5),
+              padding: const EdgeInsets.only(left: 15, bottom: 5),
               child: Text('About ${museum.name}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             //description, map and addres
             Padding(
@@ -80,7 +79,7 @@ class MuseumDetailScreen extends StatelessWidget {
                             children: [
                               Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 10),
                                 child: const Text(
                                   'Description: ',
                                   textAlign: TextAlign.start,
@@ -89,7 +88,7 @@ class MuseumDetailScreen extends StatelessWidget {
                                       fontSize: 15),
                                 ),
                               ),
-                              Divider(
+                              const Divider(
                                 height: 5,
                                 color: Colors.white,
                                 thickness: 1,
@@ -98,21 +97,21 @@ class MuseumDetailScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: Text(
                                   museum.description,
-                                  style: TextStyle(),
+                                  style: const TextStyle(),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                       ],
                     ),
                   ),
                   //spacer betwen map and description,addres
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   //map
@@ -135,7 +134,7 @@ class MuseumDetailScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               height: 5,
                               color: Colors.white,
                               thickness: 1,
@@ -156,7 +155,7 @@ class MuseumDetailScreen extends StatelessWidget {
                                 },
                                 child: Material(
                                   elevation: 20,
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 200,
                                     child: Image.network(
                                       'https://i.stack.imgur.com/uBnTY.png',
