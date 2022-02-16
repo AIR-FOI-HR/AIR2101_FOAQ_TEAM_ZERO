@@ -7,6 +7,7 @@ import '../models/artwork.dart';
 import '../models/ticket.dart';
 import '../models/bill.dart';
 import '../models/user_ticket.dart';
+import '../models/museum_halls.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBCaller {
@@ -34,6 +35,9 @@ class DBCaller {
 
   static final CollectionReference userTickets =
       FirebaseFirestore.instance.collection("userTickets");
+
+  static final CollectionReference museumHalls =
+      FirebaseFirestore.instance.collection("museumHalls");
 
   //----------User----------//
   static void createUser(User user, String id) {
@@ -202,5 +206,29 @@ class DBCaller {
             .then((value) => print("User ticket deleted"));
       });
     });
+  }
+  //----------Museum Halls----------//
+
+  static Future<void> addMuseumHall(MuseumHalls museumHall) async {
+    return await museumHalls
+        .add(museumHall.toJson())
+        .then((_) => print("MuseumHall added"))
+        .catchError((_) => print("Failed to add MuseumHall"));
+  }
+
+  static Future<void> updateMuseumHall(MuseumHalls museumHall) async {
+    return await museumHalls
+        .doc(museumHall.id)
+        .update(museumHall.toJson())
+        .then((_) => print("Museum Hall updated"))
+        .catchError((_) => print("Error while updating"));
+  }
+
+  static Future<void> deleteMuseumHall(String museumHallId) async {
+    return await museumHalls
+        .doc(museumHallId)
+        .delete()
+        .then((_) => print("Museum Hall ${museumHallId} deleted"))
+        .catchError((_) => print("Failed to delete Museum Hall"));
   }
 }

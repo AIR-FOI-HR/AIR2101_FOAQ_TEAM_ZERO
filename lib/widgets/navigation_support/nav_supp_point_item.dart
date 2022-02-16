@@ -12,25 +12,21 @@ import '../../providers/artworks.dart';
 import '../../providers/users.dart';
 
 class NavSuppPointItem extends StatelessWidget {
-  final String loggedUsername = 'ttomiek';
-
   final MuseumHalls museumHallsData;
 
   NavSuppPointItem(this.museumHallsData);
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
     final artworkList = Provider.of<Artworks>(context, listen: false)
         .getArtworksByMuseumIdAndCategory(
             categoryId: museumHallsData.categoryId,
             museumId: museumHallsData.museumId);
-    final User loggedUserData = Provider.of<Users>(context, listen: false)
-        .findByUsername(loggedUsername);
-    final bool admin =
-        (loggedUserData.userRole == '1' || loggedUserData.userRole == '2') &&
-                loggedUserData.museumId != null
-            ? true
-            : false;
+    final bool admin = (appUser.userRole == '2' || appUser.userRole == '3') &&
+            appUser.museumId != null
+        ? true
+        : false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

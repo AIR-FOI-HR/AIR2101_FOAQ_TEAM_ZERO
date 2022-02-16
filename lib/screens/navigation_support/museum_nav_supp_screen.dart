@@ -17,8 +17,6 @@ import '../../models/museum.dart';
 
 class MuseumNavSuppScreen extends StatelessWidget {
   static const routeName = '/museumNavSupp';
-  final String loggedUsername = 'ttomiek';
-
   @override
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context, listen: false).getUser();
@@ -32,13 +30,10 @@ class MuseumNavSuppScreen extends StatelessWidget {
         Provider.of<Museums>(context, listen: false).getById(museumId);
     final List<MuseumHalls> museumHallsData =
         Provider.of<MuseumsHalls>(context).getMuseumHallsById(museumId);
-    final loggedUserData = Provider.of<Users>(context, listen: false)
-        .findByUsername(loggedUsername);
-    final bool admin =
-        (loggedUserData.userRole == '1' || loggedUserData.userRole == '2') &&
-                loggedUserData.museumId != null
-            ? true
-            : false;
+    final bool admin = (appUser.userRole == '2' || appUser.userRole == '3') &&
+            appUser.museumId != ""
+        ? true
+        : false;
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:qr/qr.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../screens/museum_detail_screen.dart';
 
@@ -70,6 +72,7 @@ class BillDetailsScreen extends StatelessWidget {
                   ),
                   header: GridTileBar(
                     trailing: Container(
+                      color: Colors.black87,
                       padding: const EdgeInsets.all(5),
                       child: Text(
                         museumData.name,
@@ -178,8 +181,7 @@ class BillDetailsScreen extends StatelessWidget {
                                 'Paid: ${billData.totalCost} €',
                                 style: color.textTheme.headline5,
                               ),
-                              Image.network(
-                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'),
+                              QrImage(data: billData.id)
                             ],
                           ),
                         ),
