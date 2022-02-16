@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Bill with ChangeNotifier {
   final String id;
   final DateTime date;
-  final String qrCode;
+  bool isUsed;
   final double totalCost;
   final String userId;
   bool isCanceled;
@@ -15,7 +15,7 @@ class Bill with ChangeNotifier {
   Bill({
     this.id,
     @required this.date,
-    this.qrCode,
+    this.isUsed,
     @required this.totalCost,
     @required this.userId,
     this.isCanceled = false,
@@ -34,7 +34,7 @@ class Bill with ChangeNotifier {
         museumTime: TimeOfDay(
             hour: snapshot["museumTimeHour"],
             minute: snapshot["museumTimeMinute"]),
-        qrCode: snapshot["qrCode"],
+        isUsed: snapshot["isUsed"],
         purchaseDateTime:
             DateTime.parse(snapshot["purchaseDateTime"].toDate().toString()));
   }
@@ -44,7 +44,7 @@ class Bill with ChangeNotifier {
         "totalCost": totalCost,
         "user": userId,
         "isCanceled": isCanceled,
-        "qrCode": qrCode,
+        "isUsed": isUsed,
         "museumTimeHour": museumTime.hour,
         "museumTimeMinute": museumTime.minute,
         "purchaseDateTime": purchaseDateTime
