@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/screens/museum_owner/museum_owner_screen.dart';
 import '../../providers/artworks.dart';
+import '../../providers/museums.dart';
 import '../../providers/users.dart';
 import '../../models/museum.dart';
 import '../../models/user.dart';
@@ -36,8 +37,9 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
   
 
   Widget build(BuildContext context) {
-  String museum = '';
-  String email = '';
+    String museum = '';
+    Museum muzej;
+    String email = '';
    ThemeData color = Theme.of(context);
    final _formKey = GlobalKey<FormState>();
    final appBarProperty = appBar('Add museum owner', context, Theme.of(context).primaryColor);
@@ -66,7 +68,7 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
          TextFormField(
            decoration: inputDecoration('Email', Icons.email, color),
            onChanged: (value){
-             var email = value;
+             email = value;
            },
            validator: (value) {
             if (value.isEmpty) {
@@ -88,9 +90,8 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
             items: museumsMap.values.toList(),
             onValueChanged: (value) {
               
-                museum = museumsMap.keys
-                    .firstWhere((key) => museumsMap[key] == value);
-                
+                museum = museumsMap.keys.firstWhere((key) => museumsMap[key] == value);
+                muzej = Provider.of<Museums>(context,listen: false).getById(museum);
               
             },
           ),
@@ -103,7 +104,7 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
               backgroundColor: color.highlightColor,
               child: IconButton(
                 onPressed: (){
-                  var username = getRandomString(6);
+                    var username = getRandomString(6);
                     var password = getRandomString(6);
                     final url =  Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
                     final response = http.post(
@@ -116,10 +117,10 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
                         'template_id': TemplateId,
                         'user_id': UserId,
                         'template_params': {
+                          'usermail': email,
                           'username': username,
                           'password': password,
-                          'usermail': email,
-                          'museum': museum
+                          'museum': muzej.name,
                         },
                       }),
 
