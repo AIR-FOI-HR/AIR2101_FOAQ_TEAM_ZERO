@@ -72,6 +72,7 @@ class BillDetailsScreen extends StatelessWidget {
                   ),
                   header: GridTileBar(
                     trailing: Container(
+                      color: Colors.black87,
                       padding: const EdgeInsets.all(5),
                       child: Text(
                         museumData.name,
