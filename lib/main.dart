@@ -2,6 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/screens/about_us.dart';
 import 'package:museum_app/screens/login/password_reset.dart';
+import 'package:museum_app/screens/museum_owner/add_owner_screen.dart';
+import 'package:museum_app/screens/museum_owner/museum_owner_screen.dart';
+import 'package:museum_app/screens/museum_staff/museum_staff_adding_screen.dart';
+import 'package:museum_app/screens/museums_config/museum_config_sceen.dart';
+import 'package:museum_app/screens/museums_config/museums_edit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -37,6 +42,7 @@ import './screens/navigation_support/museum_nav_supp_crud_screen.dart';
 import './screens/ticket_validation/ticked_validation_screen.dart';
 import './screens/artworks/favorite_artworks.dart';
 import './screens/map_screen.dart';
+import './screens/museum_staff/museum_staff_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -154,6 +160,12 @@ class MyApp extends StatelessWidget {
           PasswordReset.routeName: (ctx) => PasswordReset(),
           MapScreen.routeName: (ctx) => MapScreen(),
           TicketValidationScreen.routeName: (ctx) => TicketValidationScreen(),
+          ManageMuseumStaff.routeName: (ctx) => ManageMuseumStaff(),
+          addStaff.routeName: (ctx) => addStaff(),
+          ManageMuseums.routeName: (ctx) => ManageMuseums(),
+          EditAddMuseumsScreen.routeName:(ctx) => EditAddMuseumsScreen(),
+          ManageMuseumOwnersScreen.routeName:(ctx) => ManageMuseumOwnersScreen(),
+          addMuseumOwnerscreen.routeName:(ctx)=> addMuseumOwnerscreen()
         },
       ),
     );

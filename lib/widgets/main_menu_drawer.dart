@@ -5,6 +5,8 @@ import 'package:museum_app/screens/about_us.dart';
 import 'package:museum_app/screens/artworks/favorite_artworks.dart';
 import 'package:museum_app/screens/single_musem_configuration/ticket_crud_screen.dart';
 import 'package:museum_app/screens/ticket_validation/ticked_validation_screen.dart';
+import 'package:museum_app/screens/museum_owner/museum_owner_screen.dart';
+import 'package:museum_app/screens/museums_config/museum_config_sceen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/categories.dart';
@@ -17,6 +19,7 @@ import '../screens/navigation_support/navigation_support_screen.dart';
 import '../screens/map_screen.dart';
 import '../../models/user.dart';
 import '../../providers/users.dart';
+import '../screens/museum_staff/museum_staff_screen.dart';
 
 class MainMenuDrawer extends StatelessWidget {
   @override
@@ -176,6 +179,36 @@ class MainMenuDrawer extends StatelessWidget {
                 ),
               ],
             ],
+          createDivider,
+          createDrawerTile(
+            context,
+            'Museum staff',
+            Icons.assistant_navigation,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageMuseumStaff.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Manage museums',
+            Icons.assistant_navigation,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageMuseums.routeName);
+            },
+          ),
+          createDivider,
+          createDrawerTile(
+            context,
+            'Manage museum owners',
+            Icons.assistant_navigation,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ManageMuseumOwnersScreen.routeName);
+            },
+          ),
           createDivider,
           createDrawerTile(
             context,
