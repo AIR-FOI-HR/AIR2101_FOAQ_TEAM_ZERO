@@ -117,6 +117,14 @@ class DBCaller {
         .catchError((_) => print("Error while updating"));
   }
 
+  static Future<void> deleteMuseum(String museumId) async {
+    return await museums
+        .doc(museumId)
+        .delete()
+        .then((_) => print("Museum ${museumId} deleted"))
+        .catchError((_) => print("Failed to delete artwork"));
+  }
+
   //----------Tickets----------//
 
   static Future<void> addTicket(Ticket ticket) async {
