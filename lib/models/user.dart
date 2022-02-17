@@ -10,8 +10,8 @@ class User {
   final String phoneNumber;
   final String password;
   final String userImage;
-  final String userRole;
-  final String museumId;
+  String userRole;
+  String museumId;
   final List<dynamic> favoriteArtworks;
 
   User(

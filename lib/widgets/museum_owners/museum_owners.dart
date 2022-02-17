@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:provider/provider.dart';
 import '../../screens/museum_owner/museum_owner_screen.dart';
@@ -9,18 +11,16 @@ class ManageMuseumOwners extends StatelessWidget {
   final String name;
   final String surname;
 
-
-  ManageMuseumOwners(this.id, this.name,this.surname);
+  ManageMuseumOwners(this.id, this.name, this.surname);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(name +" "+surname),
+      title: Text(name + " " + surname),
       trailing: Container(
         width: 100,
         child: Row(
           children: [
-           
             IconButton(
               icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
               onPressed: () => showDialog(
@@ -69,17 +69,21 @@ class ManageMuseumOwners extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(ctx).pop(true);
-                        Provider.of<Users>(context, listen: false)
-                            .deleteMuseum(id);
+                        User user = Provider.of<Users>(context, listen: false)
+                            .findById(id);
+                        user.museumId = '';
+                        user.userRole = '1';
+                        await DBCaller.updateUser(user);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Deleted museum owner: ' + name),
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context).pushNamed(ManageMuseumOwnersScreen.routeName);
+                        Navigator.of(context)
+                            .pushNamed(ManageMuseumOwnersScreen.routeName);
                       },
                     ),
                   ],
