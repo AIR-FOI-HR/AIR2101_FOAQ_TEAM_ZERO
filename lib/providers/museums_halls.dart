@@ -30,6 +30,36 @@ class MuseumsHalls with ChangeNotifier {
     return museumHallsData;
   }
 
+  List<MuseumHalls> getRecomendedRoute(
+    String museumId,
+    var categoryList,
+  ) {
+    List<MuseumHalls> recomendedRouteList = [];
+    List<MuseumHalls> allMuseumHalls = getMuseumHallsById(museumId);
+
+    for (var i = 0; i < categoryList.length; i++) {
+      for (var j = 0; j < allMuseumHalls.length; j++) {
+        if (categoryList[i].categoryId == allMuseumHalls[j].categoryId) {
+          recomendedRouteList.add(allMuseumHalls[j]);
+        }
+      }
+    }
+
+    for (var i = 0; i < allMuseumHalls.length; i++) {
+      bool isRecomended = true;
+      for (var j = 0; j < recomendedRouteList.length; j++) {
+        if (allMuseumHalls[i].categoryId == recomendedRouteList[j].categoryId) {
+          isRecomended = false;
+        }
+      }
+      if (isRecomended) {
+        recomendedRouteList.add(allMuseumHalls[i]);
+      }
+    }
+
+    return recomendedRouteList;
+  }
+
   MuseumHalls getOneMuseumHallById(String museumHallId) {
     return _museumsHalls
         .firstWhere((museumHallData) => museumHallData.id == museumHallId);
@@ -62,4 +92,11 @@ class MuseumsHalls with ChangeNotifier {
         .removeWhere((museumHallData) => museumHallData.id == museumHallId);
     notifyListeners();
   }
+}
+
+class CategoryId {
+  String categoryId;
+  int count;
+
+  CategoryId({@required this.categoryId, @required this.count});
 }
