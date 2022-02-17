@@ -8,13 +8,15 @@ import '../../screens/navigation_support/museum_nav_supp_screen.dart';
 
 class NavSuppMuseumButton extends StatelessWidget {
   final String museumId;
+  final List categoryList;
 
-  NavSuppMuseumButton(this.museumId);
+  NavSuppMuseumButton(this.museumId, this.categoryList);
 
   @override
   Widget build(BuildContext context) {
     final Museum museumData =
         Provider.of<Museums>(context, listen: false).getById(museumId);
+    print(categoryList);
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         height: 30,
@@ -30,9 +32,19 @@ class NavSuppMuseumButton extends StatelessWidget {
             style: Theme.of(context).textTheme.headline5,
           ),
           onPressed: () {
-            Navigator.of(context).pushReplacementNamed(
-                MuseumNavSuppScreen.routeName,
-                arguments: museumData.id);
+            categoryList == null
+                ? Navigator.of(context).pushReplacementNamed(
+                    MuseumNavSuppScreen.routeName,
+                    arguments: {
+                        'museumId': museumData.id,
+                        'categoryList': null,
+                      })
+                : Navigator.of(context).pushReplacementNamed(
+                    MuseumNavSuppScreen.routeName,
+                    arguments: {
+                        'museumId': museumData.id,
+                        'categoryList': categoryList,
+                      });
           },
         ));
   }
