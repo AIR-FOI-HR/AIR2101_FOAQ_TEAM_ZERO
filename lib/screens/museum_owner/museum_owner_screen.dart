@@ -5,7 +5,7 @@ import 'package:museum_app/screens/museum_owner/add_owner_screen.dart';
 import 'package:museum_app/widgets/homepage/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'dart:html'as html;
+//import 'dart:html' as html;
 import '../../providers/artworks.dart';
 import '../../providers/users.dart';
 import '../../models/museum.dart';
@@ -17,7 +17,6 @@ import '../../widgets/museum_owners/museum_owners.dart';
 
 import '../../widgets/artworks/manage_artwork_item.dart';
 import '../../widgets/error_dialog.dart';
-
 
 class ManageMuseumOwnersScreen extends StatefulWidget {
   static const routeName = '/museum_owners';
@@ -38,13 +37,11 @@ class _ManageMuseumOwnersScreen extends State<ManageMuseumOwnersScreen> {
     setState(() {
       _isLoading = true;
     });
-        ownersList = Provider.of<Users>(context, listen: false).museumOwners();
+    ownersList = Provider.of<Users>(context, listen: false).museumOwners();
 
-      
-      setState(() {
-        _isLoading = false;
-      });
-    
+    setState(() {
+      _isLoading = false;
+    });
 
     super.didChangeDependencies();
   }
@@ -53,51 +50,44 @@ class _ManageMuseumOwnersScreen extends State<ManageMuseumOwnersScreen> {
   Widget build(BuildContext context) {
     ThemeData color = Theme.of(context);
     final muzeji = Provider.of<Museums>(context, listen: false);
+    User appUser = Provider.of<Users>(context).getUser();
 
     return Scaffold(
-        appBar: appBar('Museum owners', context, Theme.of(context).primaryColor),
-        body: 
-                   GroupedListView<User, String>(
-                            shrinkWrap: true,
-                            elements: ownersList,
-                            groupBy: (user) => user.museumId,
-                            groupSeparatorBuilder: (String groupByValue) =>
-                                (Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    muzeji.getById(groupByValue).name,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: color.primaryColor,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Divider(
-                                    thickness: 2,
-                                    color: color.highlightColor,
-                                  ),
-                                ],
-                              ),
-                            )),
-                            itemBuilder: (_, user) => Column(
-                              children: [
-                                ManageMuseumOwners(
-                                  user.id,
-                                  user.name,
-                                  user.surname
-                                ),
-                                Divider(
-                                  thickness: 0.2,
-                                  color: Colors.black,
-                                )
-                              ],
-                            ),
-                          ),
-                        
-                
-              
+        appBar: appBar(
+            'Museum owners', context, Theme.of(context).primaryColor, appUser),
+        body: GroupedListView<User, String>(
+          shrinkWrap: true,
+          elements: ownersList,
+          groupBy: (user) => user.museumId,
+          groupSeparatorBuilder: (String groupByValue) => (Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  muzeji.getById(groupByValue).name,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: color.primaryColor,
+                      fontWeight: FontWeight.bold),
+                ),
+                Divider(
+                  thickness: 2,
+                  color: color.highlightColor,
+                ),
+              ],
+            ),
+          )),
+          itemBuilder: (_, user) => Column(
+            children: [
+              ManageMuseumOwners(user.id, user.name, user.surname),
+              Divider(
+                thickness: 0.2,
+                color: Colors.black,
+              )
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: color.highlightColor,
           child: IconButton(
@@ -112,6 +102,4 @@ class _ManageMuseumOwnersScreen extends State<ManageMuseumOwnersScreen> {
         ),
         drawer: MainMenuDrawer());
   }
-
-  
 }

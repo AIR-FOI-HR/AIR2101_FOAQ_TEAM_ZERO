@@ -161,9 +161,28 @@ class MainMenuDrawer extends StatelessWidget {
                         .pushReplacementNamed(TicketValidationScreen.routeName);
                   },
                 ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum staff',
+                  Icons.assistant_navigation,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ManageMuseumStaff.routeName);
+                  },
+                ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Artworks',
+                  Icons.settings_system_daydream,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ManageArtworksScreen.routeName);
+                  },
+                ),
               ],
-              if ((int.parse(user.userRole) >= 2 && user.museumId != "") ||
-                  int.parse(user.userRole) == 3) ...[
+              if (int.parse(user.userRole) == 3) ...[
                 //System admin, vlasnik muzeja i moderator vide Artworks
                 //System admin vidi sve artworke
                 //Mod i Vlasnik vide samo od svojeg muzeja
@@ -177,38 +196,28 @@ class MainMenuDrawer extends StatelessWidget {
                         .pushReplacementNamed(ManageArtworksScreen.routeName);
                   },
                 ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Manage museums',
+                  Icons.museum_outlined,
+                  () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ManageMuseums.routeName);
+                  },
+                ),
+                createDivider,
+                createDrawerTile(
+                  context,
+                  'Museum owners',
+                  Icons.person_add,
+                  () {
+                    Navigator.of(context).pushReplacementNamed(
+                        ManageMuseumOwnersScreen.routeName);
+                  },
+                ),
               ],
             ],
-          createDivider,
-          createDrawerTile(
-            context,
-            'Museum staff',
-            Icons.assistant_navigation,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ManageMuseumStaff.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Manage museums',
-            Icons.assistant_navigation,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ManageMuseums.routeName);
-            },
-          ),
-          createDivider,
-          createDrawerTile(
-            context,
-            'Manage museum owners',
-            Icons.assistant_navigation,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ManageMuseumOwnersScreen.routeName);
-            },
-          ),
           createDivider,
           createDrawerTile(
             context,

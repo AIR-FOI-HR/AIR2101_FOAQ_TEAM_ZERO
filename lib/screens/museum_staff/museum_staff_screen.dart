@@ -11,70 +11,62 @@ import '../../widgets/error_dialog.dart';
 
 class ManageMuseumStaff extends StatefulWidget {
   static const routeName = '/museumStaff';
-  
 
-@override
+  @override
   State<ManageMuseumStaff> createState() => _ManageMuseumStaff();
 }
 
 class _ManageMuseumStaff extends State<ManageMuseumStaff> {
-List<User> mainArtworksList;
-bool _isLoading = false;
+  List<User> mainArtworksList;
+  bool _isLoading = false;
 
-@override
-void didChangeDependencies() async {
-  setState(() {
-    _isLoading = true;
-  });
-  
-    mainArtworksList =
-        Provider.of<Users>(context).workInMuseum('2');
-    
-  setState(() {
-    _isLoading = false;
-  });
+  @override
+  void didChangeDependencies() async {
+    setState(() {
+      _isLoading = true;
+    });
 
+    mainArtworksList = Provider.of<Users>(context).workInMuseum('2');
 
-  super.didChangeDependencies();
-}
+    setState(() {
+      _isLoading = false;
+    });
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final appBarProperty = appBar('Museum staff', context, Theme.of(context).primaryColor);
+    User appUser = Provider.of<Users>(context).getUser();
+
+    final appBarProperty = appBar(
+        'Museum staff', context, Theme.of(context).primaryColor, appUser);
     ThemeData color = Theme.of(context);
     List<User> staff = Provider.of<Users>(context).workInMuseum("2");
 
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
-      body: 
-      _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            :  
-                ListView.builder(
-                  itemBuilder: (_, i) => Column(
-                    children: [
-                      Divider(
-                        thickness: 2,
-                        color: color.highlightColor,
-                                      ),
-                      MuseumStaff(
-                              staff[i].id,
-                              staff[i].name,
-                              staff[i].surname,
-                        ),
-            
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemBuilder: (_, i) => Column(
+                children: [
+                  Divider(
+                    thickness: 2,
+                    color: color.highlightColor,
+                  ),
+                  MuseumStaff(
+                    staff[i].id,
+                    staff[i].name,
+                    staff[i].surname,
+                  ),
                 ],
-                
-                ),
-                
-                itemCount: staff.length,
-
-                      
-              ),  
-            
+              ),
+              itemCount: staff.length,
+            ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: color.highlightColor,
         child: IconButton(
@@ -87,10 +79,6 @@ void didChangeDependencies() async {
           ),
         ),
       ),
-  );
-            
-            
-              
-        
-    }
+    );
+  }
 }

@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,30 +7,27 @@ import 'package:museum_app/providers/users.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
 import 'package:provider/provider.dart';
 
-
 class MuseumStaff extends StatelessWidget {
   final String id;
   final String ime;
   final String prezime;
 
-  MuseumStaff(this.id,this.ime,this.prezime);
+  MuseumStaff(this.id, this.ime, this.prezime);
 
   @override
   Widget build(BuildContext context) {
-  
-  return ListTile(
-      
-      leading: Text(ime+" "+prezime,
-      style: TextStyle(fontSize: 20),),
+    return ListTile(
+      leading: Text(
+        ime + " " + prezime,
+        style: TextStyle(fontSize: 20),
+      ),
       trailing: Container(
         width: 100,
         child: Row(
           children: [
             IconButton(
                 icon: Icon(Icons.call, color: Theme.of(context).primaryColor),
-                onPressed: () {
-                  
-            }),
+                onPressed: () {}),
             IconButton(
               icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
               onPressed: () => showDialog(
@@ -80,7 +77,6 @@ class MuseumStaff extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        
                         Navigator.of(ctx).pop(true);
                         Provider.of<Users>(context, listen: false)
                             .deleteStaff(id);
@@ -89,9 +85,9 @@ class MuseumStaff extends StatelessWidget {
                             content: Text('Deleted staff: ' + ime),
                             duration: Duration(seconds: 3),
                           ),
-  
                         );
-                        Navigator.of(context).pushNamed(ManageMuseumStaff.routeName);
+                        Navigator.of(context)
+                            .pushNamed(ManageMuseumStaff.routeName);
                       },
                     ),
                   ],
@@ -102,8 +98,5 @@ class MuseumStaff extends StatelessWidget {
         ),
       ),
     );
-   
-    
-    
   }
 }

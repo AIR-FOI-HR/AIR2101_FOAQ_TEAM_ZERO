@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:museum_app/models/museum.dart';
+import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/users.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
 import 'package:museum_app/screens/museums_config/museum_config_sceen.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +31,7 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     'address': '',
     'description': '',
     'imageUrl': '',
-    'tourDuration':'',
+    'tourDuration': '',
     'location': ''
   };
 
@@ -89,6 +91,8 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User appUser = Provider.of<Users>(context).getUser();
+
     ThemeData color = Theme.of(context);
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
@@ -103,11 +107,8 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
         .forEach((category) => categoryMap[category.id] = category.name);
 
     return Scaffold(
-      appBar: appBar(
-        _museum.id != null ? _museum.name : 'Add museum',
-        context,
-        color.primaryColor,
-      ),
+      appBar: appBar(_museum.id != null ? _museum.name : 'Add museum', context,
+          color.primaryColor, appUser),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
@@ -179,8 +180,6 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
                         );
                       },
                     ),
-                    
-                    
                   ],
                 ),
               ),
@@ -199,7 +198,6 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      
     );
   }
 
@@ -248,8 +246,7 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     } else {
       try {
         print(_museum.imageUrl);
-        await Provider.of<Museums>(context, listen: false)
-            .AddMuseums(_museum);
+        await Provider.of<Museums>(context, listen: false).AddMuseums(_museum);
       } catch (error) {
         await showErrorDialog(context);
       }
@@ -259,7 +256,6 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     });
     Navigator.of(context).pop();
     Navigator.of(context).pushNamed(ManageMuseums.routeName);
-
   }
 
   void _updateImageUrl() {
