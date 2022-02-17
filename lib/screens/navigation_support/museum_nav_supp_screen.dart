@@ -20,7 +20,10 @@ class MuseumNavSuppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context, listen: false).getUser();
-    final museumId = ModalRoute.of(context).settings.arguments as String;
+    final arguments = ModalRoute.of(context).settings.arguments as Map;
+    final museumId = arguments['museumId'].toString();
+    final categoryList = arguments['categoryList'];
+
     final color = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final appBarProperty =
@@ -28,8 +31,10 @@ class MuseumNavSuppScreen extends StatelessWidget {
 
     final Museum museumData =
         Provider.of<Museums>(context, listen: false).getById(museumId);
-    final List<MuseumHalls> museumHallsData =
-        Provider.of<MuseumsHalls>(context).getMuseumHallsById(museumId);
+    final museumHallProv = Provider.of<MuseumsHalls>(context);
+    final List<MuseumHalls> museumHallsData = categoryList == null
+        ? museumHallProv.getMuseumHallsById(museumId)
+        : museumHallProv.getRecomendedRoute(museumId, categoryList);
     final bool admin = (appUser.userRole == '2' || appUser.userRole == '3') &&
             appUser.museumId != ""
         ? true
