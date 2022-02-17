@@ -80,7 +80,8 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
             return scan
                 ? buildQrView(context)
                 : result != null
-                    ? showBillInfo(context, result.code, appBarProperty)
+                    ? showBillInfo(
+                        context, result.code, appBarProperty, appUser)
                     : const Text('Scan Tickets');
           }
           return Center(child: CircularProgressIndicator());
@@ -91,6 +92,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
         onPressed: () {
           setState(() {
             scan = !scan;
+            result = null;
           });
         },
         child: const IconButton(
@@ -129,24 +131,39 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
     });
   }
 
-  Widget showBillInfo(
-      BuildContext context, String billId, AppBar appBarProperty) {
+  Widget showBillInfo(BuildContext context, String billId,
+      AppBar appBarProperty, User appUser) {
     final mediaQuery = MediaQuery.of(context);
-    final userTicketProv = Provider.of<UserTickets>(context, listen: false);
-    final billData =
-        Provider.of<Bills>(context, listen: false).getBillsById(billId);
-    final user =
-        Provider.of<Users>(context, listen: false).findById(billData.userId);
-    final ticketsData = userTicketProv.getUserTicket(billId);
-    final ticketId = userTicketProv.getUserTicketIdByBillId(billId);
-    final String museumId = Provider.of<Tickets>(context, listen: false)
-        .getMuseumIdByTicketId(ticketId);
-    final Museum museumData =
-        Provider.of<Museums>(context, listen: false).getById(museumId);
     final color = Theme.of(context);
     final DateFormat date = DateFormat('dd.MM.yyyy.');
-    final DateFormat time = DateFormat('HH:mm');
     final textTheme = color.textTheme.headline4;
+    var user, ticketsData, museumData;
+    final userTicketProv = Provider.of<UserTickets>(context, listen: false);
+
+    //get bill object
+    final billData =
+        Provider.of<Bills>(context, listen: false).getBillsById(billId);
+
+    //if we find bill in firestore then we fetch all other objects
+    if (billData != null) {
+      user =
+          Provider.of<Users>(context, listen: false).findById(billData.userId);
+
+      ticketsData = userTicketProv.getUserTicket(billId);
+
+      final ticketId = userTicketProv.getUserTicketIdByBillId(billId);
+
+      final String museumId = Provider.of<Tickets>(context, listen: false)
+          .getMuseumIdByTicketId(ticketId);
+
+      museumData =
+          Provider.of<Museums>(context, listen: false).getById(museumId);
+      if (appUser.museumId != museumId) {
+        return const Text('Ticket is not for this museum');
+      }
+    } else {
+      return const Text('Invalid QR Code');
+    }
     return Container(
       margin: const EdgeInsets.all(10),
       height: (mediaQuery.size.height -
@@ -294,4 +311,6 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
       ),
     );
   }
+
+  Widget showVisitorsScreen(BuildContext context) {}
 }
