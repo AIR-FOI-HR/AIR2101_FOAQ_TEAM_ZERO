@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/providers/artworks.dart';
 import 'package:museum_app/providers/categories.dart';
 import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/providers/museums_halls.dart';
@@ -16,6 +15,7 @@ import '../../providers/users.dart';
 import '../../providers/bills.dart';
 import '../../providers/user_tickets.dart';
 import '../../providers/tickets.dart';
+import '../../providers/artworks.dart';
 
 class NavigationSupportScreen extends StatelessWidget {
   static const routeName = '/navigationSupport';
@@ -33,6 +33,9 @@ class NavigationSupportScreen extends StatelessWidget {
         Provider.of<UserTickets>(context, listen: false).getTicketIds(billIds);
     var museumIds =
         Provider.of<Tickets>(context, listen: false).getMuseumIds(ticketIds);
+
+    var categoryList =
+        Provider.of<Artworks>(context, listen: false).getCategoryId(appUser);
 
     if (int.parse(appUser.userRole) > 1 && appUser.museumId != "") {
       museumIds = [appUser.museumId];
@@ -75,10 +78,33 @@ class NavigationSupportScreen extends StatelessWidget {
                                   child: ListView.builder(
                                     itemCount: museumIds.length,
                                     itemBuilder: (_, i) {
-                                      return NavSuppMuseumButton(museumIds[i]);
+                                      return NavSuppMuseumButton(
+                                          museumIds[i], null);
                                     },
                                   ),
-                                )
+                                ),
+                          if (museumIds.isNotEmpty)
+                            Column(
+                              children: [
+                                Text(
+                                  'Choose your recommended museum route:',
+                                  style: color.textTheme.headline5,
+                                ),
+                                SizedBox(
+                                  height: (mediaQuery.size.height -
+                                          appBarProperty.preferredSize.height -
+                                          mediaQuery.padding.top) *
+                                      0.3,
+                                  child: ListView.builder(
+                                    itemCount: museumIds.length,
+                                    itemBuilder: (_, i) {
+                                      return NavSuppMuseumButton(
+                                          museumIds[i], categoryList);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                     )
@@ -86,7 +112,7 @@ class NavigationSupportScreen extends StatelessWidget {
                 ),
               );
             }
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }),
     );
   }
