@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
@@ -76,8 +77,13 @@ class MuseumStaff extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(ctx).pop(true);
+                        User user = Provider.of<Users>(context, listen: false)
+                            .findById(id);
+                        user.museumId = '';
+                        user.userRole = '1';
+                        await DBCaller.updateUser(user);
                         Provider.of<Users>(context, listen: false)
                             .deleteStaff(id);
                         ScaffoldMessenger.of(context).showSnackBar(
