@@ -83,7 +83,9 @@ class NavigationSupportScreen extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                          if (museumIds.isNotEmpty)
+                          if (museumIds.isNotEmpty &&
+                              appUser.userRole == '1' &&
+                              appUser.favoriteArtworks.isNotEmpty)
                             Column(
                               children: [
                                 Text(
