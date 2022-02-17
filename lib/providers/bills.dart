@@ -53,6 +53,12 @@ class Bills with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Bill> getBillsForToday() {
+    return _bills
+        .where((billData) => (isSameDate(billData.date, DateTime.now())))
+        .toList();
+  }
+
   List<Bill> getBillsByDateAndTime(DateTime date, TimeOfDay time) {
     return _bills
         .where((billData) =>
