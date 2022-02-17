@@ -48,7 +48,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 
   DateTime selectedDate = DateTime.now();
 
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, Bills billProv) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate, // Refer step 1
@@ -66,6 +66,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        billProv.setSelectedTime(null);
       });
     }
   }
@@ -111,6 +112,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final billProv = Provider.of<Bills>(context);
     User appUser = Provider.of<Users>(context, listen: false).getUser();
     final museumId = ModalRoute.of(context).settings.arguments as String;
     final color = Theme.of(context);
@@ -137,7 +139,6 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     final ticketsProv = Provider.of<Tickets>(context);
     final ticketData = ticketsProv.getTickets(museumId);
 
-    final billProv = Provider.of<Bills>(context);
     final double totalAmount = billProv.getBillTotalAmount(newBillId);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
@@ -177,8 +178,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                             const SizedBox(height: 5),
                             Align(
                               alignment: Alignment.topLeft,
-                              child: ElevatedButtonMyReservation(
-                                  'Select date', () => _selectDate(context)),
+                              child: ElevatedButtonMyReservation('Select date',
+                                  () => _selectDate(context, billProv)),
                             ),
                             const SizedBox(height: 5),
                             MuseumColumnData(
@@ -208,8 +209,10 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                                 child: GridView.builder(
                                   padding: const EdgeInsets.all(10),
                                   itemCount: workTimeSections.length,
-                                  itemBuilder: (ctx, i) =>
-                                      WorkTimeItem(workTimeSections[i]),
+                                  itemBuilder: (ctx, i) => WorkTimeItem(
+                                      workTimeSections[i],
+                                      museumId,
+                                      selectedDate),
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 1,
