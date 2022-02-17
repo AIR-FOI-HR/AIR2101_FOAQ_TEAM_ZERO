@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:museum_app/firebase_managers/db_caller.dart';
+import 'package:museum_app/models/bill.dart';
 import 'package:museum_app/models/museum.dart';
 import 'package:museum_app/models/user.dart';
+import 'package:museum_app/models/user_ticket.dart';
 import 'package:museum_app/providers/artworks.dart';
 import 'package:museum_app/providers/bills.dart';
 import 'package:museum_app/providers/categories.dart';
@@ -18,6 +21,7 @@ import 'package:museum_app/widgets/main_menu_drawer.dart';
 import 'package:museum_app/widgets/ticket_configuration/elevated_button_settings.dart';
 import 'package:museum_app/widgets/ticket_purchase/bill_details_row_data.dart';
 import 'package:museum_app/widgets/ticket_purchase/text_for_row.dart';
+import 'package:museum_app/widgets/ticket_validation/ticket_validation_row_data.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -67,30 +71,73 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
       _isFetched = true;
     }
 
+    final museumTicketTypes = Provider.of<Tickets>(context, listen: false)
+        .getTickets(appUser.museumId);
+
+    //dobim sve kupljene karte za taj muzej
+    List<UserTicket> boughtTickets = [];
+    for (var i = 0; i < museumTicketTypes.length; i++) {
+      boughtTickets.addAll(Provider.of<UserTickets>(context, listen: false)
+          .getAllTicketsForMuseumTicket(museumTicketTypes[i].id));
+    }
+
+    List<String> billIdsWithDuplicates = [];
+
+    for (var i = 0; i < boughtTickets.length; i++) {
+      billIdsWithDuplicates.add(boughtTickets[i].billId);
+    }
+    List<String> billIds = billIdsWithDuplicates.toSet().toList();
+
+    //dobim sve račune na odabrani datum i vrijeme
+    final billsOnSelectedDate =
+        Provider.of<Bills>(context, listen: false).getBillsForToday();
+    print("Racuuuuniiiii " + billsOnSelectedDate.length.toString());
+
+    List<Bill> billsTodayForMuseum = [];
+    for (var i = 0; i < billIds.length; i++) {
+      Bill bill = null;
+      bill = billsOnSelectedDate.firstWhereOrNull(
+          (bill) => bill.id == billIds[i] && bill.isUsed == true);
+      if (bill != null) {
+        billsTodayForMuseum.add(bill);
+      }
+    }
+    print('Racuni od muzeja ' + billsTodayForMuseum.length.toString());
     final appBarProperty =
         appBar('Validate tickets', context, color.primaryColor, appUser);
-
+    final textTheme = color.textTheme.headline4;
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
-      body: FutureBuilder(
-        future: _isFetched ? null : _refreshAllData(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done || _isFetched) {
-            return scan
-                ? buildQrView(context)
-                : result != null
-                    ? showBillInfo(context, result.code, appBarProperty)
-                    : const Text('Scan Tickets');
-          }
-          return Center(child: CircularProgressIndicator());
-        },
+      body: RefreshIndicator(
+        onRefresh: _refreshAllData,
+        child: FutureBuilder(
+          future: _isFetched ? null : _refreshAllData(),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done ||
+                _isFetched) {
+              return Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: scan
+                    ? buildQrView(context)
+                    : result != null
+                        ? showBillInfo(
+                            context, result.code, appBarProperty, appUser)
+                        : showVisitorsScreen(context, mediaQuery, textTheme,
+                            billsTodayForMuseum, boughtTickets),
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).highlightColor,
         onPressed: () {
           setState(() {
             scan = !scan;
+            result = null;
           });
         },
         child: const IconButton(
@@ -129,24 +176,61 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
     });
   }
 
-  Widget showBillInfo(
-      BuildContext context, String billId, AppBar appBarProperty) {
+  Widget showBillInfo(BuildContext context, String billId,
+      AppBar appBarProperty, User appUser) {
     final mediaQuery = MediaQuery.of(context);
-    final userTicketProv = Provider.of<UserTickets>(context, listen: false);
-    final billData =
-        Provider.of<Bills>(context, listen: false).getBillsById(billId);
-    final user =
-        Provider.of<Users>(context, listen: false).findById(billData.userId);
-    final ticketsData = userTicketProv.getUserTicket(billId);
-    final ticketId = userTicketProv.getUserTicketIdByBillId(billId);
-    final String museumId = Provider.of<Tickets>(context, listen: false)
-        .getMuseumIdByTicketId(ticketId);
-    final Museum museumData =
-        Provider.of<Museums>(context, listen: false).getById(museumId);
     final color = Theme.of(context);
     final DateFormat date = DateFormat('dd.MM.yyyy.');
-    final DateFormat time = DateFormat('HH:mm');
     final textTheme = color.textTheme.headline4;
+    var user, ticketsData, museumData;
+    final userTicketProv = Provider.of<UserTickets>(context, listen: false);
+
+    //get bill object
+    final billData =
+        Provider.of<Bills>(context, listen: false).getBillsById(billId);
+
+    //if we find bill in firestore then we fetch all other objects
+    if (billData != null) {
+      user =
+          Provider.of<Users>(context, listen: false).findById(billData.userId);
+
+      ticketsData = userTicketProv.getUserTicket(billId);
+
+      final ticketId = userTicketProv.getUserTicketIdByBillId(billId);
+
+      final String museumId = Provider.of<Tickets>(context, listen: false)
+          .getMuseumIdByTicketId(ticketId);
+
+      museumData =
+          Provider.of<Museums>(context, listen: false).getById(museumId);
+      if (appUser.museumId != museumId) {
+        return const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Center(
+            child: Text(
+              'Ticket is not for this museum',
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        );
+      }
+    } else {
+      return const Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Center(
+          child: Text(
+            'Invalid QR code',
+            style: TextStyle(
+              fontSize: 22,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      );
+    }
     return Container(
       margin: const EdgeInsets.all(10),
       height: (mediaQuery.size.height -
@@ -292,6 +376,56 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget showVisitorsScreen(
+      BuildContext context,
+      MediaQueryData mediaQuery,
+      TextStyle textTheme,
+      List<Bill> billsTodayForMuseum,
+      List<UserTicket> boughtTickets) {
+    return Column(
+      children: [
+        Container(
+          height: 400,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextForRow(
+                    textTheme: textTheme,
+                    expanded: 2,
+                    title: 'Buyer',
+                  ),
+                  TextForRow(
+                      textTheme: textTheme, expanded: 1, title: 'Tickets'),
+                  TextForRow(
+                      textTheme: textTheme, expanded: 1, title: 'Entrance'),
+                  TextForRow(textTheme: textTheme, expanded: 1, title: 'Paid'),
+                ],
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 100,
+                child: billsTodayForMuseum.isEmpty
+                    ? Text('No tickets for today')
+                    : ListView.builder(
+                        itemCount: billsTodayForMuseum.length,
+                        itemBuilder: (_, i) => Column(
+                          children: [
+                            TicketValidationRowData(
+                                billsTodayForMuseum[i].id, boughtTickets),
+                            const Divider(thickness: 1),
+                          ],
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

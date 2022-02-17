@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:museum_app/providers/tickets.dart';
 import '../firebase_managers/db_caller.dart';
 import '../models/user_ticket.dart';
 
@@ -53,6 +54,12 @@ class UserTickets with ChangeNotifier {
   void clearNewTickets() {
     _newUserTickets = [];
     notifyListeners();
+  }
+
+  List<UserTicket> getAllTicketsForMuseumTicket(String ticketId) {
+    return _userTickets
+        .where((element) => element.ticketId == ticketId)
+        .toList();
   }
 
   void addUserTickets(UserTicket newUserTicket) {

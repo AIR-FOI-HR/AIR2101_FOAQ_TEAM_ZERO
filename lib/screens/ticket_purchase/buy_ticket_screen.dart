@@ -48,7 +48,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 
   DateTime selectedDate = DateTime.now();
 
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, Bills billProv) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate, // Refer step 1
@@ -66,6 +66,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        billProv.setSelectedTime(null);
       });
     }
   }
@@ -109,8 +110,25 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     );
   }
 
+  int numberOfTickets = 0;
+  setNumberOfTickets(int num) {
+    setState(() {
+      numberOfTickets = num;
+      if (numberOfTickets < 0) {
+        numberOfTickets = 0;
+      }
+    });
+    print("Broj karti: " + numberOfTickets.toString());
+  }
+
+  Future<bool> resetSelected() {
+    Provider.of<Bills>(context, listen: false).setSelectedTime(null);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final billProv = Provider.of<Bills>(context, listen: false);
     User appUser = Provider.of<Users>(context, listen: false).getUser();
     final museumId = ModalRoute.of(context).settings.arguments as String;
     final color = Theme.of(context);
@@ -137,172 +155,185 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     final ticketsProv = Provider.of<Tickets>(context);
     final ticketData = ticketsProv.getTickets(museumId);
 
-    final billProv = Provider.of<Bills>(context);
     final double totalAmount = billProv.getBillTotalAmount(newBillId);
 
     final DateFormat date = DateFormat('dd.MM.yyyy.');
-    return Scaffold(
-      appBar: appBarProperty,
-      body: Column(
-        children: [
-          Container(
-            height: (mediaQuery.size.height -
-                    appBarProperty.preferredSize.height -
-                    mediaQuery.padding.top) *
-                0.4,
-            decoration: BoxDecoration(
-              border: Border.all(width: 2),
-            ),
-            width: double.infinity,
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(5),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    museumData.name,
-                    style: color.textTheme.headline5,
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          children: [
-                            MuseumColumnData(museumData.address),
-                            const SizedBox(height: 10),
-                            MuseumColumnData('Categories: $categoryNames'),
-                            const SizedBox(height: 5),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: ElevatedButtonMyReservation(
-                                  'Select date', () => _selectDate(context)),
-                            ),
-                            const SizedBox(height: 5),
-                            MuseumColumnData(
-                                'Selected date:\n${date.format(selectedDate.toLocal())}'),
-                            const SizedBox(height: 10),
-                            MuseumColumnData(workTimeData.timeFrom == null ||
-                                    workTimeData.timeTo == null
-                                ? 'Work time:\nClosed'
-                                : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
-                          ],
-                        ),
-                      ),
-                      if (workTimeSections.isNotEmpty)
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              Text(
-                                'Please select time:',
-                                style: color.textTheme.headline4,
-                              ),
-                              SizedBox(
-                                height: (mediaQuery.size.height -
-                                        appBarProperty.preferredSize.height -
-                                        mediaQuery.padding.top) *
-                                    0.3,
-                                child: GridView.builder(
-                                  padding: const EdgeInsets.all(10),
-                                  itemCount: workTimeSections.length,
-                                  itemBuilder: (ctx, i) =>
-                                      WorkTimeItem(workTimeSections[i]),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    childAspectRatio: 8 / 2,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                    ],
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: resetSelected,
+      child: Scaffold(
+        appBar: appBarProperty,
+        body: Column(
+          children: [
+            Container(
+              height: (mediaQuery.size.height -
+                      appBarProperty.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.4,
+              decoration: BoxDecoration(
+                border: Border.all(width: 2),
               ),
-            ),
-          ),
-          Container(
-            height: (mediaQuery.size.height -
-                    appBarProperty.preferredSize.height -
-                    mediaQuery.padding.top) *
-                0.56,
-            decoration: BoxDecoration(
-              border: Border.all(width: 2),
-            ),
-            width: double.infinity,
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(5),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Tickets',
-                    style: color.textTheme.headline5,
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: ticketData.length,
-                      itemBuilder: (_, i) {
-                        return Column(
-                          children: [
-                            TicketDataRow(ticketData[i], i, newBillId),
-                            const Divider(thickness: 1),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      'Total: ${totalAmount.toStringAsFixed(2)} €',
+              width: double.infinity,
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      museumData.name,
                       style: color.textTheme.headline5,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: ElevatedButtonMyReservation('Proceed to checkout',
-                        () async {
-                      if (totalAmount == 0.0 ||
-                          billProv.getSelectedTime() == null) {
-                        showAlertDialog(context);
-                      } else {
-                        Bill newBill = Bill(
-                            id: newBillId,
-                            date: selectedDate,
-                            totalCost: totalAmount,
-                            userId: appUser.id,
-                            isCanceled: false,
-                            isUsed: false,
-                            museumTime: billProv.getSelectedTime(),
-                            purchaseDateTime: DateTime.now());
-                        await DBCaller.addBill(newBill).then((value) async {
-                          await Provider.of<UserTickets>(context, listen: false)
-                              .addNewUserTicket(value);
-                        });
-                        Navigator.of(context).pushReplacementNamed(
-                            TicketPurchaseScreen.routeName,
-                            arguments: 1);
-                      }
-                    }),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            children: [
+                              MuseumColumnData(museumData.address),
+                              const SizedBox(height: 10),
+                              MuseumColumnData('Categories: $categoryNames'),
+                              const SizedBox(height: 5),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: ElevatedButtonMyReservation(
+                                    'Select date',
+                                    () => _selectDate(context, billProv)),
+                              ),
+                              const SizedBox(height: 5),
+                              MuseumColumnData(
+                                  'Selected date:\n${date.format(selectedDate.toLocal())}'),
+                              const SizedBox(height: 10),
+                              MuseumColumnData(workTimeData.timeFrom == null ||
+                                      workTimeData.timeTo == null
+                                  ? 'Work time:\nClosed'
+                                  : 'Work time:\n${workTimeData.timeFrom.format(context)} - ${workTimeData.timeTo.format(context)}'),
+                            ],
+                          ),
+                        ),
+                        if (workTimeSections.isNotEmpty)
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Please select time:',
+                                  style: color.textTheme.headline4,
+                                ),
+                                SizedBox(
+                                  height: (mediaQuery.size.height -
+                                          appBarProperty.preferredSize.height -
+                                          mediaQuery.padding.top) *
+                                      0.3,
+                                  child: GridView.builder(
+                                    padding: const EdgeInsets.all(10),
+                                    itemCount: workTimeSections.length,
+                                    itemBuilder: (ctx, i) => WorkTimeItem(
+                                        workTimeSections[i],
+                                        museumId,
+                                        selectedDate,
+                                        setNumberOfTickets),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1,
+                                      childAspectRatio: 8 / 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-        ],
+            Container(
+              height: (mediaQuery.size.height -
+                      appBarProperty.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.56,
+              decoration: BoxDecoration(
+                border: Border.all(width: 2),
+              ),
+              width: double.infinity,
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tickets',
+                      style: color.textTheme.headline5,
+                    ),
+                    const SizedBox(height: 15),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: ticketData.length,
+                        itemBuilder: (_, i) {
+                          return Column(
+                            children: [
+                              TicketDataRow(
+                                  ticketData[i],
+                                  i,
+                                  newBillId,
+                                  museumId,
+                                  numberOfTickets,
+                                  setNumberOfTickets),
+                              const Divider(thickness: 1),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        'Total: ${totalAmount.toStringAsFixed(2)} €',
+                        style: color.textTheme.headline5,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: ElevatedButtonMyReservation('Proceed to checkout',
+                          () async {
+                        if (totalAmount == 0.0 ||
+                            billProv.getSelectedTime() == null) {
+                          showAlertDialog(context);
+                        } else {
+                          Bill newBill = Bill(
+                              id: newBillId,
+                              date: selectedDate,
+                              totalCost: totalAmount,
+                              userId: appUser.id,
+                              isCanceled: false,
+                              isUsed: false,
+                              museumTime: billProv.getSelectedTime(),
+                              purchaseDateTime: DateTime.now());
+                          await DBCaller.addBill(newBill).then((value) async {
+                            await Provider.of<UserTickets>(context,
+                                    listen: false)
+                                .addNewUserTicket(value);
+                          });
+                          Navigator.of(context).pushReplacementNamed(
+                              TicketPurchaseScreen.routeName,
+                              arguments: 1);
+                        }
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
