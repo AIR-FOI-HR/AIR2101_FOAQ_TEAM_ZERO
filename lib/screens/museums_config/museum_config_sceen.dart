@@ -41,7 +41,6 @@ class _ManageMuseums extends State<ManageMuseums> {
   @override
   Widget build(BuildContext context) {
     User appUser = Provider.of<Users>(context).getUser();
-
     final appBarProperty = appBar(
         'Museum config', context, Theme.of(context).primaryColor, appUser);
     ThemeData color = Theme.of(context);

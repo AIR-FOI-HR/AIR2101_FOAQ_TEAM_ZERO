@@ -1,4 +1,5 @@
 //import 'dart:html';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/screens/museums_config/museums_edit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,10 +85,11 @@ class MuseumsConfig extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(ctx).pop(true);
                         Provider.of<Museums>(context, listen: false)
                             .deleteMuseums(id);
+                        await DBCaller.deleteMuseum(id);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Deleted museum: ' + ime),

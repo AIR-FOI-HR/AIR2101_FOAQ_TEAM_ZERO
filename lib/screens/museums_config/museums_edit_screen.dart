@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/models/museum.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
@@ -237,8 +238,8 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     });
     if (_museum.id != null) {
       try {
-        await Provider.of<Museums>(context, listen: false)
-            .updateMuseum(_museum);
+        Provider.of<Museums>(context, listen: false).updateMuseum(_museum);
+        await DBCaller.updateMuseum(_museum);
       } catch (error) {
         print(error);
         await showErrorDialog(context);
@@ -246,7 +247,8 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     } else {
       try {
         print(_museum.imageUrl);
-        await Provider.of<Museums>(context, listen: false).AddMuseums(_museum);
+        Provider.of<Museums>(context, listen: false).AddMuseums(_museum);
+        await DBCaller.addMuseum(_museum);
       } catch (error) {
         await showErrorDialog(context);
       }
