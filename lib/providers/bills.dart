@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/bill.dart';
 
 class Bills with ChangeNotifier {
@@ -52,6 +53,30 @@ class Bills with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Bill> getBillsByDateAndTime(DateTime date, TimeOfDay time) {
+    return _bills
+        .where((billData) =>
+            (isSameDate(billData.date, date)) &&
+            (isSameTime(billData.museumTime, time)))
+        .toList();
+  }
+
+  bool isSameTime(TimeOfDay first, TimeOfDay second) {
+    if (first == null) {
+      return false;
+    }
+    return first.hour == second.hour && first.minute == second.minute;
+  }
+
+  bool isSameDate(DateTime first, DateTime second) {
+    if (first == null) {
+      return false;
+    }
+    return first.year == second.year &&
+        first.month == second.month &&
+        first.day == second.day;
+  }
+
   TimeOfDay getSelectedTime() {
     return selectedTime;
   }
@@ -62,7 +87,11 @@ class Bills with ChangeNotifier {
   }
 
   Bill getBillsById(String billId) {
-    return _bills.firstWhere((billData) => billData.id == billId);
+    try {
+      return _bills.firstWhere((billData) => billData.id == billId);
+    } catch (error) {
+      return null;
+    }
   }
 
   List<Bill> getBills(String userId) {
