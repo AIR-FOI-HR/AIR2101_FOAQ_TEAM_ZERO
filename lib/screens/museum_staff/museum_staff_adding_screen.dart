@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
+import 'package:museum_app/models/museum.dart';
 import 'package:museum_app/models/user.dart';
+import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -21,12 +24,14 @@ class addStaff extends StatefulWidget {
 }
 
 class _addStaffScreenState extends State<addStaff> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    User appUser = Provider.of<Users>(context).getUser();
+    User appUser = Provider.of<Users>(context, listen: false).getUser();
+    Museum muzej =
+        Provider.of<Museums>(context, listen: false).getById(appUser.museumId);
 
     ThemeData color = Theme.of(context);
-    final _formKey = GlobalKey<FormState>();
     final appBarProperty = appBar(
         'Add museum staff', context, Theme.of(context).primaryColor, appUser);
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -56,6 +61,9 @@ class _addStaffScreenState extends State<addStaff> {
                   onChanged: (value) {
                     email = value;
                   },
+                  onSaved: (value) {
+                    email = value;
+                  },
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'This field cannot be empty!';
@@ -71,7 +79,8 @@ class _addStaffScreenState extends State<addStaff> {
           : FloatingActionButton(
               backgroundColor: color.highlightColor,
               child: IconButton(
-                onPressed: () {
+                onPressed: () async {
+                  _formKey.currentState.save();
                   var username = getRandomString(6);
                   var password = getRandomString(6);
                   final url =
@@ -88,13 +97,34 @@ class _addStaffScreenState extends State<addStaff> {
                       'template_params': {
                         'username': username,
                         'password': password,
-                        'usermail': email,
+                        'usermail': email.replaceAll(' ', ''),
+                        'museum': muzej.name,
                       },
                     }),
                   );
+                  print("adadada" + email);
                   Provider.of<Users>(context, listen: false).addNewStaff(
-                      username, email, username, username, password, '2');
-                  Navigator.of(context).pushNamed(ManageMuseumStaff.routeName);
+                      username,
+                      email,
+                      username,
+                      username,
+                      password,
+                      appUser.museumId);
+
+                  await AuthMethods()
+                      .registerUser(
+                          username: username,
+                          email: email,
+                          name: username,
+                          surname: username,
+                          password: password,
+                          museum: muzej.id,
+                          isOwner: false)
+                      .then((value) {
+                    print(value);
+                    Navigator.of(context)
+                        .pushNamed(ManageMuseumStaff.routeName);
+                  });
                 },
                 icon: Icon(
                   Icons.check,

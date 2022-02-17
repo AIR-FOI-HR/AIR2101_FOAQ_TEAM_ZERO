@@ -165,7 +165,7 @@ class MainMenuDrawer extends StatelessWidget {
                 createDrawerTile(
                   context,
                   'Museum staff',
-                  Icons.assistant_navigation,
+                  Icons.person_add_alt,
                   () {
                     Navigator.of(context)
                         .pushReplacementNamed(ManageMuseumStaff.routeName);
@@ -182,7 +182,7 @@ class MainMenuDrawer extends StatelessWidget {
                   },
                 ),
               ],
-              if (int.parse(user.userRole) == 3) ...[
+              if (int.parse(user.userRole) == 3 && user.museumId == "") ...[
                 //System admin, vlasnik muzeja i moderator vide Artworks
                 //System admin vidi sve artworke
                 //Mod i Vlasnik vide samo od svojeg muzeja

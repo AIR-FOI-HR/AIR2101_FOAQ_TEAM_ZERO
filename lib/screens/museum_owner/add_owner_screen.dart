@@ -129,15 +129,9 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
                           },
                         }),
                       )
-                      .then((value) => print(
-                          'BOGTE NECEEEEEEEEEEEEEEEEEEEEEEE ' + value.body));
+                      .then((value) => print(value.body));
                   Provider.of<Users>(context, listen: false).addNewOwner(
                       username, email, username, username, password, museum);
-                  print(
-                      "DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
-                  print(email);
-                  print(password);
-                  print(museum);
                   await AuthMethods()
                       .registerUser(
                           username: username,
@@ -148,7 +142,7 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
                           museum: museum,
                           isOwner: true)
                       .then((value) {
-                    print("DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" + value);
+                    print(value);
                     Navigator.of(context)
                         .pushNamed(ManageMuseumOwnersScreen.routeName);
                   });
