@@ -14,8 +14,10 @@ class WorkTimeItem extends StatefulWidget {
   var workTime;
   var museumId;
   DateTime selectedDate;
+  final Function setNumberOfTickets;
 
-  WorkTimeItem(this.workTime, this.museumId, this.selectedDate);
+  WorkTimeItem(
+      this.workTime, this.museumId, this.selectedDate, this.setNumberOfTickets);
 
   @override
   _WorkTimeItemState createState() => _WorkTimeItemState();
@@ -55,8 +57,8 @@ class _WorkTimeItemState extends State<WorkTimeItem> {
           .fold(numberOfBoughtTicketsForTimeAndDate,
               (qty, ticket) => qty + ticket.quantity);
     }
-    print('Number of bought tickets: ' +
-        numberOfBoughtTicketsForTimeAndDate.toString());
+    // print('Number of bought tickets: ' +
+    //     numberOfBoughtTicketsForTimeAndDate.toString());
 
     final color = Theme.of(context);
     final billProv = Provider.of<Bills>(context);
@@ -88,6 +90,8 @@ class _WorkTimeItemState extends State<WorkTimeItem> {
                   setState(() {
                     billProv.setSelectedTime(widget.workTime['openingTime']);
                   });
+                  widget
+                      .setNumberOfTickets(numberOfBoughtTicketsForTimeAndDate);
                 },
         ),
       ),

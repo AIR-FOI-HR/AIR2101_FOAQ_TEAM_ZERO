@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/providers/museums.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/ticket.dart';
@@ -11,8 +12,12 @@ class TicketDataRow extends StatefulWidget {
   Ticket ticketData;
   int counter;
   String newBillId;
+  String museumId;
+  int numberOfTickets;
+  final Function setNumberOfTickets;
 
-  TicketDataRow(this.ticketData, this.counter, this.newBillId);
+  TicketDataRow(this.ticketData, this.counter, this.newBillId, this.museumId,
+      this.numberOfTickets, this.setNumberOfTickets);
 
   @override
   State<TicketDataRow> createState() => _TicketDataRowState();
@@ -20,6 +25,7 @@ class TicketDataRow extends StatefulWidget {
 
 class _TicketDataRowState extends State<TicketDataRow> {
   int _n = 0;
+  TimeOfDay value = null;
   UserTicket newUserTicket =
       UserTicket(ticketId: null, billId: null, quantity: 0);
 
@@ -27,6 +33,7 @@ class _TicketDataRowState extends State<TicketDataRow> {
     setState(() {
       _n++;
       updateTheList(double.parse(widget.ticketData.cost));
+      widget.setNumberOfTickets(widget.numberOfTickets + 1);
     });
   }
 
@@ -35,6 +42,7 @@ class _TicketDataRowState extends State<TicketDataRow> {
       if (_n != 0) {
         _n--;
         updateTheList(double.parse(widget.ticketData.cost) * -1);
+        widget.setNumberOfTickets(widget.numberOfTickets - 1);
       }
     });
   }
@@ -53,6 +61,14 @@ class _TicketDataRowState extends State<TicketDataRow> {
 
   @override
   Widget build(BuildContext context) {
+    final billProv = Provider.of<Bills>(context);
+    if (billProv.getSelectedTime() == null ||
+        value != billProv.getSelectedTime()) {
+      _n = 0;
+      value = billProv.getSelectedTime();
+    }
+    final museum =
+        Provider.of<Museums>(context, listen: false).getById(widget.museumId);
     final color = Theme.of(context);
     final textStyle = color.textTheme.headline4;
     return Row(
@@ -102,9 +118,15 @@ class _TicketDataRowState extends State<TicketDataRow> {
             height: 30,
             child: FloatingActionButton(
               heroTag: 'btn2-${widget.counter}',
-              onPressed: add,
+              onPressed: (billProv.getSelectedTime() != null) &&
+                      (widget.numberOfTickets < museum.capacity)
+                  ? add
+                  : null,
               child: const Icon(Icons.add, color: Colors.white),
-              backgroundColor: color.primaryColorLight,
+              backgroundColor: (billProv.getSelectedTime() != null) &&
+                      (widget.numberOfTickets < museum.capacity)
+                  ? color.primaryColorLight
+                  : Colors.grey,
             ),
           ),
         ),
