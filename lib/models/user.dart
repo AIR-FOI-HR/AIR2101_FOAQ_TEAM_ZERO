@@ -21,7 +21,7 @@ class User {
       @required this.username,
       @required this.email,
       this.phoneNumber,
-      @required this.password,
+      this.password,
       this.userImage,
       @required this.userRole,
       this.museumId,

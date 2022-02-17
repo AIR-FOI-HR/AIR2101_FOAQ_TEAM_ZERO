@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum_app/firebase_managers/auth_methods.dart';
 import 'package:museum_app/providers/museums.dart';
 import 'package:museum_app/screens/museum_owner/museum_owner_screen.dart';
 import '../../providers/artworks.dart';
@@ -27,6 +28,7 @@ class addMuseumOwnerscreen extends StatefulWidget {
 }
 
 class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     String museum = '';
@@ -34,7 +36,7 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
     String email = '';
     User appUser = Provider.of<Users>(context).getUser();
     ThemeData color = Theme.of(context);
-    final _formKey = GlobalKey<FormState>();
+
     final appBarProperty = appBar(
         'Add museum owner', context, Theme.of(context).primaryColor, appUser);
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -66,6 +68,9 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
                 TextFormField(
                   decoration: inputDecoration('Email', Icons.email, color),
                   onChanged: (value) {
+                    email = value;
+                  },
+                  onSaved: (value) {
                     email = value;
                   },
                   validator: (value) {
@@ -100,32 +105,53 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
           : FloatingActionButton(
               backgroundColor: color.highlightColor,
               child: IconButton(
-                onPressed: () {
+                onPressed: () async {
+                  _formKey.currentState.save();
                   var username = getRandomString(6);
                   var password = getRandomString(6);
                   final url =
                       Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-                  final response = http.post(
-                    url,
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: json.encode({
-                      'service_id': ServiceId,
-                      'template_id': TemplateId,
-                      'user_id': UserId,
-                      'template_params': {
-                        'usermail': email,
-                        'username': username,
-                        'password': password,
-                        'museum': muzej.name,
-                      },
-                    }),
-                  );
+                  final response = await http
+                      .post(
+                        url,
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: json.encode({
+                          'service_id': ServiceId,
+                          'template_id': TemplateId,
+                          'user_id': UserId,
+                          'template_params': {
+                            'usermail': email.replaceAll(' ', ''),
+                            'username': username,
+                            'password': password,
+                            'museum': muzej.name,
+                          },
+                        }),
+                      )
+                      .then((value) => print(
+                          'BOGTE NECEEEEEEEEEEEEEEEEEEEEEEE ' + value.body));
                   Provider.of<Users>(context, listen: false).addNewOwner(
                       username, email, username, username, password, museum);
-                  Navigator.of(context)
-                      .pushNamed(ManageMuseumOwnersScreen.routeName);
+                  print(
+                      "DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+                  print(email);
+                  print(password);
+                  print(museum);
+                  await AuthMethods()
+                      .registerUser(
+                          username: username,
+                          email: email,
+                          name: username,
+                          surname: username,
+                          password: password,
+                          museum: museum,
+                          isOwner: true)
+                      .then((value) {
+                    print("DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" + value);
+                    Navigator.of(context)
+                        .pushNamed(ManageMuseumOwnersScreen.routeName);
+                  });
                 },
                 icon: Icon(
                   Icons.check,

@@ -17,24 +17,57 @@ class AuthMethods {
     @required String name,
     @required String surname,
     @required String password,
+    String museum,
+    bool isOwner,
   }) async {
     String result = "Ugh Ough, something went wront!";
+    model.User _user;
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
         email: email.replaceAll(' ', ''),
         password: password,
       );
-      model.User _user = model.User(
-          email: email,
-          id: cred.user.uid,
-          name: name,
-          surname: surname,
-          userRole: '1',
-          username: username,
-          phoneNumber: "",
-          userImage: "",
-          museumId: "",
-          favoriteArtworks: []);
+      //Adding Museum owner
+      if (museum != null && isOwner) {
+        _user = model.User(
+            email: email,
+            id: cred.user.uid,
+            name: name,
+            surname: surname,
+            userRole: '3',
+            username: username,
+            phoneNumber: "",
+            userImage: "",
+            museumId: museum,
+            favoriteArtworks: []);
+        //Adding Moderator
+      } else if (museum != null && !isOwner) {
+        _user = model.User(
+            email: email,
+            id: cred.user.uid,
+            name: name,
+            surname: surname,
+            userRole: '2',
+            username: username,
+            phoneNumber: "",
+            userImage: "",
+            museumId: museum,
+            favoriteArtworks: []);
+        //Adding Normal user
+      } else {
+        _user = model.User(
+            email: email,
+            id: cred.user.uid,
+            name: name,
+            surname: surname,
+            userRole: '1',
+            username: username,
+            phoneNumber: "",
+            userImage: "",
+            museumId: "",
+            favoriteArtworks: []);
+      }
+
       await DBCaller.createUser(_user, cred.user.uid);
 
       result = "Success";
