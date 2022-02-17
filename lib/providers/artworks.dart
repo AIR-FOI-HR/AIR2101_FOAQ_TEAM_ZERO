@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/artwork.dart';
 import '../models/museum.dart';
+import '../models/user.dart';
 import '../providers/museums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -80,4 +81,38 @@ class Artworks with ChangeNotifier {
     _artworks.removeWhere((artwork) => artwork.id == id);
     notifyListeners();
   }
+
+  List<CategoryId> getCategoryId(User userData) {
+    List userFavoriteArtwork = userData.favoriteArtworks;
+    List<CategoryId> userFavoriteCategory = [];
+    for (var i = 0; i < userFavoriteArtwork.length; i++) {
+      bool categoryFind = true;
+      if (userFavoriteCategory != null) {
+        var artwork = _artworks.firstWhere(
+            (artworkData) => artworkData.id == userFavoriteArtwork[i]);
+        for (var j = 0; j < userFavoriteCategory.length; j++) {
+          if (userFavoriteCategory[j].categoryId == artwork.category) {
+            userFavoriteCategory[j].count++;
+            categoryFind = false;
+          }
+        }
+        if (categoryFind) {
+          var newCategoryId =
+              CategoryId(categoryId: artwork.category, count: 1);
+          userFavoriteCategory.add(newCategoryId);
+        }
+      }
+    }
+
+    userFavoriteCategory.sort((a, b) => b.count.compareTo(a.count));
+
+    return userFavoriteCategory;
+  }
+}
+
+class CategoryId {
+  String categoryId;
+  int count;
+
+  CategoryId({@required this.categoryId, @required this.count});
 }
