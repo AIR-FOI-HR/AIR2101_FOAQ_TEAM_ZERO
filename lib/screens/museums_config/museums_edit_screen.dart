@@ -256,8 +256,7 @@ class _EditAddMuseumsScreen extends State<EditAddMuseumsScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
-    Navigator.of(context).pushNamed(ManageMuseums.routeName);
+    Navigator.of(context).popAndPushNamed(ManageMuseums.routeName);
   }
 
   void _updateImageUrl() {

@@ -142,9 +142,8 @@ class _addMuseumOwnerscreen extends State<addMuseumOwnerscreen> {
                           museum: museum,
                           isOwner: true)
                       .then((value) {
-                    print(value);
                     Navigator.of(context)
-                        .pushNamed(ManageMuseumOwnersScreen.routeName);
+                        .popAndPushNamed(ManageMuseumOwnersScreen.routeName);
                   });
                 },
                 icon: Icon(

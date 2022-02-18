@@ -24,8 +24,7 @@ class Users with ChangeNotifier {
     }
     _users.clear();
     _users = loadedUsers;
-    print("Tickets: " + _users.length.toString());
-    notifyListeners();
+    print("Users: " + _users.length.toString());
   }
 
   User getUser() {

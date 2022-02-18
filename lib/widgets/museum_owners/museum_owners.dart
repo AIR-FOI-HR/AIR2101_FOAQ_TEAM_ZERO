@@ -82,8 +82,8 @@ class ManageMuseumOwners extends StatelessWidget {
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context)
-                            .pushNamed(ManageMuseumOwnersScreen.routeName);
+                        Navigator.of(context).popAndPushNamed(
+                            ManageMuseumOwnersScreen.routeName);
                       },
                     ),
                   ],

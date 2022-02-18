@@ -20,52 +20,46 @@ class ManageMuseums extends StatefulWidget {
 }
 
 class _ManageMuseums extends State<ManageMuseums> {
-  List<Museum> MuseumsList;
-  bool _isLoading = false;
-
-  @override
-  void didChangeDependencies() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    MuseumsList = Provider.of<Museums>(context).getMuseums;
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    super.didChangeDependencies();
-  }
+  bool _isFetched = false;
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _fetchData() async {
+      await Provider.of<Museums>(context, listen: false).fetchMuseums();
+      await Future.delayed(const Duration(milliseconds: 700));
+      _isFetched = true;
+    }
+
     User appUser = Provider.of<Users>(context).getUser();
     final appBarProperty = appBar(
         'Museum config', context, Theme.of(context).primaryColor, appUser);
     ThemeData color = Theme.of(context);
-    List<Museum> museums = Provider.of<Museums>(context).getMuseums;
 
     return Scaffold(
       appBar: appBarProperty,
       drawer: MainMenuDrawer(),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemBuilder: (context, i) => Column(
-                children: [
-                  Divider(
-                    thickness: 2,
-                    color: color.highlightColor,
-                  ),
-                  MuseumsConfig(
-                      museums[i].id, museums[i].name, museums[i].imageUrl),
-                ],
-              ),
-              itemCount: museums.length,
-            ),
+      body: FutureBuilder(
+          future: _isFetched ? null : _fetchData(),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done ||
+                _isFetched) {
+              List<Museum> museums = Provider.of<Museums>(context).getMuseums;
+              return ListView.builder(
+                itemBuilder: (context, i) => Column(
+                  children: [
+                    Divider(
+                      thickness: 2,
+                      color: color.highlightColor,
+                    ),
+                    MuseumsConfig(
+                        museums[i].id, museums[i].name, museums[i].imageUrl),
+                  ],
+                ),
+                itemCount: museums.length,
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: color.highlightColor,
         child: IconButton(
