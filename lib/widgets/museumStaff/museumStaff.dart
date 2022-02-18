@@ -6,14 +6,16 @@ import 'package:museum_app/firebase_managers/db_caller.dart';
 import 'package:museum_app/models/user.dart';
 import 'package:museum_app/providers/users.dart';
 import 'package:museum_app/screens/museum_staff/museum_staff_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 
 class MuseumStaff extends StatelessWidget {
   final String id;
   final String ime;
   final String prezime;
+  final String phone;
 
-  MuseumStaff(this.id, this.ime, this.prezime);
+  MuseumStaff(this.id, this.ime, this.prezime,this.phone);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,9 @@ class MuseumStaff extends StatelessWidget {
           children: [
             IconButton(
                 icon: Icon(Icons.call, color: Theme.of(context).primaryColor),
-                onPressed: () {}),
+                onPressed: () {
+                  launch(('tel://${phone}'));
+                }),
             IconButton(
               icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
               onPressed: () => showDialog(

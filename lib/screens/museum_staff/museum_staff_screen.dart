@@ -61,6 +61,7 @@ class _ManageMuseumStaff extends State<ManageMuseumStaff> {
                       staff[i].id,
                       staff[i].name,
                       staff[i].surname,
+                      staff[i].phoneNumber,
                     ),
                   ],
                 ),
