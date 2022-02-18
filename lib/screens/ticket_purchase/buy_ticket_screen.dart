@@ -168,7 +168,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.4,
+                  0.45,
               decoration: BoxDecoration(
                 border: Border.all(width: 2),
               ),
@@ -255,7 +255,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
               height: (mediaQuery.size.height -
                       appBarProperty.preferredSize.height -
                       mediaQuery.padding.top) *
-                  0.56,
+                  0.50,
               decoration: BoxDecoration(
                 border: Border.all(width: 2),
               ),
@@ -273,7 +273,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                     const SizedBox(height: 15),
                     Container(
                       padding: const EdgeInsets.all(5),
-                      height: 200,
+                      height: 160,
                       child: ListView.builder(
                         itemCount: ticketData.length,
                         itemBuilder: (_, i) {

@@ -10,6 +10,14 @@ class BuyTicketSingleMuseum extends StatelessWidget {
 
   BuyTicketSingleMuseum(this.museumData, this.index);
 
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context);
+    return ((index % 2 == 0) || (index == 0))
+        ? itemDesign(context, true)
+        : itemDesign(context, false);
+  }
+
   Widget itemDesign(BuildContext context, bool side) {
     return SizedBox(
       height: 170,
@@ -36,13 +44,5 @@ class BuyTicketSingleMuseum extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final color = Theme.of(context);
-    return ((index % 2 == 0) || (index == 0))
-        ? itemDesign(context, true)
-        : itemDesign(context, false);
   }
 }
